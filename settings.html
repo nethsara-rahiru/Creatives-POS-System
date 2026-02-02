@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POS Settings Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f6fa;
+    display: flex;
+}
+
+/* Left sidebar */
+.sidebar {
+    width: 220px;
+    background: #fff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #519cff;
+}
+
+.sidebar button {
+    background: none;
+    border: none;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.sidebar button:hover, .sidebar button.active {
+    background: #519cff;
+    color: white;
+    border-radius: 0 20px 20px 0;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.panel {
+    display: none;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: 600px;
+}
+
+.panel.active {
+    display: block;
+}
+
+.panel h3 {
+    margin-bottom: 20px;
+    color: #519cff;
+    font-size: 1.5rem;
+}
+
+/* Labels and inputs */
+label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input[type="text"], input[type="color"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+/* Optional note */
+.optional {
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: #777;
+    margin-left: 4px;
+}
+
+/* Save button */
+button#saveBtn {
+    margin-top: 20px;
+    padding: 16px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #519cff, #904bb8);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button#saveBtn:hover {
+    opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h2>Settings</h2>
+    <button class="tabBtn active" data-tab="cashierPanel">Cashier Info</button>
+    <button class="tabBtn" data-tab="shopPanel">Shop Details</button>
+    <button class="tabBtn" data-tab="themePanel">Theme Colors</button>
+    <button class="tabBtn" data-tab="otherPanel">Other</button>
+</div>
+
+<!-- Main content -->
+<div class="main">
+    <div class="panel active" id="cashierPanel">
+        <h3>Cashier Info</h3>
+        <label for="username">Username / Cashier Name</label>
+        <input type="text" id="username" placeholder="Enter your name">
+    </div>
+
+    <div class="panel" id="shopPanel">
+        <h3>Shop Details</h3>
+        <label for="shopName">Shop Name</label>
+        <input type="text" id="shopName" placeholder="Enter shop name">
+
+        <label for="logo">Logo URL</label>
+        <input type="text" id="logo" placeholder="Enter logo link">
+    </div>
+
+    <div class="panel" id="themePanel">
+        <h3>Theme Colors</h3>
+        <label for="theme1">Theme Color 1</label>
+        <input type="color" id="theme1" value="#519cff">
+
+        <label for="theme2">Theme Color 2 <span class="optional">(optional)</span></label>
+        <input type="color" id="theme2">
+    </div>
+
+    <div class="panel" id="otherPanel">
+        <h3>Other Settings</h3>
+        <p>Additional options can go here.</p>
+    </div>
+
+    <button id="saveBtn">Save Settings</button>
+</div>
+
+<script>
+// Tab switching
+const tabButtons = document.querySelectorAll(".tabBtn");
+const panels = document.querySelectorAll(".panel");
+
+tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        panels.forEach(p => p.classList.remove("active"));
+        document.getElementById(btn.dataset.tab).classList.add("active");
+    });
+});
+
+// Save button
+document.getElementById("saveBtn").addEventListener("click", function() {
+    const username = document.getElementById("username").value.trim();
+    const shopName = document.getElementById("shopName").value.trim();
+    const logo = document.getElementById("logo").value.trim();
+    const theme1 = document.getElementById("theme1").value;
+    const theme2 = document.getElementById("theme2").value || null;
+
+    if(!username || !shopName){
+        alert("Username and Shop Name are required!");
+        return;
+    }
+
+    console.log({username, shopName, logo, theme1, theme2});
+    alert("Settings saved successfully!");
+    // TODO: send data to SQLite via C# backend
+});
+</script>
+
+</body>
+</html>

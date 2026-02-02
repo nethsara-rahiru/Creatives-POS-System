@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daily Sales Report</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --brand-primary: #519cff;
+  --brand-gradient: linear-gradient(135deg, #519cff, #7fb3ff);
+  --bg-color: #f5f7fb;
+  --text-color: #1f2937;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --muted: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: var(--brand-primary);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 16px;
+}
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+/* ===== FILTER BAR ===== */
+.filter-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-bar input {
+  flex: 1;
+}
+
+input, button {
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+button {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(81,156,255,0.35);
+}
+
+/* ===== SUMMARY ===== */
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.summary-card {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: white;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.summary-card p {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.summary-card h2 {
+  margin: 6px 0 0;
+  font-size: 22px;
+}
+
+/* ===== TABLE (UPDATED) ===== */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 14px;
+  background: var(--card-bg);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.05);
+}
+
+thead {
+  background: linear-gradient(
+    135deg,
+    rgba(81,156,255,0.12),
+    rgba(81,156,255,0.05)
+  );
+}
+
+th {
+  padding: 14px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+td {
+  padding: 14px 12px;
+  font-size: 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+tbody tr {
+  transition: background 0.15s ease;
+}
+
+tbody tr:hover {
+  background: rgba(81,156,255,0.06);
+}
+
+/* Product column emphasis */
+tbody td:nth-child(2) {
+  font-weight: 500;
+}
+
+/* Amount column */
+tbody td:last-child {
+  font-weight: 600;
+  color: var(--brand-primary);
+}
+
+/* ===== TOTAL ROW ===== */
+tfoot td {
+  padding: 14px 12px;
+  font-weight: 600;
+  background: linear-gradient(
+    135deg,
+    rgba(81,156,255,0.15),
+    rgba(81,156,255,0.05)
+  );
+  border-top: 2px solid var(--brand-primary);
+}
+
+/* ===== TOTAL ROW ===== */
+tfoot td:last-child {
+  color: var(--brand-primary);
+  font-size: 15px;
+}
+
+/* ===== CHART ===== */
+.chart-box {
+  height: 300px;
+  width: 100%;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .header { font-size: 18px; }
+  th, td { font-size: 13px; padding: 8px; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">Daily Sales Report</div>
+
+  <div class="card" style="border-top-left-radius: 0px; border-top-right-radius: 0px;">
+    <div class="filter-bar">
+      <input type="date" id="salesDate" />
+      <button onclick="loadDailySales()">Load Report</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="summary">
+      <div class="summary-card">
+        <p>Total Sales</p>
+        <h2 id="grandTotal">Rs 0</h2>
+      </div>
+
+      <div class="summary-card">
+        <p>Total Items Sold</p>
+        <h2 id="totalQty">0</h2>
+      </div>
+
+      <div class="summary-card">
+        <p>Total Bills</p>
+        <h2 id="totalBills">0</h2>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <h3>Hourly Sales (24 Hours)</h3>
+    <div class="chart-box">
+      <canvas id="hourlyChart"></canvas>
+    </div>
+  </div>
+
+
+  <div class="card">
+    <h3>Sales Report</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Total (Rs)</th>
+        </tr>
+      </thead>
+      <tbody id="salesTable">
+        <tr><td colspan="4" style="text-align:center;opacity:.6;">Select a date to view sales</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" style="text-align:right;font-weight:500;">Total:</td>
+          <td id="grandTotal">0</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="Assets/js/firebase.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+function applyBrandTheme() {
+  const raw = localStorage.getItem("BUSINESS_TRADEMARK");
+  if (!raw) return;
+
+  let brand;
+  try {
+    brand = JSON.parse(raw);
+  } catch (e) {
+    console.error("Invalid BUSINESS_TRADEMARK");
+    return;
+  }
+
+  const root = document.documentElement;
+
+  /* ===============================
+     BRAND COLORS
+  =============================== */
+  const primary = brand.colour1 || "#519cff";
+  const secondary =
+    brand.colour2 && brand.colour2.trim() !== ""
+      ? brand.colour2
+      : generateSecondary(primary);
+
+  root.style.setProperty("--brand-primary", primary);
+  root.style.setProperty("--brand-secondary", secondary);
+
+  /* ===============================
+     MODE (LIGHT / DARK)
+  =============================== */
+  if (brand.mode === "dark") {
+    root.setAttribute("data-theme", "dark");
+
+    root.style.setProperty("--bg-color", "#0f1115");
+    root.style.setProperty("--text-color", "#f1f1f1");
+    root.style.setProperty("--card-bg", "#1a1d24");
+    root.style.setProperty("--border-color", "#2a2d36");
+  } else {
+    root.setAttribute("data-theme", "light");
+
+    root.style.setProperty("--bg-color", "#f5f7fb");
+    root.style.setProperty("--text-color", "#1f2937");
+    root.style.setProperty("--card-bg", "#ffffff");
+    root.style.setProperty("--border-color", "#e5e7eb");
+  }
+
+  /* ===============================
+     LOGO & NAME (if exists)
+  =============================== */
+  if (brand.logoLink) {
+    const logo = document.getElementById("brandLogo");
+    if (logo) logo.src = brand.logoLink;
+  }
+
+  if (brand.businessName) {
+    const name = document.getElementById("brandName");
+    if (name) name.innerText = brand.businessName;
+  }
+}
+
+/* ===============================
+   AUTO SECONDARY COLOR
+=============================== */
+function generateSecondary(hex) {
+  hex = hex.replace("#", "");
+  let num = parseInt(hex, 16);
+
+  let r = Math.min(255, (num >> 16) + 30);
+  let g = Math.min(255, ((num >> 8) & 0xff) + 30);
+  let b = Math.min(255, (num & 0xff) + 30);
+
+  return `#${((1 << 24) + (r << 16) + (g << 8) + b)
+    .toString(16)
+    .slice(1)}`;
+}
+
+/* Apply on load */
+document.addEventListener("DOMContentLoaded", applyBrandTheme);
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Demo POS System\\POS Demo\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|d:\\demo pos system\\pos demo\\pos demo\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|solutionrelative:pos demo\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|D:\\Demo POS System\\POS Demo\\pos demo\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|solutionrelative:pos demo\\database.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|D:\\Demo POS System\\POS Demo\\pos demo\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{E38A4909-78DB-416A-85DB-CD52FE031C06}|POS Demo\\POS Demo.csproj|solutionrelative:pos demo\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 10,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:2:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:4:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:5:0:{fabf9319-47eb-497e-b8f6-d9f73fba5f55}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:157652750:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1772611631:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:283936321:0:{bf84ea66-d821-4dba-b1b1-2777d8574775}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Database.cs",
+              "DocumentMoniker": "D:\\Demo POS System\\POS Demo\\POS Demo\\Database.cs",
+              "RelativeDocumentMoniker": "POS Demo\\Database.cs",
+              "ToolTip": "D:\\Demo POS System\\POS Demo\\POS Demo\\Database.cs",
+              "RelativeToolTip": "POS Demo\\Database.cs",
+              "ViewState": "AgIAABkBAAAAAAAAAAAYwCEBAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-07T07:59:50.081Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Form1.cs",
+              "DocumentMoniker": "D:\\Demo POS System\\POS Demo\\POS Demo\\Form1.cs",
+              "RelativeDocumentMoniker": "POS Demo\\Form1.cs",
+              "ToolTip": "D:\\Demo POS System\\POS Demo\\POS Demo\\Form1.cs",
+              "RelativeToolTip": "POS Demo\\Form1.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAIAzwDwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-06T16:32:29.882Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Form1.cs [Design]",
+              "DocumentMoniker": "D:\\Demo POS System\\POS Demo\\POS Demo\\Form1.cs",
+              "RelativeDocumentMoniker": "POS Demo\\Form1.cs",
+              "ToolTip": "D:\\Demo POS System\\POS Demo\\POS Demo\\Form1.cs [Design]",
+              "RelativeToolTip": "POS Demo\\Form1.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-06T16:25:40.368Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

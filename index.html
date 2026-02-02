@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --input-bg: rgba(255, 255, 255, 0.15);
+            --input-text: #ffffff;
+            --input-placeholder: rgba(255, 255, 255, 0.6);
+            --btn-bg: #ffffff;
+            --btn-text: #000000;
+            --input-border: rgba(255, 255, 255, 0.3);
+        }
+
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #161616, #3f3f3f, #515151, #3f3f3f, #161616);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: white;
+            overflow: hidden;
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        .CreativesLogo {
+            width: 40%;
+            filter: drop-shadow(0px 0px 6px rgba(0, 0, 0, 0.4));
+            animation: breathe 2.4s ease-in-out infinite;
+            transition:
+                opacity 1s ease,
+                filter 1s ease,
+                transform 1s ease;
+            opacity: 1;
+            position: relative;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* 💨 Smooth breathing animation */
+        @keyframes breathe {
+            0% {
+                /*transform: scale(1);*/
+                opacity: 0.95;
+                filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.2));
+            }
+
+            50% {
+                /*transform: scale(1.08);*/
+                opacity: 1;
+                filter: drop-shadow(0px 0px 10px rgba(255, 255, 255, 0.671));
+            }
+
+            100% {
+                /*transform: scale(1);*/
+                opacity: 0.95;
+                filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.2));
+            }
+        }
+
+        .txt {
+            margin-top: 20px;
+            font-size: 16px;
+            opacity: 0.8;
+            letter-spacing: 0.5px;
+        }
+
+        /* Username input */
+        .username-box {
+            margin-top: -150px;
+            width: 260px;
+            padding: 14px 18px;
+            font-size: 16px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.062);
+            border: 2px solid rgb(255 246 156 / 70%);
+            border-radius: 12px;
+            outline: none;
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.6s ease;
+        }
+
+        .username-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .username-box::-webkit-input-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .username-box:-ms-input-placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+
+        /* Focus effect */
+        .username-box:focus {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* Visible state */
+        .username-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Fade out text */
+        .txt.fade {
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        /* Profiles container */
+        .profiles {
+            display: grid;
+            gap: 18px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+
+        .profiles.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Single profile card */
+        .profile-card {
+            overflow: hidden;
+            position: relative;
+            min-width: 200px;
+            padding: 18px 22px;
+            text-align: center;
+            cursor: pointer;
+
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.65);
+            border-radius: 16px;
+
+            backdrop-filter: blur(10px);
+
+            transition:
+                transform 0.8s cubic-bezier(.2, .9, .2, 1),
+                width 0.8s cubic-bezier(.2, .9, .2, 1),
+                min-height 0.8s cubic-bezier(.2, .9, .2, 1),
+                background 0.6s ease,
+                border-color 0.6s ease,
+                box-shadow 0.8s ease;
+        }
+
+        .profile-card:hover {
+            background: rgba(255, 255, 255, 0.18);
+            /*transform: translateY(-6px);*/
+            border-color: #ffffff;
+        }
+
+        /* Profile name */
+        .profile-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.8s cubic-bezier(.2, .9, .2, 1);
+            white-space: nowrap;
+        }
+
+        .profile-card.selected .profile-name {
+            transform: translate(-50%, -80px) scale(0.85);
+            filter: blur(6px);
+            transition-delay: 0s, 0.25s, 0.25s;
+            opacity: 0;
+        }
+
+        body,
+        .profile-card,
+        .profile-card *,
+        .txt {
+            transition:
+                background 0.8s ease,
+                background-color 0.8s ease,
+                color 0.6s ease,
+                border-color 0.6s ease,
+                box-shadow 0.8s ease;
+        }
+
+        #bgFade {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(135deg, #161616, #3f3f3f, #515151, #3f3f3f, #161616);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            opacity: 1;
+            transition: opacity 1.2s ease;
+            pointer-events: none;
+        }
+
+        #bgNext {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        /* Logo exit animation */
+        .CreativesLogo.exit {
+            animation: none !important;
+            /*filter: blur(8px);*/
+            transform: scale(0.4) translateY(-50px);
+        }
+
+
+        /* Profiles go to center */
+        .profiles.center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-top: 0;
+        }
+
+        /* Fade out unselected cards */
+        .profile-card.fade-out {
+            opacity: 0;
+            transform: scale(0.85);
+            pointer-events: none;
+        }
+
+        /* Selected card pop */
+        .profile-card.selected {
+            border-color: #fff;
+            transform: scale(1.05);
+            /* Removed translateY to keep it centered */
+            width: 360px;
+            min-height: 420px;
+            box-shadow: none !important;
+            /* Force remove glow */
+        }
+
+        .login-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(.2, .9, .2, 1);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            width: 100%;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .profile-card.selected .login-form {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        /* Logo inside card */
+        .login-logo {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        /* Inputs */
+        .login-input {
+            width: 85%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--input-border);
+            outline: none;
+            font-size: 14px;
+            background: var(--input-bg);
+            color: var(--input-text);
+            transition: all 0.6s ease;
+        }
+
+        .login-input::placeholder {
+            color: var(--input-placeholder);
+        }
+
+        /* Inputs */
+        .login-btn {
+            width: 90%;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            background: var(--btn-bg);
+            color: var(--btn-text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.6s ease;
+        }
+
+
+        .morph {
+            position: relative;
+            height: 20px;
+            overflow: visible;
+            transition: height 1s cubic-bezier(.2, .9, .2, 1);
+        }
+
+        .profile-card.selected .morph {
+            height: 300px;
+            /* grows into login form */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="bgFade"></div>
+    <div id="bgNext"></div>
+
+    <img src="./Assets/img/Creatives_Logo-removebg-preview.png" id="CreativesLogo" class="CreativesLogo"
+        alt="Creatives Logo">
+
+    <input type="text" id="usernameBox" placeholder="Enter username" class="username-box" />
+
+    <div id="profiles" class="profiles"></div>
+
+    <div class="txt" id="txt">Checking your account...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="Assets/js/theme.js"></script>
+    <script src="Assets/js/firebase.js"></script>
+
+    <script>
+        const statusText = document.getElementById("txt");
+        const usernameBox = document.getElementById("usernameBox");
+        const profilesContainer = document.getElementById("profiles");
+
+        var business;
+
+        // Initialize once Firebase is ready
+        window.firebaseReady.then(() => {
+            if (window.chrome && chrome.webview) {
+                chrome.webview.postMessage({ type: "JS_READY" });
+            }
+        });
+
+        function getUsername() {
+            statusText.classList.add("fade");
+            document.getElementById("CreativesLogo").style.transform = "translateY(-100px)";
+            setTimeout(() => {
+                usernameBox.classList.add("show");
+                usernameBox.focus();
+            }, 400);
+        }
+
+        function showProfiles(profiles) {
+            statusText.classList.add("fade");
+            usernameBox.classList.remove("show");
+            profilesContainer.innerHTML = "";
+            profiles.forEach(p => {
+                const card = document.createElement("div");
+                card.className = "profile-card";
+                card.innerHTML = `
+        <div class="morph">
+          <div class="profile-name">${p.Name}</div>
+          <div class="login-form">
+            <img class="login-logo" src="./Assets/img/Creatives_Logo-removebg-preview.png">
+            <input class="login-input" placeholder="Username">
+            <input class="login-input" type="password" placeholder="Password">
+            <button class="login-btn">Login</button>
+          </div>
+        </div>
+      `;
+                card.onclick = () => selectProfile(p, card);
+                profilesContainer.appendChild(card);
+            });
+            setTimeout(() => profilesContainer.classList.add("show"), 300);
+        }
+
+        async function selectProfile(profile, clickedCard) {
+            try {
+                await window.firebaseReady;
+                const result = await verifyBusiness(profile.Username);
+                if (!result.ok) {
+                    alert("❌ Business not registered");
+                    return;
+                }
+
+                // UI transition
+                document.getElementById("CreativesLogo").classList.add("exit");
+                profilesContainer.classList.add("center"); // Center the container
+
+                document.querySelectorAll(".profile-card").forEach(card => {
+                    if (card !== clickedCard) {
+                        card.classList.add("fade-out");
+                        setTimeout(() => card.style.display = "none", 800); // Remove from flow after fade
+                    }
+                    else card.classList.add("selected");
+                });
+
+                business = result.data;
+                const trademark = business.trademark;
+                localStorage.setItem("BUSINESS_TRADEMARK", JSON.stringify(trademark));
+                localStorage.setItem("BUSINESS_INFO", JSON.stringify(business));
+
+                // Apply standard theme
+                applySharedTheme();
+
+                // Apply fancy login theme transition
+                if (trademark) {
+                    applyTheme(trademark.mode, trademark.colour1, trademark.colour2);
+                }
+
+                if (window.chrome && chrome.webview) {
+                    chrome.webview.postMessage({
+                        type: "#BUSINESS_OK",
+                        businessID: result.data.businessID,
+                        name: result.data.businessName,
+                        category: result.data.category,
+                        logoLink: business.trademark.logoLink
+                    });
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Firebase error: " + err.message);
+            }
+        }
+
+        function applyTheme(mode, c1, c2) {
+
+            const fade = document.getElementById("bgFade");
+            const next = document.getElementById("bgNext");
+
+            let newBg;
+
+            if (mode === "light") {
+                //CSS for light mode
+                document.documentElement.style.setProperty("--input-bg", "rgba(255,255,255,0.75)");
+                document.documentElement.style.setProperty("--input-text", "#111");
+                document.documentElement.style.setProperty("--input-placeholder", "rgba(0,0,0,0.45)");
+                document.documentElement.style.setProperty("--btn-bg", darken(c1 || "#519cff", 0.01));
+                document.documentElement.style.setProperty("--btn-text", "#fff");
+                document.documentElement.style.setProperty("--input-border", "rgba(0,0,0,0.15)");
+
+
+                const lc1 = mixWithWhite(c1 || "#519cff", 0.4);
+                const lc2 = mixWithWhite(c2 || "#FFFFFF", 0.4);
+
+                newBg = `linear-gradient(135deg,
+            #ffffff,
+            ${lc1},
+            ${lc2}
+        )`;
+
+                document.body.style.color = "#1b1b1b";
+
+                document.querySelectorAll(".profile-card").forEach(card => {
+                    card.style.background = "rgba(255,255,255,0.65)";
+                    card.style.borderColor = "rgba(0,0,0,0.12)";
+                    card.style.boxShadow = "0 10px 30px rgba(0,0,0,0.06)";
+                });
+
+                document.querySelectorAll(".profile-card *").forEach(el => {
+                    el.style.color = "#111";
+                });
+
+                document.querySelector(".txt").style.color = "#444";
+            }
+            else {
+                newBg = "linear-gradient(135deg, " + (c1 || "#161616") + ", " + (c2 || "#3f3f3f") + ")";
+                document.body.style.color = "#fff";
+
+                // CSS for dark mode
+                document.documentElement.style.setProperty("--input-bg", "rgba(255,255,255,0.15)");
+                document.documentElement.style.setProperty("--input-text", "#fff");
+                document.documentElement.style.setProperty("--input-placeholder", "rgba(255,255,255,0.6)");
+                document.documentElement.style.setProperty("--btn-bg", c1 || "#A6A4A4");
+                document.documentElement.style.setProperty("--btn-text", "#fff");
+                document.documentElement.style.setProperty("--input-border", "rgba(255,255,255,0.3)");
+
+
+                document.querySelectorAll(".profile-card").forEach(card => {
+                    card.style.background = "rgba(95,95,95,0.5)";
+                    card.style.borderColor = "rgba(255,255,255,0.65)";
+                    card.style.boxShadow = "none";
+                });
+
+                document.querySelectorAll(".profile-card *").forEach(el => {
+                    el.style.color = "#fff";
+                });
+
+                document.querySelector(".txt").style.color = "#fff";
+            }
+
+            // Put new background UNDER
+            next.style.background = newBg;
+
+            // Fade OUT current bg
+            fade.style.opacity = "0";
+
+            // After fade, swap layers
+            setTimeout(() => {
+                fade.style.background = newBg;
+                fade.style.opacity = "1";
+            }, 1200);
+        }
+
+        function mixWithWhite(hex, percent) {
+            if (!hex || !hex.startsWith("#")) return "#ffffff";
+            let r = parseInt(hex.substr(1, 2), 16);
+            let g = parseInt(hex.substr(3, 2), 16);
+            let b = parseInt(hex.substr(5, 2), 16);
+
+            r = Math.round(r + (255 - r) * percent);
+            g = Math.round(g + (255 - g) * percent);
+            b = Math.round(b + (255 - b) * percent);
+
+            return `rgb(${r},${g},${b})`;
+        }
+
+        function darken(hex, percent) {
+            if (!hex || !hex.startsWith("#")) return "#000000";
+            let r = parseInt(hex.substr(1, 2), 16);
+            let g = parseInt(hex.substr(3, 2), 16);
+            let b = parseInt(hex.substr(5, 2), 16);
+
+            r = Math.round(r * (1 - percent));
+            g = Math.round(g * (1 - percent));
+            b = Math.round(b * (1 - percent));
+
+            return `rgb(${r},${g},${b})`;
+        }
+
+
+        //  Events
+        document.addEventListener("click", async (e) => {
+            if (!e.target.classList.contains("login-btn")) return;
+
+            //alert("1️⃣ Login button clicked");
+
+            const card = e.target.closest(".profile-card");
+
+            const usernameInput = card.querySelector("input[placeholder='Username']").value.trim();
+            const passwordInput = card.querySelector("input[placeholder='Password']").value;
+
+            //alert("2️⃣ Username: " + usernameInput + "\nPassword length: " + passwordInput.length);
+
+            if (!usernameInput || !passwordInput) {
+                alert("❌ Missing username or password");
+                return;
+            }
+
+            //alert("3️⃣ Calling checkUserLogin()");
+
+            const result = await checkUserLogin(usernameInput, passwordInput);
+
+            //alert("4️⃣ checkUserLogin returned:\n" + JSON.stringify(result));
+
+            if (result.status === "NO_USER") {
+                alert("❌ User not registered");
+                return;
+            }
+
+            if (result.status === "WRONG_PASSWORD") {
+                alert("❌ Incorrect password");
+                return;
+            }
+
+            //alert("5️⃣ Login OK");
+
+            const user = result.user;
+
+            //alert("6️⃣ User data:\n" + JSON.stringify(user));
+
+            //alert("7️⃣ Business ID: " + business.businessID);
+
+            //alert("8️⃣ Calling getUserPermissions()");
+
+            const data = await getUserPermissions(business.businessID, usernameInput);
+
+            //alert("9️⃣ Permissions result:\n" + JSON.stringify(data));
+
+            if (!data) {
+                alert("❌ User NOT linked to this business");
+                return;
+            }
+
+            //alert("🔟 FINAL SUCCESS\n" + "Name: " + user.fName + " " + user.lName + "\n" + "Screens: " + data.join(", "));
+
+            window.chrome.webview.postMessage({
+                type: "#BUSINESS_PERMISSION",
+                permission: data.data
+            });
+
+            // trademark is a plain JS object
+            const trademark = business.trademark;
+
+            // Save to localStorage
+            localStorage.setItem("BUSINESS_TRADEMARK", JSON.stringify(trademark));
+            localStorage.setItem("BUSINESS_INFO", JSON.stringify(business));
+            localStorage.setItem("CURRENT_USER", JSON.stringify({
+                username: user.username,
+                fName: user.fName,
+                lName: user.lName,
+                role: data.user.role
+            }));
+
+
+            // Sending data to C#
+            window.chrome.webview.postMessage({
+                type: "#BUSINESS_TRADEMARK",
+                trademark: trademark
+            });
+        });
+
+        function loadPage(page) {
+            window.location.href = page + ".html";
+        }
+
+    </script>
+
+</body>
+
+</html>

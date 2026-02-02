@@ -1,0 +1,218 @@
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\runtimes\win-x64\native\WebView2Loader.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\e_sqlite3.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\POS Demo.exe.config
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\POS Demo.exe
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\POS Demo.pdb
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Azure.Core.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Azure.Identity.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.Cryptography.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.SqlClient.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.Sqlite.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Abstractions.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Memory.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Options.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Primitives.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.Extensions.Msal.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Logging.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Core.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.WinForms.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Wpf.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.batteries_v2.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.core.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Buffers.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.ClientModel.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.IO.FileSystem.AccessControl.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Memory.Data.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Memory.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Numerics.Vectors.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.AccessControl.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.Pkcs.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.Principal.Windows.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Text.Encodings.Web.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Text.Json.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.ValueTuple.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Azure.Core.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Azure.Identity.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.Cryptography.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.SqlClient.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.Sqlite.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Abstractions.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Memory.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Options.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Primitives.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.Extensions.Msal.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Abstractions.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Logging.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Tokens.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Core.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.WinForms.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Wpf.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Buffers.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.ClientModel.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Diagnostics.DiagnosticSource.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.IdentityModel.Tokens.Jwt.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.IO.FileSystem.AccessControl.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Memory.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Memory.Data.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Numerics.Vectors.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.AccessControl.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.Pkcs.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Security.Principal.Windows.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Text.Encodings.Web.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Text.Json.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\System.ValueTuple.xml
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\cs\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\de\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\es\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\fr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\it\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\ja\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\ko\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\pl\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\pt-BR\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\ru\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\tr\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\bin\x64\Debug\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.AssemblyReference.cache
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS_Demo.Form1.resources
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS_Demo.Properties.Resources.resources
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.GenerateResource.cache
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.CoreCompileInputs.cache
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.Up2Date
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.exe
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.pdb
+C:\Users\Nethsara\source\repos\POS Demo\POS Demo\obj\x64\Debug\POS Demo.exe.config
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\runtimes\win-x64\native\WebView2Loader.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\e_sqlite3.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\POS Demo.exe.config
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\POS Demo.exe
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\POS Demo.pdb
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Azure.Core.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Azure.Identity.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.Cryptography.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.SqlClient.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.Sqlite.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Memory.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Options.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Primitives.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Abstractions.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Logging.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Tokens.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Core.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.WinForms.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Wpf.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.batteries_v2.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.core.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\SQLitePCLRaw.provider.e_sqlite3.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Buffers.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.ClientModel.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Diagnostics.DiagnosticSource.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.IdentityModel.Tokens.Jwt.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.IO.FileSystem.AccessControl.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Memory.Data.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Memory.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Numerics.Vectors.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.AccessControl.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.Pkcs.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.ProtectedData.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.Principal.Windows.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Text.Encodings.Web.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Text.Json.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Threading.Tasks.Extensions.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.ValueTuple.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Azure.Core.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Azure.Identity.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Bcl.Cryptography.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.SqlClient.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Data.Sqlite.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Abstractions.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Caching.Memory.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.DependencyInjection.Abstractions.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Logging.Abstractions.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Options.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Extensions.Primitives.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Identity.Client.Extensions.Msal.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Abstractions.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Logging.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.IdentityModel.Tokens.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Core.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.WinForms.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\Microsoft.Web.WebView2.Wpf.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Buffers.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.ClientModel.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Diagnostics.DiagnosticSource.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.IdentityModel.Tokens.Jwt.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.IO.FileSystem.AccessControl.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Memory.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Memory.Data.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Numerics.Vectors.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.AccessControl.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.Cryptography.Pkcs.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Security.Principal.Windows.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Text.Encodings.Web.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Text.Json.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.Threading.Tasks.Extensions.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\System.ValueTuple.xml
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\cs\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\de\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\es\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\fr\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\it\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\ja\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\ko\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\pl\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\pt-BR\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\ru\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\tr\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\zh-Hans\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\bin\x64\Debug\zh-Hant\Microsoft.Data.SqlClient.resources.dll
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.AssemblyReference.cache
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.exe.config
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS_Demo.Form1.resources
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS_Demo.Properties.Resources.resources
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.GenerateResource.cache
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.CoreCompileInputs.cache
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.csproj.Up2Date
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.exe
+D:\Demo POS System\POS Demo\POS Demo\obj\x64\Debug\POS Demo.pdb

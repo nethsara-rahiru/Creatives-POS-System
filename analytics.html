@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>POS Analytics</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* ================= BRAND VARIABLES ================= */
+:root {
+  --primary: #1e88e5;      /* trademark.colour1 */
+  --secondary: #90caf9;    /* trademark.colour2 */
+  --bg: #f5f7fa;
+  --card: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+[data-mode="dark"] {
+  --bg: #0f172a;
+  --card: #111827;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.container {
+  padding: 20px;
+  display: grid;
+  gap: 20px;
+}
+
+/* ================= KPI CARDS ================= */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.kpi {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.kpi .label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.kpi .value {
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+/* ================= CHARTS ================= */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+
+.card h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+}
+
+/* ================= TABLE ================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: rgba(0,0,0,0.05);
+}
+
+td, th {
+  padding: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* ================= FOOTER ================= */
+.footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+</style>
+</head>
+<body data-mode="light">
+
+<header>
+  <h1>📊 Business Analytics</h1>
+  <div id="syncStatus">🟢 Online</div>
+</header>
+
+<div class="container">
+
+  <!-- KPI ROW -->
+  <div class="kpi-grid">
+    <div class="kpi"><div class="label">Total Sales Today</div><div class="value">Rs 124,500</div></div>
+    <div class="kpi"><div class="label">Bills Today</div><div class="value">87</div></div>
+    <div class="kpi"><div class="label">Avg Bill</div><div class="value">Rs 1,431</div></div>
+    <div class="kpi"><div class="label">Total Discount</div><div class="value">Rs 3,250</div></div>
+    <div class="kpi"><div class="label">Unsynced Bills</div><div class="value">4</div></div>
+  </div>
+
+  <!-- CHART ROW -->
+  <div class="chart-grid">
+    <div class="card">
+      <h3>Sales Over Time</h3>
+      <canvas id="salesChart"></canvas>
+    </div>
+    <div class="card">
+      <h3>Payment Methods</h3>
+      <canvas id="paymentChart"></canvas>
+    </div>
+  </div>
+
+  <!-- TABLE ROW -->
+  <div class="card">
+    <h3>Top Products</h3>
+    <table>
+      <thead>
+        <tr><th>Product</th><th>Qty</th><th>Revenue</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ice Cream</td><td>142</td><td>Rs 54,200</td></tr>
+        <tr><td>Atlas Book</td><td>98</td><td>Rs 41,800</td></tr>
+        <tr><td>Soft Drink</td><td>76</td><td>Rs 28,500</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">POS Analytics • Offline Ready • Secure</div>
+</div>
+
+<script>
+// ================= CHARTS =================
+new Chart(document.getElementById('salesChart'), {
+  type: 'line',
+  data: {
+    labels: ['9AM','11AM','1PM','3PM','5PM'],
+    datasets: [{
+      data: [12000, 18000, 26000, 32000, 36500],
+      fill: true
+    }]
+  },
+  options: {
+    plugins: { legend: { display: false } }
+  }
+});
+
+new Chart(document.getElementById('paymentChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Cash','Card','QR'],
+    datasets: [{ data: [62, 23, 15] }]
+  },
+  options: { plugins: { legend: { position: 'bottom' } } }
+});
+</script>
+
+</body>
+</html>

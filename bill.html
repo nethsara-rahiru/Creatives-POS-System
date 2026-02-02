@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 80mm;
+  font-family: system-ui;
+  margin: 0;
+  padding: 6px;
+  font-size: 16px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.header h1 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.header .sub {
+  font-size: 11px;
+}
+
+.hr {
+  border-top: 1px dashed #000;
+  margin: 6px 0;
+}
+
+.meta {
+  font-size: 11px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  font-size: 11px;
+  text-align: left;
+  border-bottom: 1px dashed #000;
+  padding-bottom: 4px;
+}
+
+.item td {
+  padding: 4px 0;
+}
+
+.name {
+  width: 55%;
+}
+
+.qty {
+  width: 15%;
+  text-align: center;
+}
+
+.price {
+  width: 30%;
+  text-align: right;
+}
+
+.total-box {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 2px solid #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.total-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  text-align: center;
+  font-size: 11px;
+  margin-top: 10px;
+}
+
+.footer .thanks {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class='header'>
+  <h1>{storeName}</h1>
+  <div class='sub'>OFFICIAL RECEIPT</div>
+</div>
+
+<div class='hr'></div>
+
+<div class='meta'>
+  Date: {date}<br>
+  Cashier: {cashier}
+</div>
+
+<div class='hr'></div>
+
+<table>
+  <tr>
+    <th>Item</th>
+    <th style='margin-left: 2px;'>Qty</th>
+    <th style='text-align:right'>Amount</th>
+  </tr>
+  {itemsHtml}
+</table>
+
+<div class='total-box'>
+  <div class='total-line'>
+    <span>TOTAL</span>
+    <span>Rs {total:0.00}</span>
+  </div>
+</div>
+
+<div class='footer'>
+  Paid via {paymentType}<br>
+  <div class='thanks'>THANK YOU — VISIT AGAIN!</div>
+</div>
+
+</body>
+</html>
