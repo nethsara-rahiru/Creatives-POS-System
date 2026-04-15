@@ -6,25 +6,37 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>POS</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="Assets/css/style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     /* ================= THEME ================= */
     :root {
-      --primary: #519cff;
-      --secondary: #904bb8;
-
-      --bg: #f5f6fa;
-      --panel: #ffffff;
-      --text: #111;
-      --border: #e5e7eb;
+      --brand-primary: #6366f1;
+      --brand-secondary: var(--brand-primary);
+      --bg-color: #f8fafc;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --panel-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.25rem;
+      --radius-xl: 2rem;
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     [data-theme="dark"] {
-      --bg: #0f1115;
-      --panel: #1a1d24;
-      --text: #f1f1f1;
-      --border: #2a2d36;
+      --bg-color: #0f172a;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --panel-bg: rgba(30, 41, 59, 0.7);
+      --border-color: rgba(51, 65, 85, 0.8);
     }
 
     * {
@@ -35,27 +47,40 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg-color);
+      color: var(--text-primary);
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      font-family: 'Outfit', 'Poppins', sans-serif;
     }
 
 
     /* ================= HEADER ================= */
     header {
       height: 70px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      color: #fff;
+      background: var(--panel-bg);
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-primary);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 25px;
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
     }
 
     header h1 {
-      font-size: 22px
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
     }
 
     .top-right {
@@ -119,68 +144,113 @@
     }
 
     .left-panel {
-      flex: 3;
-      padding: 25px
+      flex: 1.5;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     .right-panel {
-      flex: 2;
-      background: var(--panel);
-      padding: 25px;
-      box-shadow: -4px 0 12px rgba(0, 0, 0, .15);
+      width: 420px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(25px);
+      padding: 1.5rem;
+      border-left: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
+      box-shadow: -10px 0 30px rgba(0, 0, 0, 0.02);
     }
 
     /* ================= INPUT ================= */
     .barcode-input input {
       width: 100%;
-      padding: 16px;
-      font-size: 1.2rem;
-      border-radius: 12px;
-      border: 2px solid var(--primary);
-      background: var(--panel);
-      color: var(--text);
+      padding: 1.5rem;
+      font-size: 1.25rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      background: var(--panel-bg);
+      color: var(--text-primary);
+      transition: all var(--transition-normal);
+      outline: none;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+    }
+
+    .barcode-input input:focus {
+      border-color: var(--brand-primary);
+      box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .customer-select {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 0.5rem;
+    }
+
+    .customer-select label {
+      font-size: 0.75rem;
+      line-height: 1.25;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      width: 60px;
+      /* Force split to two lines */
+      margin: 0;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
     }
 
     .customer-dropdown {
+      flex: 1;
       position: relative;
     }
 
     .customer-dropdown input {
       width: 100%;
-      padding: 14px;
-      font-size: 1rem;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
+      padding: 10px;
+      font-size: 15px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      background: var(--panel-bg);
+      color: var(--text-primary);
+      outline: none;
+      transition: all var(--transition-normal);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
     }
 
     .customer-list {
-      position: absolute;
-      top: 110%;
-      left: 0;
-      right: 0;
-      max-height: 220px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: auto;
+      max-height: 500px;
+      overflow-y: auto;
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      margin-top: -2px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
       display: none;
-      z-index: 50;
     }
 
     .customer-item {
-      padding: 12px 14px;
+      padding: 1.25rem 1.5rem;
       cursor: pointer;
-      transition: background .2s;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      color: var(--text-primary);
     }
 
     .customer-item:hover {
-      background: linear-gradient(135deg,
-          color-mix(in srgb, var(--primary) 12%, transparent),
-          color-mix(in srgb, var(--secondary) 12%, transparent));
+      background: rgba(99, 102, 241, 0.08);
+      color: var(--brand-primary);
+      padding-left: 2rem;
     }
 
     /* ================= CART ================= */
@@ -198,47 +268,26 @@
     /* ===== CART HOVER EFFECT ===== */
     .cart-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 10px;
-      border-radius: 10px;
-      transition: background .2s, box-shadow .2s;
-      cursor: pointer;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
+      flex-direction: column;
+      padding: 1.25rem;
+      background: var(--panel-bg);
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+      transition: all var(--transition-normal);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
     }
 
     .cart-item:hover {
-      background: linear-gradient(135deg,
-          color-mix(in srgb, var(--primary) 12%, transparent),
-          color-mix(in srgb, var(--secondary) 12%, transparent));
-      box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
-    }
-
-    /* ===== ITEM TEXT ===== */
-    .item-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .item-name {
-      font-weight: 600;
-    }
-
-    .item-meta {
-      font-size: 13px;
-      opacity: .75;
-    }
-
-    /* ===== RIGHT SIDE ===== */
-    .item-right {
-      text-align: right;
+      border-color: var(--brand-primary);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      /*transform: scale(1.01);*/
     }
 
     .item-total {
-      font-weight: 800;
-      color: var(--secondary);
-      margin-bottom: 4px;
+      font-weight: 700;
+      color: var(--brand-primary);
+      font-size: 1.125rem;
     }
 
     /* ===== ACTIONS ===== */
@@ -260,6 +309,19 @@
       padding: 4px 10px;
       border-radius: 6px;
       font-weight: 700;
+      cursor: pointer;
+    }
+
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-weight: 600;
+      padding: 4px;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
     }
 
     /* ===== DELETE BUTTON ===== */
@@ -332,15 +394,24 @@
 
     /* ================= CHECKOUT ================= */
     .checkoutBtn {
-      margin-top: 15px;
-      padding: 16px;
-      font-size: 20px;
+      padding: 1.25rem;
+      font-size: 1.25rem;
       font-weight: 800;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
       color: #fff;
       cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+      transition: all var(--transition-normal);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .checkoutBtn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 35px -10px rgba(99, 102, 241, 0.5);
+      filter: brightness(1.1);
     }
 
     /* ================= MODAL ================= */
@@ -354,12 +425,15 @@
     }
 
     .modal-content {
-      background: var(--panel);
-      color: var(--text);
-      padding: 25px;
-      width: 400px;
-      border-radius: 12px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(30px);
+      color: var(--text-primary);
+      padding: 2.5rem;
+      width: 450px;
+      border-radius: var(--radius-xl);
       text-align: center;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     }
 
     .modal h2 {
@@ -422,6 +496,29 @@
       border-radius: 6px;
       font-size: 12px;
       margin-left: 6px;
+    }
+
+    /* ================= MISC ================= */
+    .searching-customer .cart-header,
+    .searching-customer .cart-items,
+    .searching-customer .cart-summary,
+    .searching-customer .cart-controls,
+    .searching-customer .checkoutBtn {
+      display: none !important;
+    }
+
+    .sale-flash {
+      animation: flashGreen 0.5s ease-out;
+    }
+
+    @keyframes flashGreen {
+      0% {
+        background: rgba(16, 185, 129, 0.2);
+      }
+
+      100% {
+        background: var(--panel-bg);
+      }
     }
 
     /* ================= MOBILE OPTIMIZATION ================= */
@@ -541,16 +638,33 @@
 <body>
 
   <header>
-    <div>
-      <h1 id="bizName">POS</h1>
-      <div style="font-size:14px;">Cashier: <b id="cashierName">Nethsara</b></div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'"
+        style="display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.05); color: var(--text-primary); border: none;">
+        <i data-lucide="arrow-left" style="width: 18px; height: 18px;"></i>
+        <span>Dashboard</span>
+      </button>
+      <div>
+        <h1 id="bizName" style="font-family: 'Outfit'; margin: 0;">POS</h1>
+        <div style="font-size:12px; opacity: 0.7;">Terminal: <b id="cashierName">Nethsara</b></div>
+      </div>
     </div>
 
     <div class="top-right">
-      <button class="back-btn" onclick="window.location.href='dashboard.html'">Back</button>
-      <div id="netStatus" class="net online">● Online</div>
-      <div class="theme-switch" onclick="toggleTheme()">🌓</div>
-      <button class="logout" onclick="logout()">Logout</button>
+      <div id="netStatus" class="net online"
+        style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 20px; font-size: 13px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+        Online
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()"
+        style="background: var(--bg-color); border: 1px solid var(--border-color); width: 36px; height: 36px; border-radius: 10px; cursor: pointer;">
+        <i data-lucide="moon" style="width: 18px; height: 18px;"></i>
+      </button>
+      <button class="logout" onclick="logout()"
+        style="display: flex; align-items: center; gap: 8px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer;">
+        <i data-lucide="log-out" style="width: 18px; height: 18px;"></i>
+        Logout
+      </button>
     </div>
   </header>
 
@@ -581,14 +695,36 @@
         Total: Rs <span id="total">0</span>
       </div>
 
+      <button class="checkoutBtn" onclick="openCheckout()">CHECKOUT</button>
+
       <div class="cart-controls">
         <button onclick="holdCart()">⏸ Hold Cart</button>
         <button onclick="showHeldCarts()">📂 Retrieve</button>
+        <button onclick="confirmClearCart()"
+          style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.1);">🧹
+          Clear</button>
       </div>
-
-      <button class="checkoutBtn" onclick="openCheckout()">CHECKOUT</button>
     </div>
   </div>
+
+  <!-- GLOBAL LOADING OVERLAY -->
+  <div id="globalLoader"
+    style="position: fixed; inset: 0; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s;">
+    <div
+      style="width: 50px; height: 50px; border: 4px solid var(--border-color); border-top-color: var(--brand-primary); border-radius: 50%; animation: spin 1s linear infinite;">
+    </div>
+    <div
+      style="margin-top: 1.5rem; font-weight: 600; opacity: 0.7; letter-spacing: 1px; text-transform: uppercase; font-size: 11px;">
+      Restoring Terminal Session</div>
+  </div>
+
+  <style>
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 
   <!-- MODAL -->
   <div class="modal" id="checkoutModal">
@@ -596,13 +732,51 @@
       <h2>Checkout</h2>
       <div class="modalTotal">Total: Rs <span id="modalTotal">0</span></div>
 
-      <input id="cashInput" type="number" placeholder="Cash received">
-      <div class="balance">Balance: Rs <span id="balance">0</span></div>
+      <div id="customerBalanceInfo"
+        style="margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 8px; display: none;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 5px;">
+          <span>Previous Balance:</span>
+          <span id="prevBalanceText">Rs 0</span>
+        </div>
+        <div
+          style="display: flex; justify-content: space-between; font-weight: 700; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 5px;">
+          <span>Total Outstanding:</span>
+          <span id="totalDueText">Rs 0</span>
+        </div>
+      </div>
+
+      <input id="cashInput" type="number" placeholder="Enter amount paid..."
+        style="font-size: 1.5rem; padding: 1.5rem; font-weight: 700; text-align: center;">
+      <div id="settlementPreview"
+        style="font-size: 14px; color: #10b981; font-weight: 700; margin-top: 10px; display: none; padding: 10px; background: rgba(16, 185, 129, 0.05); border-radius: 8px;">
+      </div>
+      <div class="balance" style="margin: 2rem 0; font-size: 1.25rem; font-weight: 500; opacity: 0.8;">
+        <span id="balanceLabel">Change</span>: Rs <span id="balance"
+          style="font-size: 2.5rem; font-weight: 800; color: var(--brand-primary); display: block; margin-top: 0.5rem;">0</span>
+      </div>
 
       <div class="payments">
-        <button class="cash" onclick="confirmCash()">Cash</button>
-        <button class="card" onclick="confirmOther('Card')">Card</button>
-        <button class="qr" onclick="confirmOther('QR')">QR</button>
+        <button class="cash" onclick="confirmCash()"
+          style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="banknote" style="width: 18px; height: 18px;"></i>
+          Cash
+        </button>
+        <button class="card" onclick="confirmOther('Card')"
+          style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="credit-card" style="width: 18px; height: 18px;"></i>
+          Card
+        </button>
+        <button class="qr" onclick="confirmOther('QR')"
+          style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+          <i data-lucide="qr-code" style="width: 18px; height: 18px;"></i>
+          QR
+        </button>
+        <button id="loanBtn" class="qr"
+          style="background: #ff9800; display: none; align-items: center; justify-content: center; gap: 8px;"
+          onclick="confirmLoan()">
+          <i data-lucide="user-plus" style="width: 18px; height: 18px;"></i>
+          Loan
+        </button>
       </div>
     </div>
   </div>
@@ -613,6 +787,7 @@
       <h2>Edit Item</h2>
 
       <input id="editName" placeholder="Item name">
+      <input id="editQty" type="number" step="any" placeholder="Quantity">
       <input id="editPrice" type="number" placeholder="Unit price">
       <input id="editDiscount" type="number" placeholder="Discount (Rs per item)">
 
@@ -650,17 +825,20 @@
       applySharedTheme();
     }
 
+    // Start theme immediately
+    if (typeof applySharedTheme === 'function') applySharedTheme();
+
     window.firebaseReady.then(() => {
-      applySharedTheme();
       loadCustomers();
       loadProducts();
+      lucide.createIcons();
 
       monitorFirebasePing((online) => {
-        console.log("Firebase reachable?", online);
         const badge = document.getElementById("netStatus");
         if (badge) {
-          badge.className = online ? "net online" : "net offline";
-          badge.innerText = online ? "● Online" : "● Offline";
+          badge.style.background = online ? "rgba(16, 185, 129, 0.1)" : "rgba(239, 68, 68, 0.1)";
+          badge.style.color = online ? "#10b981" : "#ef4444";
+          badge.innerHTML = `<span style="width: 8px; height: 8px; border-radius: 50%; background: ${online ? '#10b981' : '#ef4444'};"></span> ${online ? 'Online' : 'Offline'}`;
         }
       });
     });
@@ -670,26 +848,33 @@
     let customers = [];
 
     async function loadCustomers() {
-      // 1️⃣ Try online sync (Firebase → IndexedDB)
-      await loadCustomersOnline(); // safe even if offline
+      console.log("👥 Loading customers...");
 
-      // 2️⃣ Clear array
-      customers = [];
+      // 0️⃣ Add walk-in customer FIRST (immediate UI feedback)
+      customers = [{ id: null, name: "Walk-in Customer", balance: 0 }];
+      renderCustomerList();
 
-      // 3️⃣ Add walk-in customer FIRST
-      customers.push({
-        id: null,
-        name: "Walk-in Customer",
-        balance: 0
-      });
+      // 1️⃣ Try online sync with safeguard (timeout)
+      try {
+        const syncPromise = loadCustomersOnline().catch(e => console.warn("Sync failed:", e));
+        await Promise.race([syncPromise, new Promise(r => setTimeout(r, 3000))]);
+      } catch (err) { }
 
-      // 4️⃣ Read from IndexedDB ✅
-      const stored = await getAll(STORES.CUSTOMERS);
+      // 2️⃣ Read from IndexedDB ✅
+      try {
+        const stored = await getAll(window.STORES.CUSTOMERS);
+        if (Array.isArray(stored) && stored.length > 0) {
+          customers = [{ id: null, name: "Walk-in Customer", balance: 0 }, ...stored];
+        }
+      } catch (err) {
+        console.error("Failed to load customers from IndexedDB:", err);
+      }
 
-      customers.push(...stored);
+      renderCustomerList();
 
       // Pre-fill walk-in
-      customerInput.value = "Walk-in Customer";
+      const ci = document.getElementById("customerInput");
+      if (ci) ci.value = "Walk-in Customer";
     }
 
     function renderCustomerDropdown() {
@@ -710,7 +895,6 @@
 
       if (!filtered.length) {
         customerList.innerHTML = `<div class="customer-item">No customers found</div>`;
-        customerList.style.display = "block";
         return;
       }
 
@@ -722,35 +906,57 @@
           selectedCustomer = c;
           customerInput.value = c.name;
           customerList.style.display = "none";
+          document.querySelector(".right-panel").classList.remove("searching-customer");
           barcodeInput.focus();
         };
         customerList.appendChild(div);
       });
-      customerList.style.display = "block";
     }
 
     // Typing filters
     customerInput.addEventListener("input", e => {
       renderCustomerList(e.target.value);
+      customerList.style.display = "block";
     });
 
-    // Focus opens list
+    // Focus opens list and clears for easy typing
     customerInput.addEventListener("focus", () => {
-      renderCustomerList(customerInput.value);
+      customerInput.value = "";
+      renderCustomerList("");
+      customerList.style.display = "block";
+      document.querySelector(".right-panel").classList.add("searching-customer");
     });
 
-    // Click outside closes
+    // Click outside closes and reverts if empty
     document.addEventListener("click", e => {
       if (!e.target.closest(".customer-dropdown")) {
         customerList.style.display = "none";
+        document.querySelector(".right-panel").classList.remove("searching-customer");
+
+        // Revert to selected customer if dropdown was closed without a selection
+        if (selectedCustomer) {
+          customerInput.value = selectedCustomer.name;
+        }
       }
     });
 
     /* ================= YOUR POS LOGIC (UNCHANGED) ================= */
     async function loadProducts() {
-      await loadProductsOnline();
+      try {
+        const syncPromise = loadProductsOnline().catch(e => console.warn("Sync products failed:", e));
+        await Promise.race([syncPromise, new Promise(r => setTimeout(r, 3000))]);
+      } catch (err) { }
+
       const stored = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
       products = stored;
+
+      // Also try to get from IndexedDB if localStorage is empty
+      if (products.length === 0) {
+        try {
+          const storedDB = await getAll(window.STORES.PRODUCTS);
+          if (storedDB && storedDB.length > 0) products = storedDB;
+        } catch (e) { }
+      }
     }
 
     const barcodeInput = document.getElementById("barcodeInput");
@@ -774,9 +980,21 @@
     });
 
     function addToCart(p) {
+      // Validation: Return Container Items must have a registered customer
+      if (p.returnContainer && (!selectedCustomer || !selectedCustomer.id || selectedCustomer.name === "Walk-in Customer")) {
+        alert("Please select a registered customer to add returnable items.");
+        return;
+      }
+
       const i = cart.find(x => x.barcode === p.barcode);
-      if (i) i.qty++; else cart.push({ ...p, qty: 1 });
+      if (i) {
+        i.qty++;
+        i.isNew = true;
+      } else {
+        cart.push({ ...p, qty: 1, returnQty: 0, isNew: true });
+      }
       renderCart();
+      lucide.createIcons();
     }
 
     function renderCart() {
@@ -789,34 +1007,58 @@
         total += subtotal;
 
         cartHtml += `
-          <div class="cart-item" onclick="openEditItem('${i.barcode}')">
-            <div class="item-info">
-              <div class="item-name">${i.name}</div>
-              <div class="item-meta">
-                Rs ${i.mrp} × ${i.qty}
-                ${discount !== 0 ? `<span class="discount-tag">−Rs ${discount}</span>` : ""}
+          <div class="cart-item ${i.isNew ? 'sale-flash' : ''}" onclick="openEditItem('${i.barcode}')">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
+              <div class="item-info">
+                <div class="item-name" style="font-weight: 600; font-size: 1rem; color: var(--text-primary); margin-bottom: 4px;">
+                  ${i.name} 
+                  ${i.returnContainer ? '<span style="font-size:10px; border:1px solid #10b981; background: rgba(16,185,129,0.05); color: #10b981; padding:2px 6px; border-radius:4px; margin-left:6px; vertical-align: middle;">RETURNABLE</span>' : ''}
+                </div>
+                <div class="item-meta" style="font-size: 0.85rem; color: var(--text-secondary); display: flex; align-items: center; gap: 8px;">
+                  <span>Rs ${i.mrp} × ${i.qty} ${i.unit || 'pcs'}</span>
+                  ${discount !== 0 ? `<span style="color: #ef4444; background: rgba(239, 68, 68, 0.05); padding: 1px 6px; border-radius: 4px;">−Rs ${discount}</span>` : ""}
+                </div>
               </div>
-            </div>
 
-            <div class="item-right">
-              <div class="item-total">
-                Rs ${subtotal.toLocaleString()}
-              </div>
-
-              <div class="item-actions" onclick="event.stopPropagation()">
-                <div class="qty-controls">
-                  <button onclick="event.stopPropagation(); qty('${i.barcode}',-1)">−</button>
-                  <button onclick="event.stopPropagation(); qty('${i.barcode}',1)">+</button>
+              <div class="item-right" style="text-align: right;">
+                <div class="item-total" style="font-size: 1.1rem; margin-bottom: 8px;">
+                  Rs ${subtotal.toLocaleString()}
                 </div>
 
-                <button class="delete-btn" onclick="event.stopPropagation(); removeItem('${i.barcode}')">🗑</button>
+                <div class="item-actions" onclick="event.stopPropagation()" style="display: flex; align-items: center; gap: 12px; justify-content: flex-end;">
+                  <div class="qty-controls" style="background: rgba(0,0,0,0.03); padding: 2px; border-radius: 8px;">
+                    <button onclick="event.stopPropagation(); qty('${i.barcode}',-1)" style="width: 28px; height: 28px; border-radius: 6px; background: white; color: var(--text-primary); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;">−</button>
+                    <input class="qty-input" type="number" step="any" value="${i.qty}" 
+                      onclick="event.stopPropagation()" 
+                      onchange="updateItemQty('${i.barcode}', this.value)" 
+                      style="border: none; background: transparent; width: 45px; font-weight: 700;" />
+                    <button onclick="event.stopPropagation(); qty('${i.barcode}',1)" style="width: 28px; height: 28px; border-radius: 6px; background: white; color: var(--text-primary); border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center;">+</button>
+                  </div>
+
+                  <button class="action-btn" onclick="event.stopPropagation(); removeItem('${i.barcode}')" style="color: #ef4444; background: rgba(239, 68, 68, 0.05); border: none; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i data-lucide="trash-2" style="width: 16px; height: 16px;"></i>
+                  </button>
+                </div>
               </div>
             </div>
+            
+            ${i.returnContainer ? `
+              <div style="display:flex; align-items:center; gap:8px; border-top:1px solid var(--border-color); padding-top:10px; margin-top:10px;">
+                <span style="font-size:0.8rem; color:var(--brand-primary); font-weight:700; text-transform: uppercase; letter-spacing: 0.05em;">
+                  Return Bottles (Owed: <span class="owed-balance-val">${Number(selectedCustomer?.assets || 0) - Number(i.returnQty || 0)}</span>):
+                </span>
+                <input type="number" class="qty-input" style="width:60px; height: 30px; background:rgba(99, 102, 241, 0.05); border: 1px solid var(--brand-primary); border-radius: 6px;" 
+                  value="${i.returnQty || 0}" onclick="event.stopPropagation()" 
+                  onchange="updateItemReturnQty('${i.barcode}', this.value)" 
+                  oninput="updateItemReturnQty('${i.barcode}', this.value, true)" placeholder="0">
+              </div>` : ''}
           </div>`;
+        delete i.isNew;
       });
 
       cartItems.innerHTML = cartHtml;
       totalEl.innerText = total.toLocaleString();
+      lucide.createIcons();
     }
 
     function removeItem(barcode) {
@@ -831,37 +1073,174 @@
 
       i.qty += d;
 
-      if (i.qty <= 0) {
+      // Allow 0 quantity ONLY IF it's a returnable container item (for Return Only transactions)
+      const minQty = i.returnContainer ? 0 : 0.001;
+
+      if (i.qty < minQty) {
+        if (i.returnContainer && i.qty < 0) {
+          // If goes below 0, remove
+          cart = cart.filter(x => String(x.barcode) !== String(barcode));
+        } else if (!i.returnContainer && i.qty <= 0) {
+          // Standard items remove at 0
+          cart = cart.filter(x => String(x.barcode) !== String(barcode));
+        }
+      }
+
+      // Cleanup edge case float precision if needed, but simple check suffices for UI logic
+      if (i.qty <= 0 && !i.returnContainer) {
         cart = cart.filter(x => String(x.barcode) !== String(barcode));
       }
 
       renderCart();
     }
 
+    function updateItemQty(barcode, val) {
+      const i = cart.find(x => String(x.barcode) === String(barcode));
+      if (!i) return;
+
+      let newQty = parseFloat(val);
+      const minQty = i.returnContainer ? 0 : 0.001;
+
+      if (isNaN(newQty) || newQty < minQty) {
+        newQty = (i.returnContainer) ? 0 : 1;
+      }
+
+      i.qty = newQty;
+      renderCart();
+    }
+
+    function updateItemReturnQty(barcode, val, isLive = false) {
+      const i = cart.find(x => String(x.barcode) === String(barcode));
+      if (!i) return;
+
+      let ret = parseFloat(val);
+      if (isNaN(ret) || ret < 0) ret = 0;
+
+      i.returnQty = ret;
+
+      // Real-time UI update for "Owed" display
+      const initialAssets = Number(selectedCustomer?.assets || 0);
+      const owedVal = initialAssets - ret;
+
+      // Update the specific item's owed display if it exists
+      // Note: We use oninput for "live" feel, but renderCart only on final change to keep performance
+      // Actually, since we don't want to lose focus, we manually update the span.
+      const itemRows = document.querySelectorAll('.cart-item');
+      itemRows.forEach(row => {
+        // This is slightly complex because of multiple items. 
+        // Let's just find the span within the current row context if possible, 
+        // or just update all spans that belong to this barcode.
+        // For simplicity, find all spans with the class and update them.
+        // Note: If customer has multiple returnable items, the 'Owed' usually refers 
+        // to their total balance. So we should subtract ALL returnQtys?
+        // The user said "when return changes, owned should decrease".
+        // If they return 1 bottle from Item A, the total owed decreases by 1.
+
+        let totalReturnInCart = 0;
+        cart.forEach(item => { if (item.returnContainer) totalReturnInCart += (item.returnQty || 0); });
+
+        const globalOwed = initialAssets - totalReturnInCart;
+        document.querySelectorAll('.owed-balance-val').forEach(span => {
+          span.innerText = globalOwed;
+        });
+      });
+
+      if (!isLive) renderCart();
+    }
+
 
     function openCheckout() {
       if (!cart.length) { alert("Cart is empty"); return; }
       modal.style.display = "flex";
-      modalTotal.innerText = totalEl.innerText;
+
+      const total = cart.reduce((sum, item) => sum + (item.rp * item.qty), 0);
+      modalTotal.innerText = total.toLocaleString();
+
+      const balInfo = document.getElementById("customerBalanceInfo");
+      const loanBtn = document.getElementById("loanBtn");
+
+      if (selectedCustomer && selectedCustomer.id && selectedCustomer.name !== "Walk-in Customer") {
+        balInfo.style.display = "block";
+        loanBtn.style.display = "block";
+        document.getElementById("prevBalanceText").innerText = "Rs " + (selectedCustomer.balance || 0).toLocaleString();
+        document.getElementById("totalDueText").innerText = "Rs " + ((selectedCustomer.balance || 0) + total).toLocaleString();
+      } else {
+        balInfo.style.display = "none";
+        loanBtn.style.display = "none";
+      }
+
       cashInput.value = "";
       balanceEl.innerText = "0";
       cashInput.focus();
     }
 
     cashInput.addEventListener("input", () => {
-      const b = cashInput.value - modalTotal.innerText;
-      balanceEl.innerText = b >= 0 ? b : 0;
+      const total = Number(modalTotal.innerText.replace(/,/g, ''));
+      const rawPaid = Number(cashInput.value || 0);
+      const isReg = selectedCustomer && selectedCustomer.id && selectedCustomer.name !== "Walk-in Customer";
+
+      let change = 0;
+      let settlement = 0;
+
+      if (rawPaid > total) {
+        if (isReg) {
+          const debt = Number(selectedCustomer.balance) || 0;
+          settlement = Math.min(rawPaid - total, debt);
+          change = (rawPaid - total) - settlement;
+        } else {
+          change = rawPaid - total;
+        }
+      }
+
+      const balEl = document.getElementById("balance");
+      const labelEl = document.getElementById("balanceLabel");
+
+      if (rawPaid < total) {
+        labelEl.innerText = "Still Owing";
+        labelEl.style.color = "#ef4444";
+        balEl.style.color = "#ef4444";
+        balEl.innerText = (total - rawPaid).toLocaleString();
+      } else {
+        labelEl.innerText = isReg ? "Available Change" : "Change to Give";
+        labelEl.style.color = "var(--text-secondary)";
+        balEl.style.color = "var(--brand-primary)";
+        balEl.innerText = change.toLocaleString();
+      }
+
+      const preview = document.getElementById("settlementPreview");
+      if (settlement > 0) {
+        preview.innerText = `Debt Applied: Rs ${settlement.toLocaleString()}`;
+        preview.style.display = "block";
+      } else {
+        preview.style.display = "none";
+      }
     });
 
     function confirmCash() {
-      if (+cashInput.value < +modalTotal.innerText) { alert("Insufficient cash"); return; }
+      const total = Number(modalTotal.innerText.replace(/,/g, ''));
+      if (+cashInput.value < total && (!selectedCustomer || !selectedCustomer.id || selectedCustomer.name === "Walk-in Customer")) {
+        alert("Insufficient cash for Walk-in Customer");
+        return;
+      }
       finishSale("Cash");
+    }
+
+    function confirmLoan() {
+      if (!selectedCustomer || !selectedCustomer.id || selectedCustomer.name === "Walk-in Customer") {
+        alert("Please select a registered customer for Loan checkout.");
+        return;
+      }
+      finishSale("Loan");
+    }
+
+    function confirmOther(type) {
+      finishSale(type);
     }
 
     function buildReceiptJSON(paymentType) {
       const business = JSON.parse(localStorage.getItem("BUSINESS_INFO") || "{}");
       const cashierName = document.getElementById("cashierName").innerText;
-      const selectedCustomerId = document.getElementById("customerInput").value;
+      const customerId = selectedCustomer ? selectedCustomer.id : null;
 
       const today = new Date();
       const yyyy = today.getFullYear();
@@ -875,11 +1254,12 @@
       let totalDiscount = 0;
 
       const items = cart.map(item => {
-        const discount = item.mrp - item.rp || 0;
-        const subtotal = (item.mrp * item.qty) - discount;
+        const unitDiscount = Number(item.mrp || 0) - Number(item.rp || 0);
+        const lineDiscount = unitDiscount * item.qty;
+        const subtotal = Number(item.rp || 0) * item.qty;
 
         total += subtotal;
-        totalDiscount += discount;
+        totalDiscount += lineDiscount;
 
         return {
           itemId: String(item.barcode),     // reference only
@@ -887,20 +1267,41 @@
           name: item.name,
           unitPrice: Number(item.mrp),
           quantity: item.qty,
-          discount: item.mrp - item.rp,
+          discount: lineDiscount,
           subtotal: subtotal
         };
       });
 
-      const paidAmount =
-        paymentType === "Cash"
-          ? Number(cashInput.value)
-          : total;
+      const rawPaid = (paymentType === "Cash" || paymentType === "Loan") ? Number(cashInput.value || 0) : total;
 
-      const balance =
-        paymentType === "Cash"
-          ? paidAmount - total
-          : 0;
+      // NET ASSET CHANGE CALCULATION
+      let netAssetChange = 0;
+      items.forEach(item => {
+        const p = cart.find(c => String(c.barcode) === item.itemId);
+        if (p && p.returnContainer) {
+          netAssetChange += (Number(p.qty) - Number(p.returnQty || 0));
+        }
+      });
+
+      // SMART SETTLEMENT LOGIC
+      let change = 0;
+      let loanUpdate = 0;
+      const isReg = selectedCustomer && selectedCustomer.id && selectedCustomer.name !== "Walk-in Customer";
+
+      if (rawPaid > total) {
+        if (isReg) {
+          const debt = Number(selectedCustomer.balance) || 0;
+          const settlement = Math.min(rawPaid - total, debt);
+          change = (rawPaid - total) - settlement;
+          loanUpdate = -settlement;
+        } else {
+          change = rawPaid - total;
+          loanUpdate = 0;
+        }
+      } else {
+        change = 0;
+        loanUpdate = total - rawPaid;
+      }
 
       return {
         billId: billId,
@@ -910,7 +1311,7 @@
         storeId: business.businessId || "STORE_001",
         cashierId: business.cashierId || cashierName,
         cashier: cashierName,
-        customerId: selectedCustomerId || null,
+        customerId: customerId,
 
         date: `${yyyy}-${mm}-${dd}`,
         timestamp: timestamp,
@@ -921,15 +1322,17 @@
         total: total,
 
         paymentMethod: paymentType,
-        paidAmount: paidAmount,
-        balance: balance,
+        paidAmount: rawPaid,
+        balance: change,
+        loanUpdate: loanUpdate, // specific field for balance adjustment
 
-        syncStatus: 0 // offline by default
+        syncStatus: 0, // offline by default
+        netAssetChange: netAssetChange // Track container debt change
       };
     }
 
 
-    function finishSale(type) {
+    async function finishSale(type) {
       const receiptData = buildReceiptJSON(type);
 
       // Send JSON to C#
@@ -938,27 +1341,133 @@
         receipt: receiptData
       });
 
+      // Handle Loan / Balance Update
+      if (receiptData.customerId) {
+        if (receiptData.loanUpdate !== 0) {
+          console.log("💸 Triggering Loan Update:", receiptData.loanUpdate);
+          await updateLocalCustomerBalance(receiptData.customerId, receiptData.loanUpdate);
+        }
+        // Handle Asset Update
+        if (receiptData.netAssetChange !== 0) {
+          console.log("♻️ Triggering Asset Update:", receiptData.netAssetChange);
+          await updateLocalCustomerAssets(receiptData.customerId, receiptData.netAssetChange);
+          updateCustomerAssetsOnline(receiptData.customerId, receiptData.netAssetChange);
+        }
+      }
+
       // Clear cart and UI
       cart = [];
       renderCart();
       modal.style.display = "none";
+      console.log("🛒 Cart cleared & Modal closed");
+
+      // Reset customer
+      selectedCustomer = { id: null, name: "Walk-in Customer", balance: 0 };
+      if (document.getElementById("customerInput")) {
+        document.getElementById("customerInput").value = "Walk-in Customer";
+      }
+
       barcodeInput.focus();
-      /*
-          // saving a bill copy in localStorage
-          let unsyncedBills = JSON.parse(
-          localStorage.getItem("UNSYNC_BILL") || "[]"
-          );
-      
-          if (!unsyncedBills.includes(receiptData.billId)) {
-              unsyncedBills.push(receiptData.billId);
-          }
-      
-          localStorage.setItem(
-              "UNSYNC_BILL",
-              JSON.stringify(unsyncedBills)
-          );
-      */
+
+      // Refresh customers to show new balance in search list
+      loadCustomers();
+
       saveOnlineBill(JSON.parse(localStorage.getItem("BUSINESS_INFO") || "{}").businessID, receiptData);
+      reduceLocalStock(receiptData.items);
+    }
+
+    async function updateLocalCustomerBalance(id, amount) {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(window.STORES.CUSTOMERS, "readwrite");
+        const store = tx.objectStore(window.STORES.CUSTOMERS);
+
+        return new Promise((resolve, reject) => {
+          const req = store.get(id);
+          req.onsuccess = () => {
+            const customer = req.result;
+            if (customer) {
+              customer.balance = (Number(customer.balance) || 0) + Number(amount);
+              store.put(customer);
+
+              // Update global customers array for immediate UI reflection
+              const c = customers.find(x => String(x.id) === String(id));
+              if (c) c.balance = customer.balance;
+
+              console.log("💰 Local balance updated for customer:", id, "New Balance:", customer.balance);
+            }
+            resolve();
+          };
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.error("Failed to update local customer balance:", err);
+      }
+    }
+
+    async function updateLocalCustomerAssets(id, amount) {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(window.STORES.CUSTOMERS, "readwrite");
+        const store = tx.objectStore(window.STORES.CUSTOMERS);
+
+        return new Promise((resolve, reject) => {
+          const req = store.get(id);
+          req.onsuccess = () => {
+            const customer = req.result;
+            if (customer) {
+              customer.assets = (Number(customer.assets) || 0) + Number(amount);
+              store.put(customer);
+
+              // Update global customers array
+              const c = customers.find(x => String(x.id) === String(id));
+              if (c) c.assets = customer.assets;
+
+              console.log("♻️ Local assets updated for customer:", id, "New Assets:", customer.assets);
+            }
+            resolve();
+          };
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.error("Failed to update local customer assets:", err);
+      }
+    }
+
+    async function reduceLocalStock(items) {
+      try {
+        // 1. Update IndexedDB
+        const db = await openDB();
+        const tx = db.transaction(window.STORES.PRODUCTS, "readwrite");
+        const store = tx.objectStore(window.STORES.PRODUCTS);
+        for (const item of items) {
+          const req = store.get(item.barcode);
+          req.onsuccess = () => {
+            const p = req.result;
+            if (p) {
+              p.stock = (p.stock || 0) - item.quantity;
+              store.put(p);
+            }
+          };
+        }
+
+        // 2. Update localStorage (PRODUCT_DATA)
+        const stored = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
+        items.forEach(item => {
+          const p = stored.find(x => x.barcode === item.barcode);
+          if (p) {
+            p.stock = (p.stock || 0) - item.quantity;
+          }
+        });
+        localStorage.setItem("PRODUCT_DATA", JSON.stringify(stored));
+
+        // 3. Update global products variable
+        products = stored;
+
+        console.log("📉 Local stock reduced");
+      } catch (err) {
+        console.error("Failed to reduce local stock:", err);
+      }
     }
 
     let editingItemId = null;
@@ -970,6 +1479,7 @@
       editingItemId = String(barcode);
 
       document.getElementById("editName").value = item.name;
+      document.getElementById("editQty").value = item.qty;
       document.getElementById("editPrice").value = item.mrp;
       document.getElementById("editDiscount").value = item.mrp - item.rp || 0;
 
@@ -1079,10 +1589,12 @@
       );
       if (!item) return;
 
+      const newQty = Number(document.getElementById("editQty").value);
       const newMrp = Number(document.getElementById("editPrice").value);
       const discount = Number(document.getElementById("editDiscount").value) || 0;
 
       item.name = document.getElementById("editName").value.trim();
+      item.qty = newQty > 0 ? newQty : 1;
       item.mrp = newMrp;
       item.rp = newMrp - discount;
 
@@ -1107,6 +1619,27 @@
     function logout() {
       window.location.href = "index.html";
     }
+
+    function confirmClearCart() {
+      if (cart.length === 0) return;
+      if (confirm("Are you sure you want to clear the current cart? This cannot be undone.")) {
+        cart = [];
+        updateCart();
+        alert("Cart cleared.");
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      // Hide loader after a brief stabilization
+      setTimeout(() => {
+        const loader = document.getElementById("globalLoader");
+        if (loader) {
+          loader.style.opacity = "0";
+          loader.style.visibility = "hidden";
+          setTimeout(() => loader.remove(), 500);
+        }
+      }, 1000);
+    });
 
   </script>
 

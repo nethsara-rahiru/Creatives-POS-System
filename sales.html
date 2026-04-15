@@ -5,17 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Daily Sales Report</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Assets/css/style.css">
 
 <style>
 :root {
-  --brand-primary: #519cff;
-  --brand-gradient: linear-gradient(135deg, #519cff, #7fb3ff);
-  --bg-color: #f5f7fb;
-  --text-color: #1f2937;
-  --card-bg: #ffffff;
-  --border-color: #e5e7eb;
-  --muted: #6b7280;
+  --primary: var(--brand-primary);
+  --secondary: var(--brand-secondary);
+  --bg: var(--bg-color);
+  --card: var(--panel-bg);
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
+  --border: var(--border-color);
 }
 
 * {
@@ -31,15 +32,18 @@ body {
 
 /* ===== HEADER ===== */
 .header {
-  background: var(--brand-primary);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  color: white;
-  padding: 18px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  padding: 1.5rem;
   text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  backdrop-filter: blur(10px);
 }
 
 /* ===== LAYOUT ===== */
@@ -105,21 +109,33 @@ button:hover {
 }
 
 .summary-card {
-  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
-  color: white;
-  border-radius: 14px;
-  padding: 16px;
+  background: var(--card);
+  color: var(--text);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition-normal);
+}
+
+.summary-card:hover {
+  transform: translateY(-5px);
 }
 
 .summary-card p {
   margin: 0;
-  font-size: 13px;
-  opacity: 0.85;
+  font-size: 0.8125rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .summary-card h2 {
-  margin: 6px 0 0;
-  font-size: 22px;
+  margin: 0.5rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
 }
 
 /* ===== TABLE (UPDATED) ===== */

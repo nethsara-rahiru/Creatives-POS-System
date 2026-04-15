@@ -7,28 +7,39 @@
   <title>Dashboard</title>
 
   <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Assets/css/style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     /* ==============================
    THEME VARIABLES
 ================================ */
     :root {
-      --brand-primary: #519cff;
-      --brand-secondary: #dddddd;
-
-      --bg-color: #ffffff;
-      --text-color: #111111;
-      --card-bg: #f4f6fb;
-      --border-color: #e5e7eb;
+      --brand-primary: #6366f1;
+      --brand-secondary: var(--brand-primary);
+      --bg-color: #f8fafc;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --panel-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(226, 232, 240, 0.8);
+      --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+      --radius-sm: 0.5rem;
+      --radius-md: 0.75rem;
+      --radius-lg: 1.25rem;
+      --radius-xl: 2rem;
+      --transition-fast: 0.2s ease;
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     [data-theme="dark"] {
-      --brand-secondary: #3f3f3f;
-      --bg-color: #0f1115;
-      --text-color: #f1f1f1;
-      --card-bg: #1a1d24;
-      --border-color: #2a2d36;
+      --bg-color: #0f172a;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --panel-bg: rgba(30, 41, 59, 0.7);
+      --border-color: rgba(51, 65, 85, 0.8);
+      --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
     }
 
     /* ==============================
@@ -40,31 +51,76 @@
 
     body {
       margin: 0;
-      font-family: "Poppins", sans-serif;
+      font-family: "Outfit", "Poppins", sans-serif;
       background: var(--bg-color);
-      color: var(--text-color);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* ==============================
    HEADER
 ================================ */
     .header {
-      height: 60px;
-      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      height: 70px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
-      padding: 0 20px;
-      color: #fff;
+      padding: 0 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .header img {
-      height: 36px;
-      margin-right: 12px;
+      height: 40px;
+      margin-right: 1rem;
     }
 
     .header h1 {
-      font-size: 18px;
-      font-weight: 500;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .theme-toggle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .theme-toggle:hover {
+      background: var(--brand-primary);
+      color: white;
+      transform: rotate(15deg);
     }
 
     /* ==============================
@@ -79,31 +135,62 @@
    SIDEBAR
 ================================ */
     .sidebar {
-      width: 220px;
-      background: var(--card-bg);
+      width: 280px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
       border-right: 1px solid var(--border-color);
-      padding: 16px;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      transition: all var(--transition-normal);
     }
 
     .sidebar h3 {
-      margin-top: 0;
-      font-size: 14px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      padding-left: 1rem;
       opacity: 0.7;
     }
 
     .menu-item {
-      padding: 10px 12px;
-      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
       cursor: pointer;
-      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-weight: 500;
+      transition: all var(--transition-normal);
+      color: var(--text-secondary);
+      border: 1px solid transparent;
+    }
+
+    .menu-item i {
+      width: 20px;
+      height: 20px;
+      opacity: 0.7;
     }
 
     .menu-item:hover {
-      background: rgba(0, 0, 0, 0.05);
+      background: rgba(99, 102, 241, 0.05);
+      color: var(--brand-primary);
+      padding-left: 1.25rem;
     }
 
-    [data-theme="dark"] .menu-item:hover {
-      background: rgba(255, 255, 255, 0.05);
+    .menu-item.active {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+      color: var(--brand-primary);
+      border-color: rgba(99, 102, 241, 0.1);
+      font-weight: 600;
+    }
+
+    .menu-item.active i {
+      opacity: 1;
     }
 
     /* ==============================
@@ -119,26 +206,35 @@
    CARDS
 ================================ */
     .card {
-      background: var(--card-bg);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 16px;
+      background: var(--panel-bg);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
       border: 1px solid var(--border-color);
+      box-shadow: var(--card-shadow);
+      transition: all var(--transition-normal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.1);
     }
 
     .subcard {
-      background: var(--card-bg);
-      border-radius: 14px;
-      margin-bottom: 16px;
-      border: none;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.25rem;
     }
 
     .card h2 {
       margin-top: 0;
-      /*font-size: 18px;*/
+      font-size: 1.25rem;
+      color: var(--text-primary);
     }
 
     .welcomeText {
@@ -172,102 +268,84 @@
     }
 
     .screen-card {
-      width: 220px;
-      height: 140px;
-      border-radius: 14px;
-      background: linear-gradient(135deg,
-          var(--brand-primary),
-          var(--brand-secondary));
-      color: white;
-      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      padding: 1.75rem;
       cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: all var(--transition-normal);
       display: flex;
       flex-direction: column;
-      justify-content: center;
-    }
-
-    .screen-card h3 {
-      margin: 0;
-      font-size: 18px;
-    }
-
-    .screen-card p {
-      margin-top: 6px;
-      font-size: 13px;
-      opacity: 0.85;
+      justify-content: space-between;
+      min-height: 150px;
+      position: relative;
+      overflow: hidden;
+      color: var(--text-primary);
     }
 
     .screen-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+      border-color: var(--brand-primary);
+      box-shadow: 0 15px 30px -10px rgba(99, 102, 241, 0.2);
+    }
+
+    .screen-card i {
+      width: 32px;
+      height: 32px;
+      color: var(--brand-primary);
+      margin-bottom: 1rem;
+      transition: all var(--transition-normal);
+    }
+
+    .screen-card:hover i {
+      transform: scale(1.1) rotate(-5deg);
     }
 
     /*076 6883542*/
 
     .report-card {
-      position: relative;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      width: 350px;
-      height: 100px;
-      overflow: hidden;
-      margin: 10px;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .report-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.1);
-      opacity: 0;
-      transition: opacity 0.6s ease;
-      z-index: 0;
-      text-align: left;
-    }
-
-    .report-card:hover::before {
-      opacity: 1;
+      display: none; /* Deprecated in favor of screen-card */
     }
 
     .report-box {
-      width: 100%;
-      padding: 20px;
-      display: flex;
+      display: none; /* Deprecated */
     }
 
     .user-card {
-      padding-bottom: 50px;
-      padding-top: 40px;
-      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
-    }
-
-    .user-left {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .user-right {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Role badge */
-    .role-badge {
-      padding: 14px 30px;
-      border-radius: 14px;
-      font-size: 13px;
-      font-weight: 500;
-      background: linear-gradient(135deg,
-          var(--brand-primary),
-          var(--brand-secondary));
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
       color: white;
-      white-space: nowrap;
+      border: none;
+      padding: 2.5rem;
+    }
+
+    [data-theme="dark"] .user-card {
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    }
+
+    .user-card h2 {
+      color: white;
+      font-size: 2.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .user-card p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.1rem;
+    }
+
+    .role-badge {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      padding: 0.5rem 1.25rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
 
@@ -276,15 +354,27 @@
 ================================ */
     .btn {
       border: none;
-      padding: 10px 16px;
-      border-radius: 10px;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
       font-family: inherit;
+      font-weight: 600;
       cursor: pointer;
+      transition: all var(--transition-normal);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .btn-primary {
       background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
       color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+      filter: brightness(1.1);
     }
 
     /* ==============================
@@ -321,16 +411,45 @@
     /* Tables */
     .table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 16px;
+      border-collapse: separate;
+      border-spacing: 0 0.5rem;
+      margin-top: 1rem;
     }
 
-    .table th,
-    .table td {
-      padding: 10px;
+    .table th {
+      padding: 1rem;
+      text-align: left;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      font-weight: 600;
       border-bottom: 1px solid var(--border-color);
-      font-size: 14px;
-      text-align: center;
+    }
+
+    .table td {
+      padding: 1.25rem 1rem;
+      background: var(--bg-color);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9375rem;
+      vertical-align: middle;
+    }
+
+    .table tr td:first-child {
+      border-left: 1px solid var(--border-color);
+      border-top-left-radius: var(--radius-md);
+      border-bottom-left-radius: var(--radius-md);
+    }
+
+    .table tr td:last-child {
+      border-right: 1px solid var(--border-color);
+      border-top-right-radius: var(--radius-md);
+      border-bottom-right-radius: var(--radius-md);
+    }
+
+    .table tr:hover td {
+      background: rgba(99, 102, 241, 0.02);
     }
 
     /* ==============================
@@ -339,7 +458,8 @@
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(15px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -347,11 +467,70 @@
     }
 
     .modal {
-      background: var(--bg-color);
-      padding: 20px;
-      width: 360px;
-      border-radius: 14px;
-      animation: fadeSlide 0.3s ease;
+      background: var(--panel-bg);
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 500px;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      animation: modalSlide 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes modalSlide {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      transition: gap 0.4s ease;
+      overflow: hidden;
+    }
+
+    .modal.advanced-mode .modal-grid {
+      grid-template-columns: 1fr 400px;
+      gap: 24px;
+    }
+
+    .basic-fields {
+      min-width: 350px;
+    }
+
+    /* Stack on mobile */
+    @media (max-width: 768px) {
+      .modal.advanced-mode .modal-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .modal.advanced-mode {
+        width: 90%;
+        max-width: 400px;
+      }
+    }
+
+    .advanced-fields {
+      display: block;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .modal.advanced-mode .advanced-fields {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      height: auto;
+      overflow: visible;
     }
 
     .modal h2 {
@@ -359,23 +538,77 @@
     }
 
     .form-group {
-      margin-bottom: 12px;
+      margin-bottom: 1.25rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 13px;
-      opacity: 0.7;
-      margin-bottom: 4px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
     }
 
-    .form-group input {
+    .form-group input,
+    .form-group select {
       width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
+      background: var(--bg-color);
+      color: var(--text-primary);
+      font-family: inherit;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+
+    .form-group input:focus {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .advance-toggle {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      padding: 10px;
       background: var(--card-bg);
-      color: var(--text-color);
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s;
+    }
+
+    .advance-toggle:hover {
+      background: rgba(0, 0, 0, 0.05);
+      transform: translateY(-1px);
+    }
+
+    [data-theme="dark"] .advance-toggle:hover {
+      background: rgba(255, 255, 255, 0.05);
     }
 
     .modal-actions {
@@ -400,8 +633,14 @@
 ================================ */
     @media (max-width: 768px) {
 
+      .header {
+        padding: 0 1rem;
+      }
+
       .mobile-menu-btn {
         display: block;
+        color: var(--text-primary);
+        font-size: 1.5rem;
       }
 
       .container {
@@ -411,12 +650,13 @@
       /* Sidebar becomes drawer */
       .sidebar {
         position: fixed;
-        top: 60px;
+        top: 70px;
         left: -100%;
-        width: 220px;
-        height: calc(100vh - 60px);
-        z-index: 999;
-        transition: left .3s ease;
+        width: 280px;
+        height: calc(100vh - 70px);
+        z-index: 1000;
+        transition: left var(--transition-normal);
+        box-shadow: 20px 0 50px rgba(0,0,0,0.1);
       }
 
       .sidebar.show {
@@ -424,7 +664,7 @@
       }
 
       .main {
-        padding: 14px;
+        padding: 1rem;
       }
 
       /* Cards stack */
@@ -486,16 +726,102 @@
         padding: 8px;
       }
     }
+    /* PERMISSION SELECTOR */
+    .permission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .permission-tile {
+      position: relative;
+      background: rgba(0,0,0,0.03);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .permission-tile:hover {
+      background: rgba(99, 102, 241, 0.05);
+      border-color: var(--brand-primary);
+    }
+
+    .permission-tile input {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--brand-primary);
+    }
+
+    .permission-tile i {
+      opacity: 0.7;
+      transition: color 0.2s;
+    }
+
+    .permission-tile.selected {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--brand-primary);
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+    }
+
+    .permission-tile.selected i {
+      color: var(--brand-primary);
+      opacity: 1;
+    }
+
+    .permission-tile span {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
   </style>
 </head>
 
-<body>
+  <!-- GLOBAL LOADING OVERLAY -->
+  <div id="globalLoader" style="position: fixed; inset: 0; background: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, visibility 0.5s;">
+    <div style="width: 50px; height: 50px; border: 4px solid var(--border-color); border-top-color: var(--brand-primary); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div style="margin-top: 1.5rem; font-weight: 600; opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase; font-size: 0.75rem;">Initializing Systems</div>
+  </div>
+
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 
   <!-- ================= HEADER ================= -->
   <div class="header">
-    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
-    <img id="brandLogo" alt="Logo" />
-    <h1 id="brandName">Dashboard</h1>
+    <div class="header-left">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">
+        <i data-lucide="menu"></i>
+      </button>
+      <img id="brandLogo" alt="Logo" />
+      <h1 id="brandName">Dashboard</h1>
+    </div>
+    
+    <div class="header-right">
+      <button class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+        <i data-lucide="moon" id="themeIcon"></i>
+      </button>
+      <div id="userProfile" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+        <div style="text-align: right;">
+          <div id="headerUserName" style="font-weight: 600; font-size: 0.875rem;">User</div>
+          <div id="headerUserRole" style="font-size: 0.75rem; color: var(--text-secondary);">Role</div>
+        </div>
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--brand-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem;" id="userInitials">
+          U
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ================= BODY ================= -->
@@ -503,14 +829,39 @@
 
     <!-- SIDEBAR -->
     <div class="sidebar">
-      <h3>MENU</h3>
-      <div class="menu-item" onclick="switchTab('dashboard')">Dashboard</div>
-      <div class="menu-item" onclick="switchTab('products')">Products</div>
-      <div class="menu-item" onclick="switchTab('customers')">Customers</div>
-      <div class="menu-item">Supplies</div>
-      <div class="menu-item">Employees</div>
-      <div class="menu-item" onclick="switchTab('reports')">Reports</div>
-      <div class="menu-item" onclick="toggleTheme()">Toggle Theme</div>
+      <h3>Main Menu</h3>
+      <div class="menu-item active" onclick="switchTab('dashboard')">
+        <i data-lucide="layout-dashboard"></i>
+        <span>Overview</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('products')">
+        <i data-lucide="package"></i>
+        <span>Products</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('customers')">
+        <i data-lucide="users"></i>
+        <span>Customers</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('suppliers')">
+        <i data-lucide="truck"></i>
+        <span>Suppliers</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('employees')">
+        <i data-lucide="user-cog"></i>
+        <span>Employees</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('staff')">
+        <i data-lucide="shield-check"></i>
+        <span>Staff Management</span>
+      </div>
+      <div class="menu-item" onclick="switchTab('reports')">
+        <i data-lucide="bar-chart-3"></i>
+        <span>Reports</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='settings.html'">
+        <i data-lucide="settings"></i>
+        <span>Settings</span>
+      </div>
     </div>
 
     <!-- MAIN -->
@@ -554,6 +905,7 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th>Contact</th>
+                <th>Assets</th>
                 <th>Balance</th>
               </tr>
             </thead>
@@ -585,17 +937,150 @@
         </div>
       </section>
 
+      <!-- SUPPLIERS -->
+      <section class="tab" id="tab-suppliers">
+        <div class="card">
+          <h2>Suppliers</h2>
+          <button class="btn btn-primary" onclick="openAddSupplier()">+ Add Supplier</button>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Products (Barcodes)</th>
+              </tr>
+            </thead>
+            <tbody id="supplierTable"></tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- REPORTS -->
       <section class="tab" id="tab-reports">
-        <div>
-          <h1>Reports</h1>
+        <div style="margin-bottom: 2rem;">
+          <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Business Reports</h2>
+          <p style="color: var(--text-secondary);">Comprehensive insights and performance tracking for your business.</p>
         </div>
-        <div class="report-box">
-          <div class="report-card">
-            <p>Daily Sales Report</p>
+
+        <div class="subcard">
+          <div class="screen-card" onclick="window.location.href='sales.html'">
+            <i data-lucide="trending-up"></i>
+            <div>
+              <h3>Sales Overview</h3>
+              <p>Daily, weekly, and monthly sales performance summary.</p>
+            </div>
           </div>
-          <div class="report-card"></div>
-          <div class="report-card"></div>
+
+          <div class="screen-card" onclick="window.location.href='analytics.html'">
+            <i data-lucide="pie-chart"></i>
+            <div>
+              <h3>Advanced Analytics</h3>
+              <p>Deep dive into your product and category performance.</p>
+            </div>
+          </div>
+
+          <div class="screen-card" onclick="switchTab('products')">
+            <i data-lucide="package-search"></i>
+            <div>
+              <h3>Inventory Valuation</h3>
+              <p>Total value of stock on hand at current cost/selling price.</p>
+            </div>
+          </div>
+
+          <div class="screen-card" onclick="switchTab('customers')">
+            <i data-lucide="wallet"></i>
+            <div>
+              <h3>Credit & Balances</h3>
+              <p>List of all customers with outstanding credit balances.</p>
+            </div>
+          </div>
+
+          <div class="screen-card" onclick="checkLowStockReport()">
+            <i data-lucide="alert-octagon"></i>
+            <div>
+              <h3>Low Stock Report</h3>
+              <p>Items currently below their minimum required stock level.</p>
+            </div>
+          </div>
+
+          <div class="screen-card" onclick="exportData('products')">
+            <i data-lucide="download"></i>
+            <div>
+              <h3>Export Data</h3>
+              <p>Download your inventory and customer data as CSV/PDF.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EMPLOYEES -->
+      <section class="tab" id="tab-employees">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <div>
+              <h2 style="font-size: 1.75rem;">Staff Registry</h2>
+              <p style="color: var(--text-secondary);">Add system users as employees for this shop.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddEmployee()">+ Add Employee</button>
+          </div>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Full Name</th>
+                <th>Role</th>
+                <th>Permissions</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="employeeTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- STAFF MANAGEMENT (ROLES & PERMISSIONS) -->
+      <section class="tab" id="tab-staff">
+        <div style="margin-bottom: 2.5rem;">
+          <h2 style="font-size: 2.25rem; font-weight: 700; margin-bottom: 0.5rem;">Staff Management</h2>
+          <p style="color: var(--text-secondary); font-size: 1.1rem;">Architect your company's security and access hierarchy.</p>
+        </div>
+
+        <div class="header-actions" style="margin-bottom: 2rem;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); color: var(--brand-primary); display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.25rem; font-weight: 600;">Organizational Roles</h3>
+              <p style="font-size: 0.875rem; color: var(--text-secondary);">Manage system-wide default permission sets.</p>
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="openAddRole()" style="padding: 0.75rem 1.5rem; display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="plus-circle" style="width: 18px; height: 18px;"></i>
+            <span>Define New Role</span>
+          </button>
+        </div>
+
+        <div id="roleListContainer" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+          <!-- Role cards will be rendered here -->
+        </div>
+
+        <div style="background: var(--card-bg); border-radius: var(--radius-lg); padding: 2rem; border: 1px solid var(--border-color); backdrop-filter: blur(30px);">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2rem;">
+            <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(16, 185, 129, 0.1); color: #10b981; display: flex; align-items: center; justify-content: center;">
+              <i data-lucide="book-open"></i>
+            </div>
+            <div>
+              <h3 style="font-size: 1.1rem; font-weight: 600;">Access Rights Directory</h3>
+              <p style="font-size: 0.825rem; color: var(--text-secondary);">Overview of all available system permissions.</p>
+            </div>
+          </div>
+          <div id="permissionDictionary" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem;">
+            <!-- Permission dictionary items -->
+          </div>
         </div>
       </section>
 
@@ -633,42 +1118,120 @@
 
   <!-- ADD PRODUCT MODAL -->
   <div class="modal-overlay" id="productModal">
-    <div class="modal">
+    <div class="modal" id="productModalContent">
       <h2>Add Product</h2>
 
-      <div class="form-group">
-        <label>Barcode</label>
-        <input type="text" id="barcode" />
+      <div class="modal-grid">
+        <!-- Basic Side -->
+        <div class="basic-fields">
+          <div class="form-group">
+            <label>Barcode</label>
+            <input type="text" id="barcode" />
+          </div>
+
+          <div class="form-group">
+            <label>Item Name</label>
+            <input type="text" id="itemName" />
+          </div>
+
+          <div class="form-group">
+            <label>Icon Link</label>
+            <input type="text" id="iconLink" />
+          </div>
+
+          <div class="form-group">
+            <label>Initial Stock</label>
+            <input type="number" id="initialStock" value="10">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label>MRP</label>
+              <input type="number" id="mrp" />
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label>Selling Price</label>
+              <input type="number" id="rp" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Advanced Side -->
+        <div class="advanced-fields">
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" id="category" placeholder="e.g. Beverages, Snacks" />
+          </div>
+
+          <div class="form-group">
+            <label>Min Stock Level</label>
+            <input type="number" id="minStock" value="5" />
+          </div>
+
+          <div class="form-group">
+            <label>Unit</label>
+            <select id="unit">
+              <option value="pcs">Pcs (Pieces)</option>
+              <option value="kg">Kg (Kilograms)</option>
+              <option value="g">G (Grams)</option>
+              <option value="bottle">Bottle</option>
+              <option value="pack">Pack</option>
+            </select>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <label class="checkbox-group">
+              <input type="checkbox" id="returnContainer">
+              Return Container
+            </label>
+
+            <label class="checkbox-group">
+              <input type="checkbox" id="divided">
+              Divided
+            </label>
+          </div>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label>Item Name</label>
-        <input type="text" id="itemName" />
-      </div>
-
-      <div class="form-group">
-        <label>Icon Link</label>
-        <input type="text" id="iconLink" />
-      </div>
-
-      <div class="form-group">
-        <label>Initial Stock</label>
-        <input type="number" id="initialStock" value="10">
-      </div>
-
-      <div class="form-group">
-        <label>Maximun Retail Price</label>
-        <input type="number" id="mrp" />
-      </div>
-
-      <div class="form-group">
-        <label>Selling Price</label>
-        <input type="number" id="rp" />
+      <div class="advance-toggle" onclick="toggleAdvanced()">
+        <input type="checkbox" id="advanceCheckbox" style="pointer-events: none;">
+        <label style="cursor: pointer;">Advance Options</label>
       </div>
 
       <div class="modal-actions">
         <button class="btn" onclick="closeProductModal()">Cancel</button>
         <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD SUPPLIER MODAL -->
+  <div class="modal-overlay" id="supplierModal">
+    <div class="modal">
+      <h2>Add Supplier</h2>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" id="suppName" />
+      </div>
+      <div class="form-group">
+        <label>Contact</label>
+        <input type="text" id="suppContact" />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="suppEmail" />
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" id="suppAddress" />
+      </div>
+      <div class="form-group">
+        <label>Products (Barcodes, comma separated)</label>
+        <input type="text" id="suppProducts" placeholder="e.g. 12345, 67890" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn" onclick="closeSupplierModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveSupplier()">Save</button>
       </div>
     </div>
   </div>
@@ -686,7 +1249,8 @@
       "SALES": { title: "Sales Reports", desc: "View analytics", url: "#", onclick: "sales.html" },
       "PRODUCTS": { title: "Products", desc: "Manage inventory", url: "#", onclick: "switchTab('products')" },
       "CUSTOMERS": { title: "Customers", desc: "Manage database", url: "#", onclick: "switchTab('customers')" },
-      "ANALYTICS": { title: "Analytics", desc: "Deep dive stats", url: "analytics.html" }
+      "ANALYTICS": { title: "Analytics", desc: "Deep dive stats", url: "analytics.html" },
+      "CHECKOUT": { title: "Checkout", desc: "For on Felid Salsmen", url: "checkout.html" }
     };
 
     function setPermission(perms) {
@@ -701,12 +1265,23 @@
       if (!container) return;
 
       container.innerHTML = "";
+      const iconMapping = {
+        "CASHIER": "shopping-cart",
+        "SALES": "trending-up",
+        "PRODUCTS": "box",
+        "CUSTOMERS": "users",
+        "ANALYTICS": "pie-chart",
+        "CHECKOUT": "external-link"
+      };
+
       // Permission check restored for Jump To cards
       normalizedPerms.forEach(p => {
         const card = permissionMapping[p];
         if (card) {
           const cardEl = document.createElement("div");
           cardEl.className = "screen-card";
+
+          const iconName = iconMapping[p] || "layers";
 
           cardEl.onclick = () => {
             if (card.onclick && card.onclick.startsWith("switchTab")) {
@@ -718,12 +1293,16 @@
           };
 
           cardEl.innerHTML = `
-            <h3>${card.title}</h3>
-            <p>${card.desc}</p>
+            <i data-lucide="${iconName}"></i>
+            <div>
+              <h3 style="margin:0; font-size:1.1rem;">${card.title}</h3>
+              <p style="margin:5px 0 0 0; font-size:0.85rem; opacity:0.7;">${card.desc}</p>
+            </div>
           `;
           container.appendChild(cardEl);
         }
       });
+      lucide.createIcons();
 
       // Show all sidebar items (removed filtering)
       document.querySelectorAll(".menu-item").forEach(item => {
@@ -731,34 +1310,88 @@
       });
     }
 
+    function toggleSidebar() {
+      const sidebar = document.querySelector(".sidebar");
+      sidebar.classList.toggle("show");
+    }
+
     async function switchTab(name) {
       document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
+      document.querySelectorAll(".menu-item").forEach(item => item.classList.remove("active"));
+
       const activeTab = document.getElementById("tab-" + name);
       if (activeTab) activeTab.classList.add("active");
+
+      // Update menu item active state
+      document.querySelectorAll(".menu-item").forEach(item => {
+        if (item.getAttribute("onclick") && item.getAttribute("onclick").includes(`'${name}'`)) {
+          item.classList.add("active");
+        }
+      });
+
+      // Close sidebar on mobile if open
+      const sidebar = document.querySelector(".sidebar");
+      if (sidebar && sidebar.classList.contains("show")) {
+        sidebar.classList.remove("show");
+      }
 
       await window.firebaseReady;
       if (name === "customers") {
         await loadCustomersOnline();
         loadCustomersTable();
-      }
-      if (name === "products") {
+      } else if (name === "products") {
         await loadProductsOnline();
         loadProductsTable();
+      } else if (name === "suppliers") {
+        await loadSuppliersOnline();
+        loadSuppliersTable();
+      } else if (name === "employees") {
+        loadEmployeesTable();
+      } else if (name === "staff") {
+        loadStaffManagement();
       }
+      lucide.createIcons();
     }
 
     function loadCurrentUser() {
       const raw = localStorage.getItem("CURRENT_USER");
       if (!raw) return;
       const user = JSON.parse(raw);
-      document.getElementById("welcomeText").innerText = user.fName + user.lName;
+      document.getElementById("welcomeText").innerText = "Hello, " + (user.fName || "User");
       document.getElementById("userInfo").innerText = user.username;
       document.getElementById("roleInfo").innerText = user.role;
+
+      // Header profile
+      const name = user.fName + " " + (user.lName || "");
+      document.getElementById("headerUserName").innerText = name;
+      document.getElementById("headerUserRole").innerText = user.role;
+      document.getElementById("userInitials").innerText = (user.fName || "U").charAt(0).toUpperCase();
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    function sendMessageToApp(data) {
+      const msg = typeof data === "string" ? data : JSON.stringify(data);
+      if (window.ReactNativeWebView && typeof ReactNativeWebView.postMessage === "function") {
+        ReactNativeWebView.postMessage(msg);
+      } else if (window.chrome && chrome.webview && typeof chrome.webview.postMessage === "function") {
+        chrome.webview.postMessage(data);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
       applySharedTheme();
       loadCurrentUser();
+      lucide.createIcons();
+
+      // Clear loader
+      setTimeout(() => {
+        const loader = document.getElementById("globalLoader");
+        if (loader) {
+          loader.style.opacity = "0";
+          loader.style.visibility = "hidden";
+          setTimeout(() => loader.remove(), 500);
+        }
+      }, 800);
+      lucide.createIcons();
 
       checkLowStock();
 
@@ -772,12 +1405,10 @@
 
       setPermission(savedPerms);
 
-      if (window.chrome && chrome.webview) {
-        window.chrome.webview.postMessage({
-          type: "DASHBOARD",
-          permission: savedPerms
-        });
-      }
+      sendMessageToApp({
+        type: "DASHBOARD",
+        permission: savedPerms
+      });
     });
 
     function toggleTheme() {
@@ -787,6 +1418,14 @@
       t.mode = t.mode === "dark" ? "light" : "dark";
       localStorage.setItem("BUSINESS_TRADEMARK", JSON.stringify(t));
       applySharedTheme();
+      
+      const icon = document.getElementById("themeIcon");
+      if (t.mode === "dark") {
+        icon.setAttribute("data-lucide", "sun");
+      } else {
+        icon.setAttribute("data-lucide", "moon");
+      }
+      lucide.createIcons();
     }
 
     /* ==============================
@@ -800,15 +1439,138 @@
       document.getElementById("customerModal").style.display = "none";
     }
 
-    /* ==============================
-       PRODUCT MODAL
-    ================================ */
+    function toggleAdvanced() {
+      const modal = document.getElementById("productModalContent");
+      const checkbox = document.getElementById("advanceCheckbox");
+      if (!modal || !checkbox) return;
+      modal.classList.toggle("advanced-mode");
+      checkbox.checked = modal.classList.contains("advanced-mode");
+    }
+
     function openAddProduct() {
+      // Reset advanced mode
+      const modal = document.getElementById("productModalContent");
+      const checkbox = document.getElementById("advanceCheckbox");
+      if (modal) modal.classList.remove("advanced-mode");
+      if (checkbox) checkbox.checked = false;
+
+      // Reset fields
+      const fields = ["barcode", "itemName", "iconLink", "mrp", "rp", "category"];
+      fields.forEach(f => {
+        const el = document.getElementById(f);
+        if (el) el.value = "";
+      });
+
+      const stockEl = document.getElementById("initialStock");
+      if (stockEl) stockEl.value = "10";
+
+      const minStockEl = document.getElementById("minStock");
+      if (minStockEl) minStockEl.value = "5";
+
+      const unitEl = document.getElementById("unit");
+      if (unitEl) unitEl.value = "pcs";
+
+      const checks = ["returnContainer", "divided"];
+      checks.forEach(c => {
+        const el = document.getElementById(c);
+        if (el) el.checked = false;
+      });
+
       document.getElementById("productModal").style.display = "flex";
     }
 
     function closeProductModal() {
       document.getElementById("productModal").style.display = "none";
+    }
+
+    /* ==============================
+       SUPPLIER MODAL
+    ================================ */
+    function openAddSupplier() {
+      document.getElementById("supplierModal").style.display = "flex";
+    }
+
+    function closeSupplierModal() {
+      document.getElementById("supplierModal").style.display = "none";
+    }
+
+    /* ==============================
+       EMPLOYEE MODAL
+    ================================ */
+    let globalRoles = [];
+    async function openAddEmployee() {
+      // Clear fields
+      document.getElementById("empId").value = "";
+      document.getElementById("empUsername").value = "";
+      document.getElementById("empUsernameSuggestions").style.display = "none";
+      
+      // Load roles for dropdown
+      globalRoles = await window.getRolesOnline();
+      const roleSelect = document.getElementById("empRole");
+      roleSelect.innerHTML = "";
+      globalRoles.forEach(r => {
+        const opt = document.createElement("option");
+        opt.value = r.role;
+        opt.innerText = r.role.charAt(0).toUpperCase() + r.role.slice(1);
+        roleSelect.appendChild(opt);
+      });
+
+      // Default to the first role's permissions
+      const initialRole = globalRoles.length > 0 ? globalRoles[0] : null;
+      renderPermissionGrid("empPermissionsList", "empPerm", initialRole ? initialRole.permissions : []);
+      
+      document.getElementById("employeeModal").style.display = "flex";
+    }
+
+    function handleEmpRoleChange(roleName) {
+      const role = globalRoles.find(r => r.role === roleName);
+      if (role) {
+        console.log(`🔄 Auto-syncing permissions for role: ${roleName}`);
+        renderPermissionGrid("empPermissionsList", "empPerm", role.permissions || []);
+      }
+    }
+
+    let allSystemUsers = [];
+    async function searchSystemUsers(query) {
+      const q = query.toLowerCase().trim();
+      const suggestionBox = document.getElementById("empUsernameSuggestions");
+
+      if (q.length < 2) {
+        suggestionBox.style.display = "none";
+        return;
+      }
+
+      if (allSystemUsers.length === 0) {
+        allSystemUsers = await window.loadAllUsersOnline();
+      }
+
+      const matches = allSystemUsers.filter(u => 
+        (u.username || '').toLowerCase().includes(q) || 
+        (u.fName || '').toLowerCase().includes(q) || 
+        (u.lName || '').toLowerCase().includes(q)
+      ).slice(0, 5);
+
+      if (matches.length > 0) {
+        suggestionBox.innerHTML = matches.map(u => `
+          <div onclick="selectSystemUser(\'${u.username}\', \'${u.fName}\', \'${u.lName}\', \'${u.password}\')" style="padding: 10px; cursor: pointer; border-bottom: 1px solid var(--border-color); transition: background 0.2s; color: var(--text-primary);">
+            <div style="font-weight: 600; font-size: 14px;">@${u.username}</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">${u.fName} ${u.lName}</div>
+          </div>
+        `).join('');
+        suggestionBox.style.display = "block";
+      } else {
+        suggestionBox.style.display = "none";
+      }
+    }
+
+    function selectSystemUser(username, fName, lName, password) {
+      document.getElementById("empUsername").value = username;
+      document.getElementById("empUsernameSuggestions").style.display = "none";
+    }
+
+    function closeEmployeeModal() {
+      document.getElementById("employeeModal").style.display = "none";
+      document.getElementById("empUsernameSuggestions").style.display = "none";
     }
 
     /* ==============================
@@ -822,12 +1584,25 @@
       const rp = document.getElementById("rp").value;
       const stock = document.getElementById("initialStock").value || 0;
 
-      if (!barcode || !name) {
-        alert("Please fill required fields");
+      // Advanced fields
+      const category = document.getElementById("category").value;
+      const minStock = document.getElementById("minStock").value || 5;
+      const unit = document.getElementById("unit").value;
+      const returnContainer = document.getElementById("returnContainer").checked;
+      const divided = document.getElementById("divided").checked;
+
+      if (!barcode || !name || !mrp) {
+        alert("Please fill required fields (Barcode, Name, MRP)");
         return;
       }
 
-      const result = await saveProductOnline(barcode, name, icon, mrp, rp, stock);
+      // We append advanced details to the product object
+      const productData = {
+        barcode, name, icon, mrp, rp, stock,
+        category, minStock, unit, returnContainer, divided
+      };
+
+      const result = await saveProductOnline(barcode, name, icon, mrp, rp, stock, productData);
 
       if (result.ok) {
         closeProductModal();
@@ -870,6 +1645,269 @@
     }
 
     /* ==============================
+       SAVE SUPPLIER
+    ================================ */
+    async function saveSupplier() {
+      const name = document.getElementById("suppName").value;
+      const contact = document.getElementById("suppContact").value;
+      const email = document.getElementById("suppEmail").value;
+      const address = document.getElementById("suppAddress").value;
+      const products = document.getElementById("suppProducts").value.split(",").map(p => p.trim());
+
+      if (!name || !contact) {
+        alert("Please fill required fields");
+        return;
+      }
+
+      const result = await saveSupplierOnline(name, contact, email, address, products);
+
+      if (result.ok) {
+        closeSupplierModal();
+        await loadSuppliersOnline();
+        loadSuppliersTable();
+        alert("Supplier saved successfully!");
+      }
+      else {
+        alert("Data not Saved: " + (result.error || "Unknown error"));
+      }
+    }
+
+    /* ==============================
+       SAVE EMPLOYEE
+    ================================ */
+    /* ==============================
+       SAVE EMPLOYEE / ASSIGNMENT
+    ================================ */
+    async function saveEmployee() {
+      const username = document.getElementById("empUsername").value;
+      const role = document.getElementById("empRole").value;
+      const empId = document.getElementById("empId").value;
+      
+      // Collect selected permissions
+      const checkboxes = document.querySelectorAll('input[name="empPerm"]:checked');
+      const permissions = Array.from(checkboxes).map(cb => cb.value);
+
+      if (!username) {
+        alert("Username is required");
+        return;
+      }
+
+      const employeeData = {
+        id: empId,
+        username,
+        role,
+        businessID: JSON.parse(localStorage.getItem("BUSINESS_INFO"))?.businessID,
+        extraPermissions: permissions
+      };
+
+      const result = await window.saveEmployeeOnline(employeeData);
+      if (result.ok) {
+        closeEmployeeModal();
+        loadEmployeesTable();
+        alert("Employee assignment saved!");
+      } else {
+        alert("Error: " + result.error);
+      }
+    }
+
+    async function loadEmployeesTable() {
+      const tbody = document.getElementById("employeeTable");
+      if (!tbody) return;
+      tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>`;
+
+      const employees = await window.loadEmployeesOnline();
+      tbody.innerHTML = "";
+
+      employees.forEach(emp => {
+        const perms = emp.extraPermissions || [];
+        const permBadges = perms.map(p => `<span style="font-size:10px; background:rgba(0,0,0,0.05); padding:2px 6px; border-radius:4px; margin-right:4px;">${p}</span>`).join('');
+        
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>@${emp.username}</strong></td>
+          <td>${emp.fName || ''} ${emp.lName || ''}</td>
+          <td><span class="role-badge" style="background:var(--brand-primary); color:white; padding:2px 10px; border-radius:10px; font-size:11px;">${emp.role || 'N/A'}</span></td>
+          <td>${permBadges || '<i style="opacity:0.5;">Default Only</i>'}</td>
+          <td>
+            <button class="action-btn" onclick="editEmployee('${emp.id}')">Edit</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function loadStaffManagement() {
+      const roles = await window.getRolesOnline();
+      const roleContainer = document.getElementById("roleListContainer");
+      if (!roleContainer) return;
+      
+      const iconMapping = {
+        "CASHIER": "shopping-cart",
+        "SALES": "trending-up",
+        "PRODUCTS": "package",
+        "CUSTOMERS": "users",
+        "ANALYTICS": "bar-chart-2",
+        "CHECKOUT": "external-link"
+      };
+
+      roleContainer.innerHTML = roles.length === 0 ? 
+        `<div style="grid-column: 1/-1; padding: 3rem; text-align: center; background: var(--bg-color); border: 2px dashed var(--border-color); border-radius: 20px;">
+          <p style="opacity: 0.5;">No custom roles defined yet. Start by defining your first role.</p>
+        </div>` :
+        roles.map(r => {
+          const perms = r.permissions || [];
+          return `
+            <div class="card" style="margin:0; padding: 1.5rem; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom: 1.5rem;">
+                <div>
+                  <h4 style="text-transform:uppercase; color:var(--brand-primary); font-size: 1rem; letter-spacing: 0.05em; font-weight: 700; margin-bottom: 4px;">${r.role}</h4>
+                  <span style="font-size: 0.75rem; opacity: 0.6; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 99px;">
+                    ${perms.length} Access Points
+                  </span>
+                </div>
+                <button class="action-btn" onclick="editRole('${r.id}')" title="Edit Role Assignment" style="background: rgba(99, 102, 241, 0.1); color: var(--brand-primary); width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+                  <i data-lucide="settings-2" style="width:16px; height:16px;"></i>
+                </button>
+              </div>
+              
+              <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+                ${perms.length > 0 ? perms.map(p => `
+                  <div style="display: flex; align-items: center; gap: 10px; font-size: 0.875rem; color: var(--text-primary);">
+                    <div style="width: 24px; height: 24px; border-radius: 6px; background: rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: center;">
+                      <i data-lucide="${iconMapping[p] || 'circle'}" style="width: 14px; height: 14px; opacity: 0.7;"></i>
+                    </div>
+                    <span>${p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}</span>
+                  </div>
+                `).join('') : '<p style="font-size: 0.8rem; opacity: 0.4;">No default access</p>'}
+              </div>
+            </div>
+          `;
+        }).join('');
+      
+      lucide.createIcons();
+
+      const dictContainer = document.getElementById("permissionDictionary");
+      if (dictContainer) {
+        dictContainer.innerHTML = Object.entries(permissionMapping).map(([key, val]) => {
+          const icon = iconMapping[key] || 'circle';
+          return `
+            <div style="background: var(--bg-color); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color); display: flex; align-items: flex-start; gap: 12px;">
+              <div style="background: rgba(99, 102, 241, 0.08); color: var(--brand-primary); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <i data-lucide="${icon}" style="width: 18px; height: 18px;"></i>
+              </div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9375rem; margin-bottom: 2px; color: var(--text-primary);">${key}</div>
+                <p style="font-size: 0.75rem; margin: 0; line-height: 1.4; color: var(--text-secondary);">${val.desc}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+        lucide.createIcons();
+      }
+    }
+
+    function renderPermissionGrid(containerId, inputName, selectedPerms = []) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const iconMapping = {
+        "CASHIER": "shopping-cart",
+        "SALES": "trending-up",
+        "PRODUCTS": "package",
+        "CUSTOMERS": "users",
+        "ANALYTICS": "bar-chart-2",
+        "CHECKOUT": "external-link"
+      };
+
+      container.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h4 style="margin: 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary);">Select Access Points</h4>
+          <button type="button" onclick="toggleAllPerms('${inputName}', true)" style="background: none; border: none; font-size: 11px; font-weight: 700; color: var(--brand-primary); cursor: pointer; text-transform: uppercase;">Select All</button>
+        </div>
+        <div class="permission-grid">
+          ${Object.keys(permissionMapping).map(p => {
+            const isSelected = selectedPerms.includes(p);
+            return `
+              <div class="permission-tile ${isSelected ? 'selected' : ''}" onclick="togglePermTile(this)">
+                <input type="checkbox" name="${inputName}" value="${p}" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); syncTileState(this)">
+                <i data-lucide="${iconMapping[p] || 'circle'}" style="width: 20px; height: 20px;"></i>
+                <span>${p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function togglePermTile(tile) {
+      const cb = tile.querySelector('input');
+      cb.checked = !cb.checked;
+      tile.classList.toggle('selected', cb.checked);
+    }
+
+    function syncTileState(cb) {
+      cb.parentElement.classList.toggle('selected', cb.checked);
+    }
+
+    function toggleAllPerms(name, state) {
+      const checks = document.querySelectorAll(`input[name="${name}"]`);
+      checks.forEach(cb => {
+        cb.checked = state;
+        cb.parentElement.classList.toggle('selected', state);
+      });
+    }
+
+    function openAddRole() {
+      document.getElementById("editRoleId").value = "";
+      document.getElementById("roleName").value = "";
+      document.getElementById("roleModalTitle").innerText = "Create Global Role";
+      
+      renderPermissionGrid("rolePermissionsList", "rolePerm");
+      document.getElementById("roleModal").style.display = "flex";
+    }
+
+    async function editRole(id) {
+      const roles = await window.getRolesOnline();
+      const role = roles.find(r => r.id === id);
+      if (!role) return;
+
+      document.getElementById("editRoleId").value = role.id;
+      document.getElementById("roleName").value = role.role;
+      document.getElementById("roleModalTitle").innerText = "Edit Global Role";
+
+      renderPermissionGrid("rolePermissionsList", "rolePerm", role.permissions || []);
+      document.getElementById("roleModal").style.display = "flex";
+    }
+
+    function closeRoleModal() {
+      document.getElementById("roleModal").style.display = "none";
+    }
+
+    async function saveRole() {
+      const name = document.getElementById("roleName").value.trim().toLowerCase();
+      const id = document.getElementById("editRoleId").value;
+      const checkboxes = document.querySelectorAll('input[name="rolePerm"]:checked');
+      const permissions = Array.from(checkboxes).map(cb => cb.value);
+
+      if (!name) {
+        alert("Role name is required");
+        return;
+      }
+
+      const roleData = { id, role: name, permissions };
+      const result = await window.saveRoleOnline(roleData);
+      
+      if (result.ok) {
+        closeRoleModal();
+        loadStaffManagement();
+        alert("Role saved successfully!");
+      } else {
+        alert("Error: " + result.error);
+      }
+    }
+
+    /* ==============================
        LOAD CUSTOMER DATA TO TABLE
     ================================ */
     async function loadCustomersTable() {
@@ -892,11 +1930,17 @@
 
       customers.forEach(c => {
         const tr = document.createElement("tr");
+        const balance = Number(c.balance || 0);
         tr.innerHTML = `
-      <td>${c.id || "-"}</td>
-      <td>${c.name || "-"}</td>
+      <td><span style="font-weight:600; color:var(--brand-primary);">${c.id || "-"}</span></td>
+      <td>
+        <div style="font-weight:500;">${c.name || "-"}</div>
+      </td>
       <td>${c.contact || "-"}</td>
-      <td>Rs ${Number(c.balance || 0).toLocaleString()}</td>
+      <td><span class="badge" style="background:rgba(99, 102, 241, 0.1); color:var(--brand-primary); padding:4px 10px; border-radius:12px; font-size:0.75rem;">${String(c.assets || 0)} Assets</span></td>
+      <td style="font-weight:600; color:${balance < 0 ? 'var(--accent-error)' : 'inherit'};">
+        Rs ${balance.toLocaleString()}
+      </td>
     `;
         tbody.appendChild(tr);
       });
@@ -917,7 +1961,7 @@
       if (products.length === 0) {
         tbody.innerHTML = `
       <tr>
-        <td colspan="7" style="text-align:center;opacity:.6;">
+        <td colspan="6" style="text-align:center;opacity:.6;">
           No products found
         </td>
       </tr>
@@ -928,29 +1972,179 @@
       products.forEach(p => {
         const tr = document.createElement("tr");
 
+        const stock = p.stock !== undefined ? Number(p.stock) : 0;
+        const minStock = p.minStock !== undefined ? Number(p.minStock) : 5;
+        const isLow = stock < minStock;
+
         tr.innerHTML = `
-      <td>${p.barcode || "-"}</td>
-      <td>${p.name || "-"}</td>
-      <td>${p.icon || "none"}</td>
-      <td>${p.stock !== undefined ? p.stock : '-'}</td>
+      <td style="font-family:monospace; font-weight:600;">${p.barcode || "-"}</td>
+      <td style="font-weight:500;">${p.name || "-"}</td>
+      <td><i data-lucide="${p.icon && p.icon !== 'none' ? p.icon : 'package'}" style="width:20px; height:20px; opacity:0.6;"></i></td>
+      <td>
+        <span style="color:${isLow ? 'var(--accent-error)' : 'inherit'}; font-weight:600;">
+          ${stock}
+        </span>
+        ${isLow ? '<i data-lucide="alert-triangle" style="width:14px; height:14px; color:var(--accent-error); margin-left:4px;"></i>' : ''}
+      </td>
       <td>Rs ${Number(p.mrp || 0).toLocaleString()}</td>
-      <td>Rs ${Number(p.rp || 0).toLocaleString()}</td>
+      <td style="font-weight:600; color:var(--brand-primary);">Rs ${Number(p.rp || 0).toLocaleString()}</td>
     `;
 
         tbody.appendChild(tr);
       });
+      lucide.createIcons();
+    }
+
+    /* ==============================
+       LOAD SUPPLIER DATA TO TABLE
+    ================================ */
+    async function loadSuppliersTable() {
+      const tbody = document.getElementById("supplierTable");
+      tbody.innerHTML = "";
+
+      const suppliers = await getAll(STORES.SUPPLIERS);
+
+      if (!suppliers || suppliers.length === 0) {
+        tbody.innerHTML = `
+      <tr>
+        <td colspan="5" style="text-align:center;opacity:.6;">
+          No suppliers found
+        </td>
+      </tr>
+    `;
+        return;
+      }
+
+      suppliers.forEach(s => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+      <td><span style="font-weight:600; color:var(--brand-primary);">${s.id || "-"}</span></td>
+      <td style="font-weight:500;">${s.name || "-"}</td>
+      <td>${s.contact || "-"}</td>
+      <td style="font-size:0.85rem; opacity:0.8;">${s.email || "-"}</td>
+      <td><span style="font-size:0.85rem; background:rgba(0,0,0,0.05); padding:4px 8px; border-radius:6px;">${(s.products || []).length} Items</span></td>
+    `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ==============================
+       LOAD EMPLOYEE DATA TO TABLE
+    ================================ */
+    async function loadEmployeesTable() {
+      const tbody = document.getElementById("employeeTable");
+      tbody.innerHTML = "<tr><td colspan='5'>Loading...</td></tr>";
+
+      const employees = await window.loadEmployeesOnline();
+      tbody.innerHTML = "";
+
+      if (employees.length === 0) {
+        tbody.innerHTML = "<tr><td colspan='5' style='text-align:center;opacity:.6;'>No employees found</td></tr>";
+        return;
+      }
+
+      employees.forEach(e => {
+        const tr = document.createElement("tr");
+        const status = e.status || 'active';
+        tr.innerHTML = `
+          <td><span style="font-family:monospace; font-weight:600;">@${e.username}</span></td>
+          <td style="font-weight:500;">${e.fName} ${e.lName || ""}</td>
+          <td><span class="role-badge" style="padding: 4px 12px; font-size: 11px; background:rgba(99, 102, 241, 0.1); color:var(--brand-primary); border-radius:20px; border:1px solid rgba(99, 102, 241, 0.2);">${e.role}</span></td>
+          <td>
+            <span style="display:flex; align-items:center; gap:5px; color:${status === 'active' ? 'var(--accent-success)' : 'var(--accent-error)'}; font-weight:500; font-size:0.85rem;">
+              <span style="width:8px; height:8px; border-radius:50%; background:currentColor;"></span>
+              ${status.charAt(0).toUpperCase() + status.slice(1)}
+            </span>
+          </td>
+          <td>
+            <button class="btn" style="padding: 6px; background:rgba(99, 102, 241, 0.1); color:var(--brand-primary); border-radius:8px;" onclick="editEmployee('${e.id}')">
+              <i data-lucide="edit-2" style="width:16px; height:16px;"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+      lucide.createIcons();
+    }
+
+    async function editEmployee(id) {
+        const employees = await window.loadEmployeesOnline();
+        const emp = employees.find(e => e.id === id);
+        if (emp) {
+            await openAddEmployee();
+            document.getElementById("empId").value = emp.id;
+            document.getElementById("empUsername").value = emp.username;
+            document.getElementById("empRole").value = emp.role;
+            
+            // Re-render with specific overrides if they exist
+            if (emp.permissions && emp.permissions.length > 0) {
+              renderPermissionGrid("empPermissionsList", "empPerm", emp.permissions);
+            }
+        }
+    }
+
+    function checkLowStockReport() {
+      const products = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
+      const lowStockItems = products.filter(p => {
+        const min = p.minStock !== undefined ? Number(p.minStock) : 5;
+        return p.stock !== undefined && Number(p.stock) < min;
+      });
+
+      if (lowStockItems.length > 0) {
+        switchTab('products');
+        setTimeout(() => {
+          alert(`Found ${lowStockItems.length} items with low stock. Look for the alert icons in the table.`);
+        }, 500);
+      } else {
+        alert("All items are well stocked! No low stock detected.");
+      }
+    }
+
+    function exportData(type) {
+      let data = [];
+      let filename = "export.csv";
+
+      if (type === 'products') {
+        data = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
+        filename = `Inventory_Report_${new Date().toISOString().split('T')[0]}.csv`;
+      } else if (type === 'customers') {
+        // We'd need to fetch customers from IndexedDB/Firebase here if not already loaded
+        // For now, let's just export what's in the table if possible, or common products
+        alert("Exporting customer data...");
+      }
+
+      if (data.length === 0) {
+        alert("No data available to export.");
+        return;
+      }
+
+      // Simple CSV conversion
+      const headers = Object.keys(data[0]).join(",");
+      const rows = data.map(obj => Object.values(obj).map(val => `"${val}"`).join(","));
+      const csvContent = "data:text/csv;charset=utf-8," + headers + "\n" + rows.join("\n");
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", filename);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
 
     function checkLowStock() {
       const products = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
-      const lowStockItems = products.filter(p => p.stock !== undefined && p.stock < 5);
+      const lowStockItems = products.filter(p => {
+        const min = p.minStock !== undefined ? Number(p.minStock) : 5;
+        return p.stock !== undefined && Number(p.stock) < min;
+      });
 
       const alertBox = document.getElementById("lowStockAlert");
       const list = document.getElementById("lowStockList");
 
       if (lowStockItems.length > 0) {
         const names = lowStockItems.map(p => p.name).join(", ");
-        list.innerText = names + " are running low (< 5 items).";
+        list.innerText = names + " are running low!";
         alertBox.style.display = "flex";
       } else {
         alertBox.style.display = "none";
@@ -958,6 +2152,66 @@
     }
 
   </script>
+
+  <!-- EMPLOYEE MODAL -->
+  <div class="modal-overlay" id="employeeModal">
+    <div class="modal" style="max-width: 500px;">
+      <h2 id="empModalTitle">Assign Employee</h2>
+      <input type="hidden" id="empId" />
+
+      <div class="form-group">
+        <label>Username (System User)</label>
+        <div style="position: relative;">
+          <input type="text" id="empUsername" oninput="searchSystemUsers(this.value)" autocomplete="off" placeholder="Search registered users..." />
+          <div id="empUsernameSuggestions" style="position: absolute; top: 100%; left: 0; right: 0; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; z-index: 1001; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);"></div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <label>Designated Role</label>
+          <select id="empRole" onchange="handleEmpRoleChange(this.value)"></select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label style="margin-bottom: 1rem; display: block;">Specific Permissions (Overrides)</label>
+        <div id="empPermissionsList" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--bg-color); padding: 1rem; border-radius: 12px;">
+          <!-- Checkboxes for permissions -->
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" onclick="closeEmployeeModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveEmployee()">Save Assignment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROLE MODAL -->
+  <div class="modal-overlay" id="roleModal">
+    <div class="modal" style="max-width: 500px;">
+      <h2 id="roleModalTitle">Create Global Role</h2>
+      <input type="hidden" id="editRoleId" />
+
+      <div class="form-group">
+        <label>Role Name</label>
+        <input type="text" id="roleName" placeholder="e.g. supervisor, auditor..." />
+      </div>
+
+      <div class="form-group">
+        <label style="margin-bottom: 1rem; display: block;">Default Permissions</label>
+        <div id="rolePermissionsList" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--bg-color); padding: 1rem; border-radius: 12px;">
+          <!-- Checkboxes for permissions -->
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn" onclick="closeRoleModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveRole()">Save Role</button>
+      </div>
+    </div>
+  </div>
 
 </body>
 

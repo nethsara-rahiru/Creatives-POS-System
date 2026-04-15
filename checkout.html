@@ -6,15 +6,17 @@
   <title>Field Sales POS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Assets/css/style.css">
 
   <style>
     :root {
-      --brand-primary: #4f8cff;
-      --brand-secondary: #7b4bb7;
-      --bg-color: #f4f6fb;
-      --card: #ffffff;
-      --border: #e5e7eb;
+      --primary: var(--brand-primary);
+      --secondary: var(--brand-secondary);
+      --bg: var(--bg-color);
+      --card: var(--panel-bg);
+      --border: var(--border-color);
+      --text: var(--text-primary);
     }
 
     * {
@@ -26,11 +28,14 @@
 
     body {
       background: var(--bg-color);
+      color: var(--text);
     }
 
     /* CUSTOMER SCREEN */
     .customer-screen {
-      padding: 20px;
+      padding: 1.5rem;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     .customer-screen h2 {
@@ -44,9 +49,10 @@
       font-size: 16px;
       border-radius: 10px;
       border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
       margin-bottom: 10px;
     }
-
 
     .customer-list .customer-item {
       background: var(--card);
@@ -55,6 +61,9 @@
       margin-bottom: 8px;
       cursor: pointer;
       height: 55px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .customer-list .customer-item:hover {
@@ -70,11 +79,19 @@
 
     /* HEADER */
     .sales-header {
-      padding: 14px;
-      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
-      color: #fff;
+      padding: 1rem 1.5rem;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: 700;
-      text-align: center;
+      font-size: 1.125rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     /* CART SECTION */
@@ -86,12 +103,28 @@
 
     .cart-item {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
       margin-bottom: 10px;
       background: var(--card);
       border-radius: 10px;
       padding: 10px;
+      gap: 6px;
+    }
+
+    .cart-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .item-price {
+      font-size: 12px;
+      opacity: 0.7;
     }
 
     .qty-box {
@@ -108,6 +141,7 @@
       background: var(--brand-primary);
       color: #fff;
       font-size: 18px;
+      font-weight: 700;
     }
 
     .qty-box input {
@@ -116,6 +150,18 @@
       font-size: 16px;
       border: 1px solid var(--border);
       border-radius: 6px;
+      background: var(--card);
+      color: var(--text);
+    }
+
+    .return-section {
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 6px;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
     }
 
     /* PRODUCT SELECTION */
@@ -130,6 +176,10 @@
       box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
     }
 
+    [data-theme="dark"] .product-section {
+      background: #1a1d24;
+    }
+
     .product {
       background: var(--card);
       padding: 12px;
@@ -138,26 +188,20 @@
       flex-direction: column;
       justify-content: space-between;
       cursor: pointer;
+      text-align: center;
     }
 
     .product-name {
       font-weight: 600;
       margin-bottom: 6px;
+      font-size: 13px;
     }
 
     .product-price {
       font-size: 14px;
       opacity: .7;
-    }
-
-    .product button {
-      background: var(--brand-primary);
-      border: none;
-      color: #fff;
-      padding: 8px;
-      border-radius: 8px;
       font-weight: 700;
-      margin-top: 6px;
+      color: var(--brand-primary);
     }
 
     /* CHECKOUT BUTTON FIXED */
@@ -166,7 +210,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: #fff;
+      background: var(--card);
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
@@ -183,11 +227,87 @@
       font-size: 16px;
       font-weight: 700;
       border-radius: 10px;
+      cursor: pointer;
     }
 
     .total-display {
       font-weight: 700;
       font-size: 16px;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--card);
+      width: 90%;
+      max-width: 400px;
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal h2 {
+      margin-bottom: 20px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-color);
+      color: var(--text);
+      margin: 10px 0;
+      font-size: 18px;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .payments {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .payments button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .cash {
+      background: #2ecc71;
+    }
+
+    .loan {
+      background: #e67e22;
+    }
+
+    .cancel-btn {
+      background: #ff4d4d;
+      color: #fff;
+      width: 100px;
+      text-align: center;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -196,8 +316,8 @@
 
   <!-- CUSTOMER SELECTION -->
   <div class="customer-screen" id="customerScreen">
-    <h2>Select Shop</h2>
-    <input id="customerSearch" placeholder="Search shop...">
+    <h2>Select Customer</h2>
+    <input id="customerSearch" placeholder="Search customer..." autocomplete="off">
     <div class="customer-list" id="customerList"></div>
   </div>
 
@@ -211,7 +331,41 @@
 
     <div class="checkout-bar">
       <div class="total-display">Total: Rs <span id="total">0</span></div>
-      <button onclick="checkout()">CHECKOUT</button>
+      <div style="display: flex; gap: 10px;">
+        <div class="cancel-btn" onclick="window.location.href = 'dashboard.html'">CANCEL</div>
+        <button onclick="openCheckout()">CHECKOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal" id="checkoutModal">
+    <div class="modal-content">
+      <h2>Checkout</h2>
+      <div style="text-align:center; margin-bottom:15px;">
+        <div style="font-size:14px; opacity:0.7;">Grand Total</div>
+        <div style="font-size:32px; font-weight:800; color:var(--brand-primary);" id="modalTotal">Rs 0</div>
+      </div>
+
+      <div id="loanSection"
+        style="background:rgba(230, 126, 34, 0.1); padding:12px; border-radius:12px; margin-bottom:15px; display:none;">
+        <div style="font-size:13px; font-weight:600; color:#e67e22;">Customer Balance</div>
+        <div style="font-size:18px; font-weight:800;" id="customerBalanceDisplay">Rs 0</div>
+      </div>
+
+      <label style="font-size:13px; font-weight:600;">Cash Received</label>
+      <input type="number" id="cashReceived" placeholder="0.00" oninput="calculateChange()">
+
+      <div style="text-align:center; margin-top:10px;">
+        <div style="font-size:13px; opacity:0.7;">Balance / Change</div>
+        <div style="font-size:24px; font-weight:800;" id="changeDisplay">Rs 0</div>
+      </div>
+
+      <div class="payments">
+        <button class="cash" onclick="finishSale('Cash')">CASH</button>
+        <button class="loan" id="loanBtn" onclick="finishSale('Loan')">LOAN</button>
+      </div>
+      <button class="cancel-btn" onclick="closeCheckout()">CANCEL</button>
     </div>
   </div>
 
@@ -224,18 +378,20 @@
     let products = [];
     let customers = [];
     let cart = [];
+    let selectedCustomer = null;
 
     // Load data when Firebase is ready
     window.firebaseReady.then(() => {
       loadCustomers();
       loadProducts();
+      applySharedTheme();
     });
 
     async function loadCustomers() {
       await loadCustomersOnline();
-      customers = [{ id: null, name: "Unknown Customer", balance: 0 }];
-      const stored = await getAll(STORES.CUSTOMERS);
-      customers.push(...stored);
+      customers = [{ id: null, name: "Walk-in Customer", balance: 0, assets: 0 }];
+      const stored = await getAll(window.STORES.CUSTOMERS);
+      if (stored) customers.push(...stored);
       renderCustomerList();
     }
 
@@ -247,14 +403,20 @@
     }
 
     /* CUSTOMER SELECTION */
-    function renderCustomerList() {
+    const customerSearch = document.getElementById("customerSearch");
+    customerSearch.addEventListener("input", () => renderCustomerList(customerSearch.value));
+
+    function renderCustomerList(filter = "") {
       const customerList = document.getElementById("customerList");
       customerList.innerHTML = "";
-      customers.forEach(c => {
+      const filtered = customers.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+
+      filtered.forEach(c => {
         const div = document.createElement("div");
         div.className = "customer-item";
-        div.innerHTML = `<span>${c.name}</span> <span style="float:right">${c.balance ? `(Rs ${c.balance})` : ""}</span>`;
+        div.innerHTML = `<span>${c.name}</span> <span style="font-weight:700; color:var(--brand-primary);">${c.balance ? `Rs ${c.balance}` : ""}</span>`;
         div.onclick = () => {
+          selectedCustomer = c;
           document.getElementById("customerScreen").style.display = "none";
           document.getElementById("salesScreen").style.display = "flex";
           document.getElementById("shopName").innerText = c.name;
@@ -269,20 +431,25 @@
       products.forEach(p => {
         const div = document.createElement("div");
         div.className = "product";
-        div.innerHTML = `
+        div.onclick = () => addToCart(p);
+        //<div style="font-size:24px; margin-bottom:4px;">${p.unit === 'kg' ? '⚖️' : '📦'}</div>
+        div.innerHTML = `  
             <div class="product-name">${p.name}</div>
             <div class="product-price">Rs ${p.rp || p.price}</div>
-            <button onclick="addToCart('${p.id || p.barcode}')">ADD</button>
         `;
         productList.appendChild(div);
       });
     }
 
-    function addToCart(id) {
-      const p = products.find(x => (x.id || x.barcode) == id);
-      if (!p) return;
-      let i = cart.find(x => (x.id || x.barcode) == id);
-      if (i) i.qty++; else cart.push({ ...p, qty: 1, price: p.rp || p.price });
+    function addToCart(p) {
+      // Validation: Return Container Items must have a registered customer
+      if (p.returnContainer && (!selectedCustomer || !selectedCustomer.id)) {
+        alert("Please select a registered customer for returnable items.");
+        return;
+      }
+
+      let i = cart.find(x => x.barcode === p.barcode);
+      if (i) i.qty++; else cart.push({ ...p, qty: 1, returnQty: 0 });
       renderCart();
     }
 
@@ -290,40 +457,264 @@
       const cartList = document.getElementById("cartList");
       cartList.innerHTML = "";
       let total = 0;
+
       cart.forEach(i => {
-        total += i.price * i.qty;
+        const subtotal = (i.rp || i.price) * i.qty;
+        total += subtotal;
+
         cartList.innerHTML += `
             <div class="cart-item">
-                <div>${i.name}</div>
-                <div class="qty-box">
-                    <button onclick="changeQty('${i.id || i.barcode}', -1)">−</button>
-                    <input type="number" value="${i.qty}" onchange="setQty('${i.id || i.barcode}', this.value)">
-                    <button onclick="changeQty('${i.id || i.barcode}', 1)">+</button>
+                <div class="cart-item-row">
+                  <div class="item-name">${i.name} ${i.returnContainer ? '♻️' : ''}</div>
+                  <div style="font-weight:700;">Rs ${subtotal.toLocaleString()}</div>
                 </div>
+                <div class="item-price">Rs ${i.rp || i.price} × ${i.qty} ${i.unit || 'pcs'}</div>
+                <div class="cart-item-row">
+                  <div class="qty-box">
+                      <button onclick="changeQty('${i.barcode}', -1)">−</button>
+                      <input type="number" step="any" value="${i.qty}" onchange="setQty('${i.barcode}', this.value)">
+                      <button onclick="changeQty('${i.barcode}', 1)">+</button>
+                  </div>
+                  <button onclick="removeItem('${i.barcode}')" style="background:none; border:none; color:#ff4d4d; font-size:18px; cursor:pointer;">🗑</button>
+                </div>
+                ${i.returnContainer ? `
+                  <div class="return-section">
+                    <span style="font-weight:600; color:var(--brand-secondary);">
+                      Returns (Owed: <span class="owed-val">${(selectedCustomer?.assets || 0) - (i.returnQty || 0)}</span>):
+                    </span>
+                    <input type="number" class="qty-box input" style="width:50px; padding:4px;" value="${i.returnQty || 0}"
+                      oninput="updateReturnQty('${i.barcode}', this.value, true)"
+                      onchange="updateReturnQty('${i.barcode}', this.value)">
+                  </div>
+                ` : ''}
             </div>
         `;
       });
-      document.getElementById("total").innerText = total;
+      document.getElementById("total").innerText = total.toLocaleString();
+      document.getElementById("modalTotal").innerText = "Rs " + total.toLocaleString();
     }
 
-    function changeQty(id, d) {
-      const i = cart.find(x => (x.id || x.barcode) == id);
+    function changeQty(barcode, d) {
+      const i = cart.find(x => x.barcode === barcode);
       if (!i) return;
       i.qty += d;
-      if (i.qty <= 0) cart = cart.filter(x => (x.id || x.barcode) != id);
+
+      const min = i.returnContainer ? 0 : 0.001;
+      if (i.qty < min) {
+        cart = cart.filter(x => x.barcode !== barcode);
+      }
       renderCart();
     }
 
-    function setQty(id, v) {
-      const i = cart.find(x => (x.id || x.barcode) == id);
+    function setQty(barcode, v) {
+      const i = cart.find(x => x.barcode === barcode);
       if (!i) return;
-      i.qty = parseInt(v) || 1;
+      let q = parseFloat(v);
+      const min = i.returnContainer ? 0 : 0.001;
+      if (isNaN(q) || q < min) q = i.returnContainer ? 0 : 1;
+      i.qty = q;
       renderCart();
     }
 
-    function checkout() {
+    function updateReturnQty(barcode, val, isLive = false) {
+      const i = cart.find(x => x.barcode === barcode);
+      if (!i) return;
+      let r = parseFloat(val) || 0;
+      if (r < 0) r = 0;
+      i.returnQty = r;
+
+      if (isLive) {
+        const initial = Number(selectedCustomer?.assets || 0);
+        let totalRet = 0;
+        cart.forEach(item => { if (item.returnContainer) totalRet += (item.returnQty || 0); });
+        document.querySelectorAll('.owed-val').forEach(s => s.innerText = initial - totalRet);
+      } else {
+        renderCart();
+      }
+    }
+
+    function removeItem(barcode) {
+      cart = cart.filter(x => x.barcode !== barcode);
+      renderCart();
+    }
+
+    /* CHECKOUT MODAL */
+    function openCheckout() {
       if (cart.length === 0) { alert("Cart is empty"); return; }
-      alert("Proceed to payment for Rs " + document.getElementById("total").innerText);
+      document.getElementById("checkoutModal").style.display = "flex";
+
+      const loanSection = document.getElementById("loanSection");
+      const loanBtn = document.getElementById("loanBtn");
+
+      if (selectedCustomer && selectedCustomer.id) {
+        loanSection.style.display = "block";
+        loanBtn.style.display = "block";
+        document.getElementById("customerBalanceDisplay").innerText = `Rs ${selectedCustomer.balance || 0}`;
+      } else {
+        loanSection.style.display = "none";
+        loanBtn.style.display = "none";
+      }
+
+      document.getElementById("cashReceived").value = "";
+      calculateChange();
+      setTimeout(() => document.getElementById("cashReceived").focus(), 100);
+    }
+
+    function closeCheckout() {
+      document.getElementById("checkoutModal").style.display = "none";
+    }
+
+    function calculateChange() {
+      const total = parseFloat(document.getElementById("total").innerText.replace(/,/g, '')) || 0;
+      const received = parseFloat(document.getElementById("cashReceived").value) || 0;
+      const change = received - total;
+      const display = document.getElementById("changeDisplay");
+
+      display.innerText = `Rs ${Math.abs(change).toLocaleString()}`;
+      display.style.color = change >= 0 ? "#2ecc71" : "#e74c3c";
+    }
+
+    /* FINISH SALE */
+    async function finishSale(method) {
+      const total = parseFloat(document.getElementById("total").innerText.replace(/,/g, '')) || 0;
+      const received = parseFloat(document.getElementById("cashReceived").value) || 0;
+
+      let loanUpdate = 0;
+      if (method === 'Loan') {
+        loanUpdate = total - received;
+      } else {
+        if (received > total && selectedCustomer?.id) {
+          const excess = received - total;
+          const currentDebt = Number(selectedCustomer.balance || 0);
+          loanUpdate = -Math.min(excess, currentDebt);
+        }
+      }
+
+      // Net Asset Change
+      let netAssetChange = 0;
+      cart.forEach(i => {
+        if (i.returnContainer) netAssetChange += (Number(i.qty) - Number(i.returnQty || 0));
+      });
+
+      const receiptData = {
+        billId: Date.now().toString(),
+        businessID: JSON.parse(localStorage.getItem("BUSINESS_INFO"))?.businessID,
+        customerId: selectedCustomer?.id,
+        customerName: selectedCustomer?.name,
+        cashier: JSON.parse(localStorage.getItem("CURRENT_USER"))?.username,
+        date: new Date().toISOString().split('T')[0],
+        timestamp: new Date().toISOString(),
+        items: cart.map(i => ({
+          itemId: i.barcode,
+          name: i.name,
+          quantity: i.qty,
+          price: i.rp || i.price,
+          subtotal: (i.rp || i.price) * i.qty,
+          unit: i.unit,
+          returnQty: i.returnQty || 0
+        })),
+        total: total,
+        paidAmount: received,
+        balance: received - total,
+        paymentMethod: method,
+        loanUpdate: loanUpdate,
+        netAssetChange: netAssetChange,
+        syncStatus: 0
+      };
+
+      // 1. Local Updates
+      if (receiptData.customerId) {
+        if (loanUpdate !== 0) await updateLocalCustomerBalance(receiptData.customerId, loanUpdate);
+        if (netAssetChange !== 0) await updateLocalCustomerAssets(receiptData.customerId, netAssetChange);
+      }
+
+      // Stock
+      for (const item of cart) {
+        await updateLocalStock(item.barcode, -item.qty);
+      }
+
+      // 2. Online (Async)
+      if (window.navigator.onLine) {
+        saveOnlineBill(receiptData.businessID, receiptData);
+        if (receiptData.customerId) {
+          if (loanUpdate !== 0) updateCustomerBalanceOnline(receiptData.customerId, loanUpdate);
+          if (netAssetChange !== 0) updateCustomerAssetsOnline(receiptData.customerId, netAssetChange);
+        }
+      }
+
+      // 3. Print
+      if (window.chrome?.webview) {
+        window.chrome.webview.postMessage({ type: "#PRINT_RECEIPT", receipt: receiptData });
+      }
+
+      alert("Sale successful!");
+      cart = [];
+      renderCart();
+      closeCheckout();
+
+      // Reload customers to reflect new balance
+      loadCustomers();
+    }
+
+    async function updateLocalStock(barcode, delta) {
+      const products = JSON.parse(localStorage.getItem("PRODUCT_DATA") || "[]");
+      const i = products.findIndex(p => p.barcode === barcode);
+      if (i > -1) {
+        products[i].stock = (Number(products[i].stock) || 0) + delta;
+        localStorage.setItem("PRODUCT_DATA", JSON.stringify(products));
+      }
+    }
+
+    async function updateLocalCustomerBalance(id, amount) {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(window.STORES.CUSTOMERS, "readwrite");
+        const store = tx.objectStore(window.STORES.CUSTOMERS);
+
+        return new Promise((resolve, reject) => {
+          const req = store.get(id);
+          req.onsuccess = () => {
+            const customer = req.result;
+            if (customer) {
+              customer.balance = (Number(customer.balance) || 0) + Number(amount);
+              store.put(customer);
+
+              const c = customers.find(x => String(x.id) === String(id));
+              if (c) c.balance = customer.balance;
+            }
+            resolve();
+          };
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.error("Failed to update local customer balance:", err);
+      }
+    }
+
+    async function updateLocalCustomerAssets(id, amount) {
+      try {
+        const db = await openDB();
+        const tx = db.transaction(window.STORES.CUSTOMERS, "readwrite");
+        const store = tx.objectStore(window.STORES.CUSTOMERS);
+
+        return new Promise((resolve, reject) => {
+          const req = store.get(id);
+          req.onsuccess = () => {
+            const customer = req.result;
+            if (customer) {
+              customer.assets = (Number(customer.assets) || 0) + Number(amount);
+              store.put(customer);
+
+              const c = customers.find(x => String(x.id) === String(id));
+              if (c) c.assets = customer.assets;
+            }
+            resolve();
+          };
+          req.onerror = () => reject(req.error);
+        });
+      } catch (err) {
+        console.error("Failed to update local customer assets:", err);
+      }
     }
 
     document.addEventListener("DOMContentLoaded", applySharedTheme);

@@ -4,65 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>POS Settings Dashboard</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Assets/css/style.css">
 <style>
-body, html {
+body {
     margin: 0;
-    padding: 0;
-    height: 100%;
+    min-height: 100vh;
     font-family: 'Poppins', sans-serif;
-    background: #f5f6fa;
+    background: var(--bg-color);
     display: flex;
+    color: var(--text-primary);
 }
 
-/* Left sidebar */
 .sidebar {
-    width: 220px;
-    background: #fff;
-    border-right: 1px solid #ddd;
+    width: 280px;
+    background: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
+    padding: 2rem 1.5rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
 }
 
 .sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #519cff;
+    margin-bottom: 2.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .sidebar button {
     background: none;
     border: none;
-    padding: 16px 20px;
+    padding: 1rem 1.25rem;
     text-align: left;
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     width: 100%;
-    transition: 0.2s;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
 }
 
 .sidebar button:hover, .sidebar button.active {
-    background: #519cff;
-    color: white;
-    border-radius: 0 20px 20px 0;
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--brand-primary);
 }
 
-/* Main content */
 .main {
     flex: 1;
-    padding: 30px;
+    padding: 2.5rem;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    max-width: 900px;
 }
 
 .panel {
     display: none;
-    background: #fff;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: 600px;
+    background: var(--panel-bg);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    animation: fadeIn var(--transition-normal);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .panel.active {
@@ -70,51 +87,70 @@ body, html {
 }
 
 .panel h3 {
-    margin-bottom: 20px;
-    color: #519cff;
-    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
 }
 
-/* Labels and inputs */
 label {
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 0.5rem;
     display: block;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
 }
 
 input[type="text"], input[type="color"] {
     width: 100%;
-    padding: 14px;
-    font-size: 1.1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    outline: none;
+    transition: border-color var(--transition-fast);
 }
 
-/* Optional note */
-.optional {
-    font-weight: 400;
-    font-size: 0.9rem;
-    color: #777;
-    margin-left: 4px;
+input[type="text"]:focus {
+    border-color: var(--brand-primary);
 }
 
-/* Save button */
 button#saveBtn {
-    margin-top: 20px;
-    padding: 16px;
-    font-size: 1.2rem;
+    margin-top: 1rem;
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: #fff;
     border: none;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #519cff, #904bb8);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
     cursor: pointer;
-    transition: 0.2s;
+    transition: all var(--transition-normal);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    align-self: flex-start;
 }
 
-button#saveBtn:hover {
-    opacity: 0.85;
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        padding: 1.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+    .main {
+        padding: 1.5rem;
+    }
+    button#saveBtn {
+        width: 100%;
+    }
 }
 </style>
 </head>

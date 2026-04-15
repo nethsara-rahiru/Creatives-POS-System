@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Admin Panel - Creatives POS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Assets/css/style.css">
+
+    <style>
+        :root {
+            --admin-primary: #6366f1;
+            --admin-secondary: var(--admin-primary);
+            --admin-bg: #f8fafc;
+            --admin-sidebar: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --admin-bg: #0f172a;
+            --admin-sidebar: #1e293b;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 280px;
+            background: var(--admin-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-area img {
+            height: 40px;
+        }
+
+        .logo-area h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--admin-primary), var(--admin-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            padding: 0.875rem 1rem;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--admin-primary);
+        }
+
+        /* Main Content area */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat-card {
+            background: var(--panel-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Table Card */
+        .table-card {
+            background: var(--panel-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            padding: 0.625rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--admin-bg);
+            color: var(--text-primary);
+            width: 300px;
+            outline: none;
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background: var(--panel-bg);
+            width: 100%;
+            max-width: 500px;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            animation: modalIn 0.3s ease-out;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background: var(--admin-bg);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .shop-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-active { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .status-inactive { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(0,0,0,0.05);
+            color: var(--admin-primary);
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 2rem 1rem;
+            }
+            .logo-area h2, .nav-item span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo-area">
+            <img src="Assets/img/Creatives_Logo-removebg-preview.png" alt="Logo">
+            <h2>System Admin</h2>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="switchTab('shops', this)">
+                <span>🏙️</span> <span>Shops</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('users', this)">
+                <span>👥</span> <span>Users</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('logs', this)">
+                <span>⚙️</span> <span>Logs</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('settings', this)">
+                <span>📊</span> <span>Settings</span>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <!-- Shops Tab -->
+        <section id="shops-tab" class="tab-content">
+            <div class="header-actions">
+                <h1>Manage Shop Data</h1>
+                <button class="btn-premium" onclick="openModal()">
+                    <span>+</span> Add New Shop
+                </button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Total Shops</h4>
+                    <div class="value" id="statTotalShops">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Active Shops</h4>
+                    <div class="value" id="statActiveShops">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Disabled</h4>
+                    <div class="value" id="statDisabledShops">0</div>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>All Registered Businesses</h2>
+                    <input type="text" class="search-bar" placeholder="Search shops by ID or name..." onkeyup="filterShops(this.value)">
+                </div>
+                <div class="table-container">
+                    <table id="shopsTable">
+                        <thead>
+                            <tr>
+                                <th>Business ID</th>
+                                <th>Business Name</th>
+                                <th>Category</th>
+                                <th>Status</th>
+                                <th>Registered At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="shopsTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users Tab -->
+        <section id="users-tab" class="tab-content" style="display: none;">
+            <div class="header-actions">
+                <div>
+                    <h1>System Users</h1>
+                    <p style="color: var(--text-secondary);">Manage All Registered System Users</p>
+                </div>
+                <button class="btn-premium" onclick="openUserModal()">
+                    <span>+</span> Add New User
+                </button>
+            </div>
+
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Registered Users</h2>
+                    <input type="text" class="search-bar" placeholder="Search by username or name..." onkeyup="filterUsers(this.value)">
+                </div>
+                <div class="table-container">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Role</th>
+                                <th>Business ID</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Data will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logs Tab (Placeholder) -->
+        <section id="logs-tab" class="tab-content" style="display: none;">
+            <div class="header-actions">
+                <h1>System Logs</h1>
+            </div>
+            <div class="glass-card" style="padding: 2rem; text-align: center;">
+                <p>Activity logs coming soon...</p>
+            </div>
+        </section>
+
+        <!-- Settings Tab (Placeholder) -->
+        <section id="settings-tab" class="tab-content" style="display: none;">
+            <div class="header-actions">
+                <h1>Admin Settings</h1>
+            </div>
+            <div class="glass-card" style="padding: 2rem; text-align: center;">
+                <p>Admin configuration coming soon...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for Adding/Editing Shop -->
+    <div id="shopModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add New Shop</h2>
+            <form id="shopForm" onsubmit="handleFormSubmit(event)">
+                <input type="hidden" id="editBusinessID">
+                <div class="form-group">
+                    <label>Business ID (Unique ID)</label>
+                    <input type="text" id="businessID" required placeholder="e.g. SHOP100">
+                </div>
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" id="businessName" required placeholder="e.g. My Awesome Store">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="category">
+                        <option value="General">General</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Restaurant">Restaurant</option>
+                        <option value="Services">Services</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option value="active">Active</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
+                
+                <h3 style="margin-top: 1.5rem; margin-bottom: 0.5rem; font-size: 1rem;">Trademark (Branding)</h3>
+                <div class="form-group">
+                    <label>Mode</label>
+                    <select id="tmMode">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Color 1 (Hex)</label>
+                    <input type="color" id="tmColor1" value="#6366f1">
+                </div>
+                <div class="form-group">
+                    <label>Color 2 (Hex)</label>
+                    <input type="color" id="tmColor2" value="#6366f1">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="action-btn" onclick="closeModal()" style="padding: 0.75rem 1.5rem;">Cancel</button>
+                    <button type="submit" class="btn-premium">Save Business</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Adding/Editing User -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <h2 id="userModalTitle">Add New System User</h2>
+            <form id="userForm" onsubmit="handleUserSubmit(event)">
+                <input type="hidden" id="editUserID">
+                
+                <div class="form-row" style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>First Name</label>
+                        <input type="text" id="fName" required oninput="suggestUsernames()">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Last Name</label>
+                        <input type="text" id="lName" oninput="suggestUsernames()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <div style="position: relative;">
+                        <input type="text" id="username" required placeholder="e.g. john_doe" oninput="validateUsername(this.value)">
+                        <span id="usernameStatus" style="position: absolute; right: 10px; top: 10px; font-size: 11px; font-weight: 600;"></span>
+                    </div>
+                    <div id="usernameSuggestions" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <div class="form-group user-advanced" style="display: none;">
+                    <label>Business ID</label>
+                    <input type="text" id="userBusinessID" placeholder="e.g. SHOP100 or SYSTEM">
+                </div>
+
+                <div class="form-group user-advanced" style="display: none;">
+                    <label>Role</label>
+                    <select id="role">
+                        <option value="cashier">Cashier</option>
+                        <option value="admin">Admin</option>
+                        <option value="manager">Manager</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="userStatus">
+                        <option value="active">Active</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="action-btn" onclick="closeUserModal()" style="padding: 0.75rem 1.5rem;">Cancel</button>
+                    <button type="submit" class="btn-premium">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="Assets/js/theme.js"></script>
+    <script src="Assets/js/firebase.js"></script>
+
+    <script>
+        let allShops = [];
+
+        function switchTab(tabId, el) {
+            // Update active state in sidebar
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+
+            // Switch content
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            const target = document.getElementById(tabId + '-tab');
+            if (target) target.style.display = 'block';
+
+            if (tabId === 'users') loadUsers();
+            if (tabId === 'shops') loadShops();
+        }
+
+        window.firebaseReady.then(async () => {
+            console.log("Firebase Ready in Admin Panel");
+            loadShops();
+            loadUsers();
+        });
+
+        async function loadShops() {
+            allShops = await window.loadAllBusinesses();
+            renderTable(allShops);
+            updateStats();
+        }
+
+        let allUsers = [];
+        async function loadUsers() {
+            allUsers = await window.loadAllUsersOnline();
+            renderUsersTable(allUsers);
+        }
+
+        function renderUsersTable(users) {
+            const tbody = document.getElementById("usersTableBody");
+            tbody.innerHTML = "";
+
+            users.forEach(user => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><strong>@${user.username}</strong></td>
+                    <td>${user.fName || ''} ${user.lName || ''}</td>
+                    <td><span class="role-badge" style="background:rgba(99, 102, 241, 0.1); color:var(--admin-primary); padding:4px 12px; border-radius:20px; font-size:11px;">${user.role || 'N/A'}</span></td>
+                    <td><span style="font-family:monospace; opacity:0.8;">${user.businessID || 'SYSTEM'}</span></td>
+                    <td>
+                        <span class="shop-status status-${user.status === 'active' || !user.status ? 'active' : 'inactive'}">
+                            ${user.status || 'active'}
+                        </span>
+                    </td>
+                    <td>
+                        <button class="action-btn" onclick="editUser('${user.id}')">Edit</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function filterUsers(query) {
+            const q = query.toLowerCase();
+            const filtered = allUsers.filter(u => 
+                (u.username || '').toLowerCase().includes(q) || 
+                (u.fName || '').toLowerCase().includes(q) || 
+                (u.lName || '').toLowerCase().includes(q)
+            );
+            renderUsersTable(filtered);
+        }
+
+        function openUserModal(editData = null) {
+            const modal = document.getElementById("userModal");
+            const form = document.getElementById("userForm");
+            modal.style.display = "flex";
+
+            // Advanced fields (Business ID and Role)
+            const advancedFields = document.querySelectorAll('.user-advanced');
+
+            if (editData) {
+                document.getElementById("userModalTitle").innerText = "Edit User Details";
+                document.getElementById("editUserID").value = editData.id;
+                document.getElementById("username").value = editData.username;
+                document.getElementById("password").value = editData.password;
+                document.getElementById("fName").value = editData.fName;
+                document.getElementById("lName").value = editData.lName || "";
+                document.getElementById("userBusinessID").value = editData.businessID || "";
+                document.getElementById("role").value = editData.role || "cashier";
+                document.getElementById("userStatus").value = editData.status || "active";
+                
+                // Show fields for editing
+                advancedFields.forEach(f => f.style.display = "block");
+            } else {
+                form.reset();
+                document.getElementById("userModalTitle").innerText = "Add New System User";
+                document.getElementById("editUserID").value = "";
+                
+                // Hide fields for new user
+                advancedFields.forEach(f => f.style.display = "none");
+            }
+            document.getElementById("usernameSuggestions").innerHTML = "";
+        }
+
+        function suggestUsernames() {
+            const fName = document.getElementById("fName").value.trim().toLowerCase().replace(/\s+/g, '');
+            const lName = document.getElementById("lName").value.trim().toLowerCase().replace(/\s+/g, '');
+            const suggestionBox = document.getElementById("usernameSuggestions");
+            
+            if (!fName) {
+                suggestionBox.innerHTML = "";
+                return;
+            }
+
+            const suggestions = [];
+            if (lName) {
+                suggestions.push(`${fName}.${lName}`);
+                suggestions.push(`${fName}_${lName}`);
+                suggestions.push(`${fName}${lName.charAt(0)}`);
+                suggestions.push(`${fName.charAt(0)}${lName}`);
+            } else {
+                suggestions.push(`${fName}${Math.floor(100 + Math.random() * 900)}`);
+                suggestions.push(`${fName}_${new Date().getFullYear()}`);
+            }
+
+            suggestionBox.innerHTML = suggestions.map(s => `
+                <span onclick="selectUsername('${s}')" style="cursor:pointer; font-size:11px; background:rgba(99, 102, 241, 0.1); color:var(--admin-primary); padding:2px 8px; border-radius:10px; border:1px solid rgba(99, 102, 241, 0.2); transition:all 0.2s;">
+                    ${s}
+                </span>
+            `).join('');
+        }
+
+        function selectUsername(val) {
+            document.getElementById("username").value = val;
+            document.getElementById("usernameSuggestions").innerHTML = "";
+            validateUsername(val);
+        }
+
+        let isUsernameAvailable = true;
+        let lastCheckedUsername = "";
+        let checkTimeout = null;
+
+        async function validateUsername(username) {
+            const statusEl = document.getElementById("usernameStatus");
+            const user = username.trim().toLowerCase();
+            
+            if (user === lastCheckedUsername) return;
+            if (user.length < 3) {
+                statusEl.innerText = "";
+                return;
+            }
+
+            // Exclude current check if editing
+            const editingId = document.getElementById("editUserID").value;
+            if (editingId) {
+                const current = allUsers.find(u => u.id === editingId);
+                if (current && current.username === user) {
+                    statusEl.innerText = "✓ Current";
+                    statusEl.style.color = "var(--admin-primary)";
+                    isUsernameAvailable = true;
+                    return;
+                }
+            }
+
+            clearTimeout(checkTimeout);
+            statusEl.innerText = "Checking...";
+            statusEl.style.color = "var(--text-secondary)";
+
+            checkTimeout = setTimeout(async () => {
+                try {
+                    const snap = await firebase.firestore().collection("users").where("username", "==", user).limit(1).get();
+                    lastCheckedUsername = user;
+                    
+                    if (!snap.empty) {
+                        statusEl.innerText = "✗ Taken";
+                        statusEl.style.color = "#ef4444";
+                        isUsernameAvailable = false;
+                    } else {
+                        statusEl.innerText = "✓ Available";
+                        statusEl.style.color = "#10b981";
+                        isUsernameAvailable = true;
+                    }
+                } catch (err) {
+                    console.error("Validation error:", err);
+                }
+            }, 500);
+        }
+
+        function closeUserModal() {
+            document.getElementById("userModal").style.display = "none";
+        }
+
+        function editUser(id) {
+            const user = allUsers.find(u => u.id === id);
+            if (user) openUserModal(user);
+        }
+
+        async function handleUserSubmit(e) {
+            e.preventDefault();
+
+            if (!isUsernameAvailable) {
+                alert("Please choose a different username. The selected one is already taken.");
+                return;
+            }
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
+            const isEditing = !!document.getElementById("editUserID").value;
+            const userData = {
+                id: document.getElementById("editUserID").value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                fName: document.getElementById("fName").value,
+                lName: document.getElementById("lName").value,
+                status: document.getElementById("userStatus").value
+            };
+
+            // Only include Business ID and Role if they are visible (editing mode) or provided
+            if (isEditing) {
+                userData.businessID = document.getElementById("userBusinessID").value;
+                userData.role = document.getElementById("role").value;
+            } else {
+                userData.businessID = ""; // Default to empty
+                userData.role = "cashier"; // Default role
+            }
+
+            const result = await window.saveSystemUserOnline(userData);
+            if (result.ok) {
+                alert("User saved successfully!");
+                closeUserModal();
+                loadUsers();
+            } else {
+                alert("Error: " + result.error);
+            }
+            btn.innerText = "Save User";
+            btn.disabled = false;
+        }
+
+        function renderTable(shops) {
+            const tbody = document.getElementById("shopsTableBody");
+            tbody.innerHTML = "";
+
+            shops.forEach(shop => {
+                const tr = document.createElement("tr");
+                const date = shop.createdAt ? new Date(shop.createdAt.seconds * 1000).toLocaleDateString() : 'N/A';
+                
+                tr.innerHTML = `
+                    <td><strong>${shop.businessID}</strong></td>
+                    <td>${shop.businessName}</td>
+                    <td>${shop.category || 'N/A'}</td>
+                    <td>
+                        <span class="shop-status status-${shop.status === 'active' ? 'active' : 'inactive'}">
+                            ${shop.status || 'inactive'}
+                        </span>
+                    </td>
+                    <td>${date}</td>
+                    <td>
+                        <button class="action-btn" onclick="editShop('${shop.id}')">Edit</button>
+                        <button class="action-btn" onclick="toggleShopStatus('${shop.id}', '${shop.status}')">
+                            ${shop.status === 'active' ? 'Disable' : 'Enable'}
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateStats() {
+            document.getElementById("statTotalShops").innerText = allShops.length;
+            document.getElementById("statActiveShops").innerText = allShops.filter(s => s.status === 'active').length;
+            document.getElementById("statDisabledShops").innerText = allShops.filter(s => s.status !== 'active').length;
+        }
+
+        function filterShops(query) {
+            const q = query.toLowerCase();
+            const filtered = allShops.filter(s => 
+                s.businessID.toLowerCase().includes(q) || 
+                s.businessName.toLowerCase().includes(q)
+            );
+            renderTable(filtered);
+        }
+
+        function openModal(editData = null) {
+            const modal = document.getElementById("shopModal");
+            const form = document.getElementById("shopForm");
+            modal.style.display = "flex";
+
+            if (editData) {
+                document.getElementById("modalTitle").innerText = "Edit Shop Details";
+                document.getElementById("editBusinessID").value = editData.businessID;
+                document.getElementById("businessID").value = editData.businessID;
+                document.getElementById("businessID").disabled = true;
+                document.getElementById("businessName").value = editData.businessName;
+                document.getElementById("category").value = editData.category || "General";
+                document.getElementById("status").value = editData.status || "active";
+                if(editData.trademark) {
+                    document.getElementById("tmMode").value = editData.trademark.mode || "dark";
+                    document.getElementById("tmColor1").value = editData.trademark.colour1 || "#6366f1";
+                    document.getElementById("tmColor2").value = editData.trademark.colour2 || editData.trademark.colour1 || "#6366f1";
+                }
+            } else {
+                form.reset();
+                document.getElementById("modalTitle").innerText = "Add New Shop";
+                document.getElementById("editBusinessID").value = "";
+                document.getElementById("businessID").disabled = false;
+            }
+        }
+
+        function closeModal() {
+            document.getElementById("shopModal").style.display = "none";
+        }
+
+        function editShop(id) {
+            const shop = allShops.find(s => s.id === id);
+            if (shop) openModal(shop);
+        }
+
+        async function toggleShopStatus(id, currentStatus) {
+            const newStatus = currentStatus === 'active' ? 'disabled' : 'active';
+            if (confirm(`Are you sure you want to ${newStatus === 'active' ? 'enable' : 'disable'} this shop?`)) {
+                await window.updateBusinessStatus(id, newStatus);
+                loadShops();
+            }
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerText = "Saving...";
+            btn.disabled = true;
+
+            const bid = document.getElementById("businessID").value;
+            const businessData = {
+                businessID: bid,
+                businessName: document.getElementById("businessName").value,
+                category: document.getElementById("category").value,
+                status: document.getElementById("status").value,
+                trademark: {
+                    mode: document.getElementById("tmMode").value,
+                    colour1: document.getElementById("tmColor1").value,
+                    colour2: document.getElementById("tmColor2").value,
+                    logoLink: "Assets/img/Creatives_Logo-removebg-preview.png"
+                }
+            };
+
+            const result = await window.saveBusiness(businessData);
+            if (result.ok) {
+                alert("Business saved successfully!");
+                closeModal();
+                loadShops();
+            } else {
+                alert("Error: " + result.error);
+            }
+            btn.innerText = "Save Business";
+            btn.disabled = false;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("shopModal")) {
+                closeModal();
+            }
+            if (event.target == document.getElementById("userModal")) {
+                closeUserModal();
+            }
+        }
+    </script>
+</body>
+
+</html>

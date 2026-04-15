@@ -7,28 +7,23 @@
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="Assets/css/style.css">
 
 <style>
 /* ================= BRAND VARIABLES ================= */
 :root {
-  --primary: #1e88e5;      /* trademark.colour1 */
-  --secondary: #90caf9;    /* trademark.colour2 */
-  --bg: #f5f7fa;
-  --card: #ffffff;
-  --text: #1f2937;
-  --muted: #6b7280;
-}
-
-[data-mode="dark"] {
-  --bg: #0f172a;
-  --card: #111827;
-  --text: #e5e7eb;
-  --muted: #9ca3af;
+  --primary: var(--brand-primary);
+  --secondary: var(--brand-secondary);
+  --bg: var(--bg-color);
+  --card: var(--panel-bg);
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
 }
 
 * {
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -38,67 +33,93 @@ body {
 }
 
 header {
-  padding: 16px 24px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #fff;
+  height: 70px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 1.5rem;
+  backdrop-filter: blur(10px);
 }
 
 header h1 {
-  font-size: 20px;
-  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .container {
-  padding: 20px;
-  display: grid;
-  gap: 20px;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
 }
 
 /* ================= KPI CARDS ================= */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
 }
 
 .kpi {
   background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: transform var(--transition-normal);
+}
+
+.kpi:hover {
+  transform: translateY(-5px);
 }
 
 .kpi .label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
 }
 
 .kpi .value {
-  font-size: 22px;
-  font-weight: 600;
-  margin-top: 6px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.5rem;
+  color: var(--primary);
 }
 
 /* ================= CHARTS ================= */
 .chart-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 20px;
+  gap: var(--space-lg);
+}
+
+@media (max-width: 1024px) {
+  .chart-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .card {
   background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .card h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
+  margin: 0 0 1.25rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 /* ================= TABLE ================= */

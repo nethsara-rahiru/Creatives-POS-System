@@ -54,17 +54,8 @@ namespace POS_Demo
             // JS notifies C# that page is ready
             if (msgJson.Contains("JS_READY"))
             {
-                if (!Database.ProfilesTableExists())
-                {
-                    // Ask JS to show username input
-                    webView21.ExecuteScriptAsync("getUsername();");
-                }
-                else
-                {
-                    // Send profiles JSON to JS
-                    string json = Database.DataTableToJson(Database.GetProfiles());
-                    webView21.ExecuteScriptAsync($"showProfiles({json});");
-                }
+                // Timer can safely run now
+                timer1.Start();
             }
             else if (msgJson.Contains("DASHBOARD"))
             {
@@ -197,7 +188,17 @@ namespace POS_Demo
         {
             timer1.Stop();
 
-           
+            if (!Database.ProfilesTableExists())
+            {
+                // Ask JS to show username input
+                webView21.ExecuteScriptAsync("getUsername();");
+            }
+            else
+            {
+                // Send profiles JSON to JS
+                string json = Database.DataTableToJson(Database.GetProfiles());
+                webView21.ExecuteScriptAsync($"showProfiles({json});");
+            }
         }
 
 

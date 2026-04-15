@@ -1,24 +1,48 @@
 let firestore = null;
-var u;
 
-const STORES = {
+window.STORES = {
   CUSTOMERS: "customers",
-  PRODUCTS: "products"
+  PRODUCTS: "products",
+  SUPPLIERS: "suppliers",
+  BILLS: "bills"
 };
 
 function openDB() {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open("POS_DB", 1);
+    const request = indexedDB.open("POS_DB", 3);
+
+    request.onblocked = () => {
+      console.warn("Database upgrade blocked. Please close other tabs.");
+      alert("Database upgrade needed. Please close other open POS tabs to continue.");
+    };
+
     request.onupgradeneeded = (e) => {
       const idb = e.target.result;
-      if (!idb.objectStoreNames.contains(STORES.CUSTOMERS)) {
-        idb.createObjectStore(STORES.CUSTOMERS, { keyPath: "id" });
+      if (!idb.objectStoreNames.contains(window.STORES.CUSTOMERS)) {
+        idb.createObjectStore(window.STORES.CUSTOMERS, { keyPath: "id" });
       }
-      if (!idb.objectStoreNames.contains(STORES.PRODUCTS)) {
-        idb.createObjectStore(STORES.PRODUCTS, { keyPath: "id" });
+      // Regenerate PRODUCTS to ensure correct keyPath
+      if (idb.objectStoreNames.contains(window.STORES.PRODUCTS)) {
+        idb.deleteObjectStore(window.STORES.PRODUCTS);
+      }
+      idb.createObjectStore(window.STORES.PRODUCTS, { keyPath: "barcode" });
+
+      if (!idb.objectStoreNames.contains(window.STORES.SUPPLIERS)) {
+        idb.createObjectStore(window.STORES.SUPPLIERS, { keyPath: "id" });
+      }
+      if (!idb.objectStoreNames.contains(window.STORES.BILLS)) {
+        idb.createObjectStore(window.STORES.BILLS, { keyPath: "billId" });
       }
     };
-    request.onsuccess = (e) => resolve(e.target.result);
+
+    request.onsuccess = (e) => {
+      const db = e.target.result;
+      db.onversionchange = () => {
+        db.close();
+        console.log("Database version changed. Connection closed.");
+      };
+      resolve(db);
+    };
     request.onerror = (e) => reject(e.error);
   });
 }
@@ -28,8 +52,9 @@ async function saveMany(storeName, items) {
     const idb = await openDB();
     const tx = idb.transaction(storeName, "readwrite");
     const store = tx.objectStore(storeName);
+
+    store.clear(); // Always clear for full syncs
     items.forEach(item => {
-      // Ensure every item has an ID
       if (!item.id && item.barcode) item.id = item.barcode;
       store.put(item);
     });
@@ -72,16 +97,21 @@ const firebaseConfig = {
 window.firebaseReady = (async function () {
   try {
     if (typeof firebase === 'undefined') {
-      throw new Error("Firebase SDK (firebase-app.js) is not loaded. Please check your HTML script tags.");
+      console.warn("Firebase SDK not found.");
+      return false;
     }
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
+    }
+    if (typeof firebase.firestore !== 'function') {
+      console.warn("Firestore SDK not found.");
+      return false;
     }
     firestore = firebase.firestore();
     console.log("🔥 Firebase Connected");
     return true;
   } catch (err) {
-    console.error("🔥 Firebase connection failed:", err.message);
+    console.error("🔥 Firebase init error:", err.message);
     return false;
   }
 })();
@@ -130,23 +160,59 @@ monitorFirebasePing(async (isOnline) => {
 
 
 window.verifyBusiness = async function (businessID) {
-  try {
-    await window.firebaseReady;
-    if (!firestore) throw new Error("Firestore not initialized");
+  const cleanID = businessID.trim();
+  console.log("🔍 Attempting to verify business:", cleanID);
 
-    // 🔍 Find the business
-    const snapshot = await firestore.collection("business")
-      .where("businessID", "==", businessID)
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) {
+      alert("❌ Firebase Connection Error: The database is not responding. Please check your internet.");
+      return { ok: false, error: "Firebase not ready" };
+    }
+
+    // --- STAGE 1: Search by field "businessID" ---
+    // Try as provided string
+    let snapshot = await firestore.collection("business")
+      .where("businessID", "==", cleanID)
       .limit(1)
       .get();
 
-    if (snapshot.empty) {
+    // If not found, try as number if applicable
+    if (snapshot.empty && /^\d+$/.test(cleanID)) {
+      snapshot = await firestore.collection("business")
+        .where("businessID", "==", Number(cleanID))
+        .limit(1)
+        .get();
+    }
+
+    // --- STAGE 2: FALLBACK - Search by Document ID ---
+    let businessDoc = null;
+    let businessData = null;
+
+    if (!snapshot.empty) {
+      businessDoc = snapshot.docs[0];
+      businessData = businessDoc.data();
+      console.log("✅ Found business via field search");
+    } else {
+      console.log("⚠️ Field search failed, trying Document ID search...");
+      const docRef = firestore.collection("business").doc(cleanID);
+      const docSnap = await docRef.get();
+
+      if (docSnap.exists) {
+        businessDoc = docSnap;
+        businessData = docSnap.data();
+        console.log("✅ Found business via Document ID");
+      }
+    }
+
+    if (!businessDoc || !businessData) {
+      console.warn("❌ All verification attempts failed for ID:", cleanID);
+      // Helpful alert for the user to check their Firestore project console
+      console.log("%cDEBUG TIP: %cEnsure your Firestore collection is named 'business' and has a document with either ID='" + cleanID + "' OR a field 'businessID'='" + cleanID + "'.", "font-weight: bold; color: yellow;", "color: white;");
       return { ok: false };
     }
 
-    const doc = snapshot.docs[0];
-    const businessData = doc.data();
-    const businessDocId = doc.id;
+    const businessDocId = businessDoc.id;
 
     // 🔥 Read Trademark subcollection
     const trademarkSnap = await firestore
@@ -157,38 +223,39 @@ window.verifyBusiness = async function (businessID) {
       .get();
 
     let trademark = null;
-
     if (!trademarkSnap.empty) {
       trademark = trademarkSnap.docs[0].data();
     }
 
-    // 🧠 Combine everything
     return {
       ok: true,
       data: {
-        businessID: businessData.businessID,
-        businessName: businessData.businessName,
-        category: businessData.category,
+        businessID: businessData.businessID || businessDocId,
+        businessName: businessData.businessName || "Unnamed Business",
+        category: businessData.category || "General",
         ownerUID: businessData.ownerUID,
         status: businessData.status,
         createdAt: businessData.createdAt,
-        trademark: trademark   // {colour1, colour2, logoLink, mode}
+        trademark: trademark
       }
     };
 
   } catch (err) {
-    console.error(err);
+    console.error("🔥 verifyBusiness Exception:", err);
+    alert("❌ Verification Error: " + err.message);
     return { ok: false, error: err.message };
   }
 };
 
-// need to be updated
-async function checkUserLogin(username, password) {
+// Scoped login to global users collection (Flat structure)
+async function checkUserLogin(businessId, username, password) {
   try {
     await window.firebaseReady;
     if (!firestore) throw new Error("Firestore not initialized");
 
-    // 1️⃣ Search by username ONLY
+    console.log("🔑 Attempting login for user:", username);
+
+    // 1️⃣ Search by username in TOP-LEVEL users collection
     const snap = await firestore
       .collection("users")
       .where("username", "==", username)
@@ -197,6 +264,7 @@ async function checkUserLogin(username, password) {
 
     // No user
     if (snap.empty) {
+      console.warn("❌ User not found in 'users' collection:", username);
       return { status: "NO_USER" };
     }
 
@@ -206,16 +274,15 @@ async function checkUserLogin(username, password) {
 
     // 3️⃣ Check password locally
     if (user.password !== password) {
+      console.warn("❌ Incorrect password for user:", username);
       return { status: "WRONG_PASSWORD" };
     }
 
-    // 4️⃣ Login OK
-    //alert(user.username + ", " + user.fName + ", " + user.lName);
+    console.log("✅ Login successful for:", username);
     return { status: "OK", user };
 
   } catch (err) {
-    console.error("Firestore error:", err);
-    alert("Error checking login: " + err.message);
+    console.error("Firestore login error:", err);
     return { status: "ERROR", error: err.message };
   }
 }
@@ -227,85 +294,50 @@ async function getUserPermissions(businessId, username) {
     await window.firebaseReady;
     if (!firestore) throw new Error("Firestore not initialized");
 
-    // 1️⃣ Find business
-    const businessSnap = await firestore
-      .collection("business")
-      .where("businessID", "==", businessId)
-      .limit(1)
-      .get();
+    console.log("🛡️ Fetching permissions for:", username);
 
-    //alert("🅲 Business query result size = " + businessSnap.size);
-
-    if (businessSnap.empty) {
-      alert("❌ No business found with businessID = " + businessId);
-      return null;
-    }
-
-    const businessDoc = businessSnap.docs[0];
-    const businessDocId = businessDoc.id;
-
-    //alert("🅳 Business found\nFirestore ID = " + businessDocId);
-
-    // 2️⃣ Find user in this business
-    //alert("🅴 Searching user inside business...");
+    // 1️⃣ Find user in top-level collection
     const userSnap = await firestore
-      .collection("business")
-      .doc(businessDocId)
       .collection("users")
       .where("username", "==", username)
       .limit(1)
       .get();
 
-    //alert("🅵 User query result size = " + userSnap.size);
-
     if (userSnap.empty) {
-      alert("❌ User NOT found in this business");
+      console.warn("User not found during permission check:", username);
       return null;
     }
 
-    u = userSnap.docs[0].data();
-    /*
-    alert("🅶 User found\nRole = " + u.role +
-          "\nExtra = " + JSON.stringify(u.extraPermissions) +
-          "\nDenied = " + JSON.stringify(u.deniedPermission));
-    */
-    // 3️⃣ Find role
-    //alert("🅷 Searching role: " + u.role);
+    const userData = userSnap.docs[0].data();
+
+    // Check if role exists, otherwise default (common in current DB state)
+    const userRole = userData.role || "cashier";
+    console.log("👤 User role:", userRole);
+
+    // 2️⃣ Find role in TOP-LEVEL collection
     const roleSnap = await firestore
-      .collection("business")
-      .doc(businessDocId)
       .collection("roles")
-      .where("role", "==", u.role)
+      .where("role", "==", userRole)
       .limit(1)
       .get();
 
-    //alert("🅸 Role query result size = " + roleSnap.size);
-
     let rolePerms = [];
-
     if (!roleSnap.empty) {
       rolePerms = roleSnap.docs[0].data().permissions || [];
-      //alert("🅹 Role permissions = " + JSON.stringify(rolePerms));
     } else {
-      alert("⚠️ Role document NOT found");
+      console.warn("⚠️ Role document not found in top-level 'roles' collection for:", userRole);
     }
 
-    // 4️⃣ Apply overrides
-    const extra = u.extraPermissions || [];
-    const denied = u.deniedPermission || [];   // ← FIXED
+    // 3️⃣ Apply overrides
+    const extra = userData.extraPermissions || [];
+    const denied = userData.deniedPermission || [];
 
-    //alert("🅻 Extra = " + JSON.stringify(extra));
-    //alert("🅼 Denied = " + JSON.stringify(denied));
-
-    const final = [...new Set([...rolePerms, ...extra])]
+    const finalPermissions = [...new Set([...rolePerms, ...extra])]
       .filter(p => !denied.includes(p));
 
-    //alert("🅺 FINAL permissions = " + JSON.stringify(final));
-
-    return { data: final, user: u };
+    return { data: finalPermissions, user: { ...userData, role: userRole } };
 
   } catch (err) {
-    alert("🔥 ERROR: " + err.message);
     console.error("Error fetching permissions:", err);
     return null;
   }
@@ -340,6 +372,7 @@ async function saveOnlineBill(businessID, bill) {
     paymentMethod: bill.paymentMethod,
     paidAmount: Number(bill.paidAmount),
     balance: Number(bill.balance),
+    loanUpdate: Number(bill.loanUpdate || 0),
 
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
@@ -362,27 +395,76 @@ async function saveOnlineBill(businessID, bill) {
     }
 
     const businessDocId = businessSnap.docs[0].id;
+    const batch = firestore.batch();
 
-    // 3️⃣ Create doc reference FIRST
+    // 2️⃣ Create bill doc
     const billRef = firestore
       .collection("business")
       .doc(businessDocId)
       .collection("bills")
       .doc(); // auto ID
 
-    // 4️⃣ Save bill
-    await billRef.set(billData);
+    batch.set(billRef, billData);
 
-    // 5️⃣ Send result to C#
-    if (window.chrome?.webview) {
-      window.chrome.webview.postMessage({
-        type: "BILL_SAVED_ONLINE",
-        billId: bill.billId,
-        firestoreDocId: billRef.id
-      });
+    // 3️⃣ Atomic Stock Reduction
+    for (const item of bill.items) {
+      const productQuery = await firestore
+        .collection("business")
+        .doc(businessDocId)
+        .collection("products")
+        .where("barcode", "==", item.barcode)
+        .limit(1)
+        .get();
+
+      if (!productQuery.empty) {
+        const productRef = productQuery.docs[0].ref;
+        batch.update(productRef, {
+          stock: firebase.firestore.FieldValue.increment(-Number(item.quantity))
+        });
+      }
     }
 
-    console.log("✅ Bill saved online:", bill.billId, billRef.id);
+    // 4️⃣ Atomic Customer Balance Update
+    if (billData.customerId && billData.customerId !== "Walk-in Customer") {
+      const customerRef = firestore
+        .collection("business")
+        .doc(businessDocId)
+        .collection("customers")
+        .doc(billData.customerId);
+
+      let loanChange = 0;
+      if (typeof billData.loanUpdate === 'number') {
+        loanChange = billData.loanUpdate;
+      } else if (billData.paymentMethod === "Loan") {
+        loanChange = Number(billData.total || 0) - Number(billData.paidAmount || 0);
+      } else if (billData.paymentMethod === "Cash") {
+        loanChange = Math.max(0, Number(billData.total || 0) - Number(billData.paidAmount || 0));
+      }
+
+      if (loanChange !== 0) {
+        console.log("🔥 Applying Online Balance Update:", loanChange, "for", billData.customerId);
+        batch.update(customerRef, {
+          balance: firebase.firestore.FieldValue.increment(loanChange)
+        });
+      }
+    }
+
+    // 5️⃣ Commit batch
+    await batch.commit();
+
+    const message = {
+      type: "BILL_SAVED_ONLINE",
+      billId: bill.billId,
+      firestoreDocId: billRef.id
+    };
+
+    if (window.ReactNativeWebView && typeof ReactNativeWebView.postMessage === "function") {
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
+    } else if (window.chrome?.webview) {
+      window.chrome.webview.postMessage(message);
+    }
+
+    console.log("✅ Bill saved online & Stock reduced:", bill.billId, billRef.id);
 
     return {
       ok: true,
@@ -448,7 +530,8 @@ async function saveCustomerOnline(name, contact, balance) {
   const customerData = {
     name: name,
     contact: contact,
-    balance: Number(balance || 0)
+    balance: Number(balance || 0),
+    assets: 0 // Initialize container debt
   };
 
   try {
@@ -481,7 +564,7 @@ async function saveCustomerOnline(name, contact, balance) {
       .collection("customers")
       .doc(); // auto ID
 
-    // 4️⃣ Save bill
+    // 4️⃣ Save customer
     await customerRef.set(customerData);
 
     return { ok: true, id: customerRef.id };
@@ -492,16 +575,92 @@ async function saveCustomerOnline(name, contact, balance) {
   }
 }
 
-async function saveProductOnline(barcode, name, icon, mrp, rp, stock = 0) {
-  //  Prepare bill data
-  const productData = {
+async function updateCustomerBalanceOnline(customerId, amount) {
+  try {
+    await window.firebaseReady;
+    if (!firestore) throw new Error("Firestore not initialized");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+
+    const businessSnap = await firestore
+      .collection("business")
+      .where("businessID", "==", businessID)
+      .limit(1)
+      .get();
+
+    if (businessSnap.empty) throw new Error("Business not found");
+
+    const businessDocId = businessSnap.docs[0].id;
+    const customerRef = firestore
+      .collection("business")
+      .doc(businessDocId)
+      .collection("customers")
+      .doc(customerId);
+
+    await customerRef.update({
+      balance: firebase.firestore.FieldValue.increment(Number(amount))
+    });
+
+    return { ok: true };
+  } catch (err) {
+    console.error("❌ updateCustomerBalanceOnline failed:", err);
+    return { ok: false, error: err.message };
+  }
+}
+
+async function updateCustomerAssetsOnline(customerId, amount) {
+  try {
+    await window.firebaseReady;
+    if (!firestore) throw new Error("Firestore not initialized");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+
+    const businessSnap = await firestore
+      .collection("business")
+      .where("businessID", "==", businessID)
+      .limit(1)
+      .get();
+
+    if (businessSnap.empty) throw new Error("Business not found");
+
+    const businessDocId = businessSnap.docs[0].id;
+    const customerRef = firestore
+      .collection("business")
+      .doc(businessDocId)
+      .collection("customers")
+      .doc(customerId);
+
+    await customerRef.update({
+      assets: firebase.firestore.FieldValue.increment(Number(amount))
+    });
+
+    return { ok: true };
+  } catch (err) {
+    console.error("❌ updateCustomerAssetsOnline failed:", err);
+    return { ok: false, error: err.message };
+  }
+}
+
+async function saveProductOnline(barcode, name, icon, mrp, rp, stock = 0, productData = null) {
+  // If productData is provided, use it (it contains all fields)
+  // Otherwise, fallback to the basic flat arguments
+  const finalProductData = productData || {
     barcode: barcode,
     name: name,
     icon: icon,
     mrp: Number(mrp || 0),
-    rp: Number(rp || 0),
+    rp: Number(rp || mrp),
     stock: Number(stock || 0)
   };
+
+  // Ensure numeric fields are numbers in the final object
+  finalProductData.mrp = Number(finalProductData.mrp || 0);
+  finalProductData.rp = Number(finalProductData.rp || finalProductData.mrp);
+  finalProductData.stock = Number(finalProductData.stock || 0);
+  if (finalProductData.buyingPrice) finalProductData.buyingPrice = Number(finalProductData.buyingPrice);
+  if (finalProductData.minStock) finalProductData.minStock = Number(finalProductData.minStock);
 
   try {
     await window.firebaseReady;
@@ -533,8 +692,8 @@ async function saveProductOnline(barcode, name, icon, mrp, rp, stock = 0) {
       .collection("products")
       .doc(); // auto ID
 
-    // 4️⃣ Save bill
-    await productRef.set(productData);
+    // 4️⃣ Save product
+    await productRef.set(finalProductData);
 
     return { ok: true, id: productRef.id };
 
@@ -573,10 +732,14 @@ async function loadCustomersOnline() {
       .collection("customers")
       .get();
 
-    const customers = customerSnap.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const customers = customerSnap.docs.map(doc => {
+      const d = doc.data();
+      return {
+        id: doc.id,
+        ...d,
+        assets: Number(d.assets || 0) // Ensure assets field is loaded
+      };
+    });
 
     // 3️⃣ SAVE TO INDEXEDDB ✅
     await saveMany(STORES.CUSTOMERS, customers);
@@ -625,16 +788,101 @@ async function loadProductsOnline() {
       ...doc.data()
     }));
 
-    // 4️⃣ Save to localStorage
+    // 4️⃣ Save to localStorage & IndexedDB
     localStorage.setItem(
       "PRODUCT_DATA",
       JSON.stringify(products)
     );
+    await saveMany(window.STORES.PRODUCTS, products);
 
     return { ok: true, data: products };
 
   } catch (err) {
-    console.error("❌ Customer data fetch failed:", err);
+    console.error("❌ Product data fetch failed:", err);
+    return { ok: false, error: err.message };
+  }
+}
+
+async function saveSupplierOnline(name, contact, email, address, products) {
+  const supplierData = {
+    name: name,
+    contact: contact,
+    email: email,
+    address: address,
+    products: products || [],
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  try {
+    await window.firebaseReady;
+    if (!firestore) throw new Error("Firestore not initialized");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+    if (!businessID) throw new Error("Missing businessID");
+
+    const businessSnap = await firestore
+      .collection("business")
+      .where("businessID", "==", businessID)
+      .limit(1)
+      .get();
+
+    if (businessSnap.empty) throw new Error("Business not found");
+
+    const businessDocId = businessSnap.docs[0].id;
+
+    const supplierRef = firestore
+      .collection("business")
+      .doc(businessDocId)
+      .collection("suppliers")
+      .doc();
+
+    await supplierRef.set(supplierData);
+
+    return { ok: true, id: supplierRef.id };
+
+  } catch (err) {
+    console.error("❌ saveSupplierOnline failed:", err);
+    return { ok: false, error: err.message };
+  }
+}
+
+async function loadSuppliersOnline() {
+  try {
+    await window.firebaseReady;
+    if (!firestore) throw new Error("Firestore not initialized");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+    if (!businessID) throw new Error("Missing businessID");
+
+    const businessSnap = await firestore
+      .collection("business")
+      .where("businessID", "==", businessID)
+      .limit(1)
+      .get();
+
+    if (businessSnap.empty) throw new Error("Business not found");
+
+    const businessDocId = businessSnap.docs[0].id;
+
+    const supplierSnap = await firestore
+      .collection("business")
+      .doc(businessDocId)
+      .collection("suppliers")
+      .get();
+
+    const suppliers = supplierSnap.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    await saveMany(STORES.SUPPLIERS, suppliers);
+
+    return { ok: true, data: suppliers };
+
+  } catch (err) {
+    console.error("❌ Supplier fetch failed:", err);
     return { ok: false, error: err.message };
   }
 }
@@ -747,10 +995,6 @@ async function loadDailySales() {
 
         productMap[key].qty += Number(item.quantity);
         productMap[key].total += Number(item.subtotal);
-
-        totalQty += Number(item.quantity);
-        grandTotal += Number(item.subtotal);
-        hourlyTotals[billHour] += Number(item.subtotal);
       });
     });
 
@@ -783,3 +1027,219 @@ async function loadDailySales() {
     renderHourlyChart(Array(24).fill(0));
   }
 }
+
+window.loadAllBusinesses = async function () {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const snapshot = await firestore.collection("business").get();
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (err) {
+    console.error("🔥 loadAllBusinesses error:", err);
+    return [];
+  }
+};
+
+window.saveBusiness = async function (businessData) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const businessID = businessData.businessID;
+    if (!businessID) throw new Error("Missing Business ID");
+
+    // Check if business exists
+    const docRef = firestore.collection("business").doc(businessID);
+    await docRef.set({
+      ...businessData,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 saveBusiness error:", err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.updateBusinessStatus = async function (businessID, status) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    // Attempt to find the correct document ID
+    let docId = businessID;
+    
+    // First, try direct document fetch to see if businessID is the document ID
+    const docRef = firestore.collection("business").doc(businessID);
+    const docSnap = await docRef.get();
+    
+    if (!docSnap.exists) {
+      // If not found, search by businessID field
+      const snapshot = await firestore.collection("business")
+        .where("businessID", "==", businessID)
+        .limit(1)
+        .get();
+      
+      if (!snapshot.empty) {
+        docId = snapshot.docs[0].id;
+      }
+    }
+
+    await firestore.collection("business").doc(docId).update({
+      status: status,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 updateBusinessStatus error:", err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.loadEmployeesOnline = async function () {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+    if (!businessID) throw new Error("Missing businessID");
+
+    const snapshot = await firestore.collection("users")
+      .where("businessID", "==", businessID)
+      .get();
+
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (err) {
+    console.error("🔥 loadEmployeesOnline error:", err);
+    return [];
+  }
+};
+
+window.saveEmployeeOnline = async function (employeeData) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const businessInfo = JSON.parse(localStorage.getItem("BUSINESS_INFO"));
+    const businessID = businessInfo?.businessID;
+    if (!businessID) throw new Error("Missing businessID");
+
+    const uid = employeeData.id; // Using id instead of uid for consistency
+    const data = { ...employeeData };
+    delete data.id;
+
+    if (uid) {
+      await firestore.collection("users").doc(uid).update({
+        ...data,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      await firestore.collection("users").add({
+        ...data,
+        businessID: businessID,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 saveEmployeeOnline error:", err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.getRolesOnline = async function () {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const snapshot = await firestore.collection("roles").get();
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (err) {
+    console.error("🔥 getRolesOnline error:", err);
+    return [];
+  }
+};
+
+window.saveRoleOnline = async function (roleData) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const id = roleData.id;
+    const data = { ...roleData };
+    delete data.id;
+
+    if (id) {
+      await firestore.collection("roles").doc(id).update({
+        ...data,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      await firestore.collection("roles").add({
+        ...data,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 saveRoleOnline error:", err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.loadAllUsersOnline = async function () {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const snapshot = await firestore.collection("users").get();
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (err) {
+    console.error("🔥 loadAllUsersOnline error:", err);
+    return [];
+  }
+};
+
+window.saveSystemUserOnline = async function (userData) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    const uid = userData.id;
+    const data = { ...userData };
+    delete data.id;
+
+    if (uid) {
+      await firestore.collection("users").doc(uid).update({
+        ...data,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } else {
+      await firestore.collection("users").add({
+        ...data,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    }
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 saveSystemUserOnline error:", err);
+    return { ok: false, error: err.message };
+  }
+};

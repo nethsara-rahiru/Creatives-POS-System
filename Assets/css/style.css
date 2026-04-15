@@ -1,0 +1,186 @@
+:root {
+  /* Colors */
+  --brand-primary: #6366f1;
+  --brand-secondary: var(--brand-primary);
+  --bg-color: #f8fafc;
+  --panel-bg: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --accent-success: #10b981;
+  --accent-error: #ef4444;
+  --accent-warning: #f59e0b;
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+  --bg-color: #0f172a;
+  --panel-bg: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent; /* Removes blue highlight on tap in mobile */
+}
+
+:focus {
+  outline: none !important; /* Removes the blue box around focused elements */
+}
+
+/* Specifically for buttons and inputs to prevent stretching/selection effects */
+button, input, select, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  touch-action: manipulation; /* Prevents double-tap to zoom which can feel like stretching */
+}
+
+button {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  overscroll-behavior: none; /* Prevents stretching/bounce effect at the end of scrolling */
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  line-height: 1.5;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+}
+
+/* Buttons */
+.btn-premium {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: white;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-premium:active {
+  transform: translateY(0);
+}
+
+/* Sidebar */
+.sidebar-premium {
+  width: 280px;
+  height: 100vh;
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  position: sticky;
+  top: 0;
+}
+
+/* Responsive Table */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: var(--bg-color);
+  padding: var(--space-md);
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: var(--space-md);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.9375rem;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .sidebar-premium {
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    position: fixed;
+    z-index: 100;
+  }
+  
+  .sidebar-premium.open {
+    width: 280px;
+    padding: var(--space-lg);
+    background: var(--panel-bg);
+    box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+  }
+}
