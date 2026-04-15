@@ -55,7 +55,7 @@ namespace POS_Demo
             if (msgJson.Contains("JS_READY"))
             {
                 // Timer can safely run now
-                timer1.Start();
+                //timer1.Start();
             }
             else if (msgJson.Contains("DASHBOARD"))
             {

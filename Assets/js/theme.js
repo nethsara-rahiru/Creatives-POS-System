@@ -47,17 +47,17 @@ window.generateGradientSecondary = function(primaryHex, mode) {
 function applySharedTheme() {
     const raw = localStorage.getItem("BUSINESS_TRADEMARK");
     const bi = localStorage.getItem("BUSINESS_INFO");
-    if (!raw) return;
-
-    const brand = JSON.parse(raw);
+    
+    const brand = raw ? JSON.parse(raw) : {};
     const business = bi ? JSON.parse(bi) : {};
 
     const root = document.documentElement;
 
     // Apply colors
-    if (brand.colour1) root.style.setProperty("--brand-primary", brand.colour1);
-    // Backward compatibility for different variable names
-    if (brand.colour1) root.style.setProperty("--primary", brand.colour1);
+    if (brand.colour1) {
+        root.style.setProperty("--brand-primary", brand.colour1);
+        root.style.setProperty("--primary", brand.colour1);
+    }
 
     const generatedFallback = brand.colour1 ? window.generateGradientSecondary(brand.colour1, brand.mode) : null;
     const secondaryColor = brand.colour2 || generatedFallback;
@@ -73,20 +73,29 @@ function applySharedTheme() {
         root.setAttribute("data-theme", "light");
     }
 
-    // Apply Business Name
-    const bizNameEl = document.getElementById("bizName") || document.getElementById("brandName");
-    if (bizNameEl && (business.businessName || brand.businessName)) {
-        bizNameEl.innerText = business.businessName || brand.businessName;
-    }
+    // Apply Business Name and Logo Visibility to all instances
+    const nameElements = document.querySelectorAll("#bizName, #brandName, .brand-name");
+    const logoElements = document.querySelectorAll("#logo, #brandLogo, .brand-logo");
 
-    // Apply Logo
-    const logoEl = document.getElementById("logo") || document.getElementById("brandLogo");
+    const hasLogo = brand.logoLink && brand.logoLink.trim() !== "";
 
-    // Safety check: ensure we don't accidentally target CreativesLogo 
-    // or change index.html's primary identity logo if it's meant to stay static.
-    if (logoEl && brand.logoLink && brand.logoLink.trim() !== "") {
-        logoEl.src = brand.logoLink;
-    }
+    logoElements.forEach(el => {
+        if (hasLogo) {
+            el.src = brand.logoLink;
+            el.style.display = "block";
+        } else {
+            el.style.display = "none";
+        }
+    });
+
+    nameElements.forEach(el => {
+        if (hasLogo) {
+            el.style.display = "none";
+        } else {
+            el.style.display = "block";
+            el.innerText = business.businessName || brand.businessName || "Creatives POS";
+        }
+    });
 }
 
 // Auto-apply on load if the function exists in the global scope

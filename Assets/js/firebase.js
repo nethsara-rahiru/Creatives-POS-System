@@ -328,11 +328,12 @@ async function getUserPermissions(businessId, username) {
       console.warn("⚠️ Role document not found in top-level 'roles' collection for:", userRole);
     }
 
-    // 3️⃣ Apply overrides
+    // 3️⃣ Apply overrides and merge with direct permissions
+    const directPerms = userData.permissions || [];
     const extra = userData.extraPermissions || [];
     const denied = userData.deniedPermission || [];
 
-    const finalPermissions = [...new Set([...rolePerms, ...extra])]
+    const finalPermissions = [...new Set([...rolePerms, ...extra, ...directPerms])]
       .filter(p => !denied.includes(p));
 
     return { data: finalPermissions, user: { ...userData, role: userRole } };
@@ -1240,6 +1241,21 @@ window.saveSystemUserOnline = async function (userData) {
     return { ok: true };
   } catch (err) {
     console.error("🔥 saveSystemUserOnline error:", err);
+    return { ok: false, error: err.message };
+  }
+};
+
+window.deleteSystemUserOnline = async function (uid) {
+  try {
+    const isReady = await window.firebaseReady;
+    if (!isReady || !firestore) throw new Error("Firebase not ready");
+
+    if (!uid) throw new Error("User ID is required for deletion");
+
+    await firestore.collection("users").doc(uid).delete();
+    return { ok: true };
+  } catch (err) {
+    console.error("🔥 deleteSystemUserOnline error:", err);
     return { ok: false, error: err.message };
   }
 };

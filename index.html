@@ -464,10 +464,15 @@
         @keyframes toastIn { from { transform: translateX(100%) scale(0.9); opacity: 0; } }
 
         @media (max-width: 540px) {
-            .main-stage { padding: 1rem; }
-            .auth-card { padding: 2rem 1.5rem; }
+            .branding { margin-bottom: 2rem; }
+            .main-stage { padding: 1rem; width: 100%; }
+            .auth-card { padding: 1.5rem; border-radius: 24px; gap: 1rem; }
+            .step-title { font-size: 1.25rem; }
+            .modern-input { padding: 1rem; font-size: 1rem; }
+            .profile-grid { grid-template-columns: 1fr; }
             .toast-container { inset: 1rem 1rem auto 1rem; }
-            .toast { min-width: 100%; }
+            .toast { min-width: 100%; padding: 1rem; font-size: 0.9rem; }
+            .status-bar { bottom: 1.5rem; font-size: 0.8rem; }
         }
     </style>
 </head>

@@ -104,22 +104,16 @@ button:hover {
 /* ===== SUMMARY ===== */
 .summary {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
 }
 
 .summary-card {
   background: var(--card);
-  color: var(--text);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   border: 1px solid var(--border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  transition: transform var(--transition-normal);
-}
-
-.summary-card:hover {
-  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
 }
 
 .summary-card p {
@@ -226,8 +220,14 @@ tfoot td:last-child {
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  .header { font-size: 18px; }
-  th, td { font-size: 13px; padding: 8px; }
+  .header { font-size: 1.25rem; padding: 1.25rem; }
+  .table-container { 
+    overflow-x: auto; 
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+  table { min-width: 500px; }
+  .summary { grid-template-columns: 1fr; }
 }
 
 </style>

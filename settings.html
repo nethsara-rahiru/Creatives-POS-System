@@ -140,16 +140,35 @@ button#saveBtn {
     .sidebar {
         width: 100%;
         height: auto;
-        position: relative;
-        padding: 1.5rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        padding: 1rem;
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+        flex-direction: row;
+        gap: 0.5rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+    }
+    .sidebar h2 { display: none; }
+    .sidebar button {
+        width: auto;
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+        flex-shrink: 0;
     }
     .main {
-        padding: 1.5rem;
+        padding: 1.25rem;
+        width: 100%;
+    }
+    .panel {
+        padding: 1.25rem;
     }
     button#saveBtn {
         width: 100%;
+        margin-top: 0.5rem;
     }
 }
 </style>

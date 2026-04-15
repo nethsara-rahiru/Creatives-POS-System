@@ -234,23 +234,211 @@
             color: var(--admin-primary);
         }
 
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 80px;
-                padding: 2rem 1rem;
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar.show {
+                left: 0;
+            }
+            .sidebar-close {
+                display: flex !important;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+
+            /* PERMISSION SELECTOR */
+            .permission-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+                background: rgba(0,0,0,0.02);
+                padding: 1rem;
+                border-radius: var(--radius-md);
+                border: 1px solid var(--border-color);
+            }
+            [data-theme="dark"] .permission-grid {
+                background: rgba(255,255,255,0.02);
+            }
+            .permission-grid label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 0.875rem;
+                cursor: pointer;
+                color: var(--text-primary);
+                font-weight: 500;
+            }
+            .permission-grid input[type="checkbox"] {
+                width: 16px;
+                height: 16px;
+                cursor: pointer;
+            }
+            .mini-btn {
+                background: none;
+                border: 1px solid var(--border-color);
+                color: var(--text-secondary);
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 0.7rem;
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+            .mini-btn:hover {
+                background: var(--admin-primary);
+                color: white;
+                border-color: var(--admin-primary);
+            }
+
+            /* PREMIUM TOGGLE SWITCH */
+            .switch-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.75rem 1rem;
+                background: var(--bg-color);
+                border-radius: 10px;
+                border: 1px solid var(--border-color);
+                transition: all 0.2s;
+                cursor: pointer;
+            }
+            .switch-container:hover {
+                border-color: var(--admin-primary);
+                background: rgba(99, 102, 241, 0.05);
+            }
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 36px;
+                height: 20px;
+                pointer-events: none; /* Let the label handle the click */
+            }
+            .switch input { 
+                position: absolute;
+                opacity: 0; 
+                width: 100%; 
+                height: 100%; 
+                z-index: 5;
+                cursor: pointer;
+                pointer-events: auto; /* Re-enable for the actual input within the Switch */
+            }
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                inset: 0;
+                background-color: #cbd5e1;
+                transition: .3s;
+                border-radius: 20px;
+            }
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 14px;
+                width: 14px;
+                left: 3px;
+                bottom: 3px;
+                background-color: white;
+                transition: .3s;
+                border-radius: 50%;
+            }
+            input:checked + .slider { background-color: var(--admin-primary); }
+            input:checked + .slider:before { transform: translateX(16px); }
+
+            [data-theme="dark"] .slider { background-color: #334155; }
+
+            .user-summary-card {
+                background: linear-gradient(135deg, var(--admin-primary), #4f46e5);
+                color: white;
+                padding: 1.25rem;
+                border-radius: 15px;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+            }
+            .avatar-placeholder {
+                width: 48px;
+                height: 48px;
+                background: rgba(255,255,255,0.2);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+            
+            .modal-content input:focus, .modal-content select:focus {
+                border-color: var(--admin-primary) !important;
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+                background: white;
+            }
+            [data-theme="dark"] .modal-content input:focus, [data-theme="dark"] .modal-content select:focus {
+                background: rgba(30, 41, 59, 1);
+            }
+            .sidebar-close {
+                display: flex !important;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 1rem;
+            }
+            .main-content {
+                padding: 1.25rem;
+                width: 100%;
+            }
+            .header-actions {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .search-bar {
+                width: 100%;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
             .logo-area h2, .nav-item span {
-                display: none;
+                display: block !important;
+            }
+            .mobile-header-admin {
+                display: flex;
+                background: var(--admin-sidebar);
+                border-bottom: 1px solid var(--border-color);
+                padding: 0.75rem 1.25rem;
+                align-items: center;
+                justify-content: space-between;
+                position: sticky;
+                top: 0;
+                z-index: 1000;
             }
         }
+        .mobile-header-admin { display: none; }
     </style>
 </head>
 
 <body>
-    <aside class="sidebar">
+    <div class="mobile-header-admin">
         <div class="logo-area">
-            <img src="Assets/img/Creatives_Logo-removebg-preview.png" alt="Logo">
-            <h2>System Admin</h2>
+            <img src="Assets/img/Creatives_Logo-removebg-preview.png" class="brand-logo" alt="Logo" style="height: 32px;">
+            <h2 class="brand-name" style="font-size: 1.1rem;">Admin</h2>
+        </div>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <span>☰</span>
+        </button>
+    </div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-close" style="display: none;">
+            <button onclick="toggleSidebar()" style="background: none; border: none; color: white; cursor: pointer;">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="logo-area">
+            <img src="Assets/img/Creatives_Logo-removebg-preview.png" class="brand-logo" alt="Logo">
+            <h2 class="brand-name">System Admin</h2>
         </div>
 
         <nav class="nav-menu">
@@ -263,8 +451,12 @@
             <div class="nav-item" onclick="switchTab('logs', this)">
                 <span>⚙️</span> <span>Logs</span>
             </div>
-            <div class="nav-item" onclick="switchTab('settings', this)">
-                <span>📊</span> <span>Settings</span>
+            <div class="nav-item" onclick="switchTab('staff', this)">
+                <span>📂</span> <span>Business Logs</span>
+            </div>
+
+            <div class="nav-item" onclick="handleLogout()" style="margin-top: auto; color: #ff4d4f;">
+                <span>🚪</span> <span>Logout</span>
             </div>
         </nav>
     </aside>
@@ -427,7 +619,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="action-btn" onclick="closeModal()" style="padding: 0.75rem 1.5rem;">Cancel</button>
-                    <button type="submit" class="btn-premium">Save Business</button>
+                    <button type="submit" id="btnSaveShop" class="btn-premium">Save Business</button>
                 </div>
             </form>
         </div>
@@ -435,63 +627,164 @@
 
     <!-- Modal for Adding/Editing User -->
     <div id="userModal" class="modal">
-        <div class="modal-content">
-            <h2 id="userModalTitle">Add New System User</h2>
-            <form id="userForm" onsubmit="handleUserSubmit(event)">
-                <input type="hidden" id="editUserID">
-                
-                <div class="form-row" style="display: flex; gap: 1rem;">
-                    <div class="form-group" style="flex: 1;">
-                        <label>First Name</label>
-                        <input type="text" id="fName" required oninput="suggestUsernames()">
+        <div class="modal-content" style="max-width: 800px; padding: 0; display: flex; flex-direction: column; max-height: 90vh;">
+            <!-- Modal Header (Fixed) -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-color);">
+                <h2 id="userModalTitle" style="margin: 0; font-size: 1.25rem;">User Details</h2>
+                <button type="button" onclick="closeUserModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">&times;</button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div style="padding: 2rem; overflow-y: auto; flex: 1;" class="no-scrollbar">
+                <!-- User Summary Card (Shown when editing) -->
+                <div id="userSummaryCard" class="user-summary-card" style="display: none;">
+                    <div id="modalUserAvatar" class="avatar-placeholder">U</div>
+                    <div>
+                        <div id="modalUserFull" style="font-weight: 700; font-size: 1.1rem; line-height: 1.2;">John Doe</div>
+                        <div id="modalUserHandle" style="font-size: 0.85rem; opacity: 0.8;">@john_doe</div>
                     </div>
-                    <div class="form-group" style="flex: 1;">
-                        <label>Last Name</label>
-                        <input type="text" id="lName" oninput="suggestUsernames()">
+                </div>
+
+                <form id="userForm" onsubmit="handleUserSubmit(event)">
+                    <input type="hidden" id="editUserID">
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+                        <!-- LEFT COLUMN: Basic Info -->
+                        <div class="modal-section">
+                            <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--admin-primary); margin-bottom: 2rem; font-weight: 800; border-left: 4px solid var(--admin-primary); padding-left: 1rem;">
+                                Identity Configuration
+                            </h3>
+
+                            <div class="form-row" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+                                <div class="form-group" style="flex: 1;">
+                                    <label>First Name</label>
+                                    <input type="text" id="fName" required oninput="suggestUsernames()" placeholder="First Name">
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label>Last Name</label>
+                                    <input type="text" id="lName" oninput="suggestUsernames()" placeholder="Last Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label>Auth Username</label>
+                                <div style="position: relative;">
+                                    <input type="text" id="username" required placeholder="User unique ID" oninput="validateUsername(this.value)">
+                                    <span id="usernameStatus" style="position: absolute; right: 12px; top: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase;"></span>
+                                </div>
+                                <div id="usernameSuggestions" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;"></div>
+                            </div>
+
+                            <div class="form-group" style="margin-bottom: 1.5rem;">
+                                <label>Security Key (Password)</label>
+                                <input type="password" id="password" required placeholder="Generate or enter password">
+                            </div>
+
+                            <div class="form-group user-advanced" style="display: none; margin-bottom: 1.5rem;">
+                                <label>System Role</label>
+                                <select id="role">
+                                    <option value="cashier">Cashier</option>
+                                    <option value="admin">Administrator</option>
+                                    <option value="manager">Manager</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group user-advanced" style="display: none; margin-bottom: 1.5rem;">
+                                <label>Business Link (ID)</label>
+                                <input type="text" id="userBusinessID" placeholder="SHOP100">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Node Status</label>
+                                <select id="userStatus">
+                                    <option value="active">Active System Node</option>
+                                    <option value="disabled">Disabled / Deactivated</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COLUMN: Permissions -->
+                        <div class="modal-section">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2rem;">
+                                <h3 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--admin-primary); margin: 0; font-weight: 800; border-left: 4px solid var(--admin-primary); padding-left: 1rem;">
+                                    Access Grants
+                                </h3>
+                                <div style="display: flex; gap: 0.5rem;">
+                                    <a href="javascript:void(0)" onclick="toggleAllPermissions(true)" style="font-size: 0.75rem; color: var(--admin-primary); font-weight: 600; text-decoration: none;">Grant All</a>
+                                    <span style="opacity: 0.3;">/</span>
+                                    <a href="javascript:void(0)" onclick="toggleAllPermissions(false)" style="font-size: 0.75rem; color: var(--text-secondary); font-weight: 600; text-decoration: none;">Revoke</a>
+                                </div>
+                            </div>
+                            
+                            <div class="permission-grid" id="permissionGrid" style="grid-template-columns: 1fr; gap: 0.75rem; background: none; padding: 0; border: none;">
+                                <!-- Each label is now a toggle switch -->
+                                <label class="switch-container" for="p-dashboard">
+                                    <span>📊 Dashboard</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-dashboard" value="dashboard">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-products">
+                                    <span>📦 Inventory</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-products" value="products">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-customers">
+                                    <span>👥 Customers</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-customers" value="customers">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-suppliers">
+                                    <span>🚛 Logistics</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-suppliers" value="suppliers">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-employees">
+                                    <span>👷 Workforce</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-employees" value="employees">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-staff">
+                                    <span>🛡️ Staff Ops</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-staff" value="staff">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-reports">
+                                    <span>📈 Analytics</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-reports" value="reports">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                                <label class="switch-container" for="p-settings">
+                                    <span>⚙️ Settings</span>
+                                    <span class="switch">
+                                        <input type="checkbox" id="p-settings" value="settings">
+                                        <span class="slider"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
+            </div>
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <div style="position: relative;">
-                        <input type="text" id="username" required placeholder="e.g. john_doe" oninput="validateUsername(this.value)">
-                        <span id="usernameStatus" style="position: absolute; right: 10px; top: 10px; font-size: 11px; font-weight: 600;"></span>
-                    </div>
-                    <div id="usernameSuggestions" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;"></div>
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="password" required>
-                </div>
-
-                <div class="form-group user-advanced" style="display: none;">
-                    <label>Business ID</label>
-                    <input type="text" id="userBusinessID" placeholder="e.g. SHOP100 or SYSTEM">
-                </div>
-
-                <div class="form-group user-advanced" style="display: none;">
-                    <label>Role</label>
-                    <select id="role">
-                        <option value="cashier">Cashier</option>
-                        <option value="admin">Admin</option>
-                        <option value="manager">Manager</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Status</label>
-                    <select id="userStatus">
-                        <option value="active">Active</option>
-                        <option value="disabled">Disabled</option>
-                    </select>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="action-btn" onclick="closeUserModal()" style="padding: 0.75rem 1.5rem;">Cancel</button>
-                    <button type="submit" class="btn-premium">Save User</button>
-                </div>
-            </form>
+            <!-- Modal Footer (Fixed) -->
+            <div style="padding: 1.25rem 2rem; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; background: var(--panel-bg); border-bottom-left-radius: var(--radius-lg); border-bottom-right-radius: var(--radius-lg);">
+                <button type="button" class="action-btn" onclick="closeUserModal()" style="padding: 0.75rem 1.5rem; margin-right: 0.75rem;">Cancel</button>
+                <button type="submit" form="userForm" id="btnSaveUser" class="btn-premium" style="min-width: 140px; justify-content: center;">Save Changes</button>
+            </div>
         </div>
     </div>
 
@@ -501,7 +794,20 @@
     <script src="Assets/js/firebase.js"></script>
 
     <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('show');
+        }
+
+        function handleLogout() {
+            if(confirm("Are you sure you want to logout?")) {
+                localStorage.removeItem("CURRENT_USER");
+                window.location.href = "index.html";
+            }
+        }
+
         let allShops = [];
+        // ... rest of scripts ...
 
         function switchTab(tabId, el) {
             // Update active state in sidebar
@@ -541,6 +847,12 @@
 
             users.forEach(user => {
                 const tr = document.createElement("tr");
+                tr.style.cursor = "pointer";
+                tr.onclick = (e) => {
+                    // Prevent trigger if they click an actual button/action inside the cell
+                    if (e.target.tagName !== 'BUTTON') editUser(user.id);
+                };
+
                 tr.innerHTML = `
                     <td><strong>@${user.username}</strong></td>
                     <td>${user.fName || ''} ${user.lName || ''}</td>
@@ -552,7 +864,8 @@
                         </span>
                     </td>
                     <td>
-                        <button class="action-btn" onclick="editUser('${user.id}')">Edit</button>
+                        <button class="action-btn" onclick="event.stopPropagation(); editUser('${user.id}')">Edit</button>
+                        <button class="action-btn" style="background:rgba(239, 68, 68, 0.1); color:#ef4444; border-color:rgba(239, 68, 68, 0.2);" onclick="event.stopPropagation(); deleteUser('${user.id}', '${user.username}')">Delete</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -588,17 +901,45 @@
                 document.getElementById("role").value = editData.role || "cashier";
                 document.getElementById("userStatus").value = editData.status || "active";
                 
+                // Load Permissions
+                const perms = editData.permissions || [];
+                const checks = document.querySelectorAll("#permissionGrid input");
+                checks.forEach(c => {
+                    c.checked = perms.includes(c.value);
+                });
+
                 // Show fields for editing
                 advancedFields.forEach(f => f.style.display = "block");
+
+                // Update Summary Card
+                document.getElementById("userSummaryCard").style.display = "flex";
+                document.getElementById("modalUserAvatar").innerText = editData.fName.charAt(0).toUpperCase();
+                document.getElementById("modalUserFull").innerText = editData.fName + " " + (editData.lName || "");
+                document.getElementById("modalUserHandle").innerText = "@" + editData.username;
             } else {
                 form.reset();
                 document.getElementById("userModalTitle").innerText = "Add New System User";
                 document.getElementById("editUserID").value = "";
                 
+                // Hide Summary Card for new user
+                document.getElementById("userSummaryCard").style.display = "none";
+                
+                // Default Permissions for new user
+                const defaults = ['dashboard', 'products', 'customers', 'suppliers', 'employees', 'reports', 'settings'];
+                const checks = document.querySelectorAll("#permissionGrid input");
+                checks.forEach(c => {
+                    c.checked = defaults.includes(c.value);
+                });
+
                 // Hide fields for new user
                 advancedFields.forEach(f => f.style.display = "none");
             }
             document.getElementById("usernameSuggestions").innerHTML = "";
+        }
+
+        function toggleAllPermissions(checked) {
+            const checks = document.querySelectorAll("#permissionGrid input");
+            checks.forEach(c => c.checked = checked);
         }
 
         function suggestUsernames() {
@@ -694,6 +1035,18 @@
             if (user) openUserModal(user);
         }
 
+        async function deleteUser(id, username) {
+            if (confirm(`Are you sure you want to PERMANENTLY delete user @${username}? This action cannot be undone.`)) {
+                const res = await window.deleteSystemUserOnline(id);
+                if (res.ok) {
+                    alert("User deleted successfully.");
+                    loadUsers();
+                } else {
+                    alert("Error deleting user: " + res.error);
+                }
+            }
+        }
+
         async function handleUserSubmit(e) {
             e.preventDefault();
 
@@ -702,9 +1055,16 @@
                 return;
             }
 
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerText = "Saving...";
-            btn.disabled = true;
+            const btn = document.getElementById("btnSaveUser");
+            if (btn) {
+                btn.innerText = "Saving...";
+                btn.disabled = true;
+            }
+
+            // Permissions
+            const perms = [];
+            const checks = document.querySelectorAll("#permissionGrid input:checked");
+            checks.forEach(c => perms.push(c.value));
 
             const isEditing = !!document.getElementById("editUserID").value;
             const userData = {
@@ -713,7 +1073,8 @@
                 password: document.getElementById("password").value,
                 fName: document.getElementById("fName").value,
                 lName: document.getElementById("lName").value,
-                status: document.getElementById("userStatus").value
+                status: document.getElementById("userStatus").value,
+                permissions: perms
             };
 
             // Only include Business ID and Role if they are visible (editing mode) or provided
@@ -826,9 +1187,11 @@
 
         async function handleFormSubmit(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            btn.innerText = "Saving...";
-            btn.disabled = true;
+            const btn = document.getElementById("btnSaveShop");
+            if (btn) {
+                btn.innerText = "Saving...";
+                btn.disabled = true;
+            }
 
             const bid = document.getElementById("businessID").value;
             const businessData = {

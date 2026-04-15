@@ -140,14 +140,17 @@ h1, h2, h3, h4, h5 {
 /* Responsive Table */
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
   background: var(--panel-bg);
+  margin-bottom: var(--space-md);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 600px; /* Ensures table doesn't squish too much */
 }
 
 th {
@@ -159,6 +162,7 @@ th {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 td {
@@ -167,20 +171,91 @@ td {
   font-size: 0.9375rem;
 }
 
+/* Common Mobile Components */
+.mobile-header {
+  display: none;
+  height: 60px;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 var(--space-md);
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.mobile-menu-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* Adaptive Grids */
+.adaptive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   .sidebar-premium {
-    width: 0;
-    padding: 0;
-    overflow: hidden;
+    width: 280px;
+    height: 100vh;
     position: fixed;
-    z-index: 100;
+    left: -280px;
+    top: 0;
+    z-index: 2000;
+    background: var(--panel-bg);
+    transition: left 0.3s ease;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.1);
   }
   
   .sidebar-premium.open {
-    width: 280px;
-    padding: var(--space-lg);
-    background: var(--panel-bg);
-    box-shadow: 20px 0 50px rgba(0,0,0,0.1);
+    left: 0;
   }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  .desktop-only {
+    display: none !important;
+  }
+
+  .mobile-only {
+    display: block !important;
+  }
+
+  .container {
+    padding: var(--space-md) !important;
+  }
+
+  .card, .panel {
+    padding: var(--space-md) !important;
+  }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+}
+
+/* Hide scrollbars but keep functionality if needed */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

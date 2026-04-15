@@ -98,7 +98,7 @@ header h1 {
 /* ================= CHARTS ================= */
 .chart-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: var(--space-lg);
 }
 
@@ -147,6 +147,21 @@ tr:not(:last-child) {
   text-align: center;
   font-size: 12px;
   color: var(--muted);
+  padding: 2rem 0;
+}
+
+@media (max-width: 768px) {
+    header h1 { font-size: 1.1rem; }
+    .container { padding: 1rem; }
+    .kpi-grid { grid-template-columns: 1fr; }
+    .chart-grid { grid-template-columns: 1fr; }
+    canvas { max-height: 250px; }
+    .table-responsive { 
+        overflow-x: auto;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+    table { min-width: 400px; }
 }
 </style>
 </head>
@@ -183,16 +198,18 @@ tr:not(:last-child) {
   <!-- TABLE ROW -->
   <div class="card">
     <h3>Top Products</h3>
-    <table>
-      <thead>
-        <tr><th>Product</th><th>Qty</th><th>Revenue</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Ice Cream</td><td>142</td><td>Rs 54,200</td></tr>
-        <tr><td>Atlas Book</td><td>98</td><td>Rs 41,800</td></tr>
-        <tr><td>Soft Drink</td><td>76</td><td>Rs 28,500</td></tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+        <table>
+          <thead>
+            <tr><th>Product</th><th>Qty</th><th>Revenue</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ice Cream</td><td>142</td><td>Rs 54,200</td></tr>
+            <tr><td>Atlas Book</td><td>98</td><td>Rs 41,800</td></tr>
+            <tr><td>Soft Drink</td><td>76</td><td>Rs 28,500</td></tr>
+          </tbody>
+        </table>
+    </div>
   </div>
 
   <div class="footer">POS Analytics • Offline Ready • Secure</div>
